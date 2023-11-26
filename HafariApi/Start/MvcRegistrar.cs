@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
@@ -59,10 +60,14 @@ namespace Api.Start
             var provider = new FileExtensionContentTypeProvider();
             //provider.Mappings[".apk"] = "application/vnd.android.package-archive";
             app.UseStaticFiles();
-            // app.UseStaticFiles(new StaticFileOptions
-            // {            FileProvider = new PhysicalFileProvider(
-            //        Path.Combine(env.ContentRootPath, "wwwroot")), RequestPath = "" // Change this route path as needed
-            // });
+            app.UseStaticFiles( new StaticFileOptions()
+            {
+                ContentTypeProvider = new FileExtensionContentTypeProvider(new Dictionary<string, string>
+                {
+                    { ".glb", "model/gltf-binary" }, // Add MIME type for .glb files
+                    // Add other MIME types if required
+                })
+            });
         }
     }
 }
