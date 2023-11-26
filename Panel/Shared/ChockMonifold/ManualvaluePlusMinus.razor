@@ -1,0 +1,35 @@
+﻿@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms;
+
+<text xml:space="preserve"
+      style="font-size:6.35px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:justify;direction:rtl;fill:#000000;fill-opacity:0.81185;stroke:none;stroke-width:0.264;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+      x="43.678619"
+      y="-183.68239"
+      id="manual2_value"
+      transform="scale(-1)"><tspan sodipodi:role="line"
+                                   id="tspan17299"
+                                   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;fill-opacity:0.81185;stroke-width:0.264"
+                                   x="43.678619"
+                                   y="-183.68239">@($"{Value}%")</tspan></text>
+
+@code {
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> ValueExpression { get; set; }
+    public double _Value = 0;
+    [Parameter]
+    public double Value
+    {
+        get => _Value;
+        set
+        {
+            if (_Value == value) return;
+            _Value = value;
+            ValueChanged.InvokeAsync(_Value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+}

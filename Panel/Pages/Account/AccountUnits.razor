@@ -1,0 +1,107 @@
+﻿@page "/AccountUnits"
+@using Models.Config
+@using System.Linq
+@inject IUnitApi _UnitApi
+
+<div class="container">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>Units</span>
+    </h1>
+    <div class="row mb-3">
+        <div class="col d-flex align-items-center">
+            Convert To : <br />
+            <button @onclick="@(e=>ChangeSystem("SI"))" class="m-2 btn btn-primary">SI</button>
+            <button @onclick="@(e=>ChangeSystem("Metric"))" class="m-2 btn btn-primary">Metric</button>
+            <button @onclick="@(e=>ChangeSystem("Oilfield"))" class="m-2 btn btn-primary">Oilfield</button>
+            <button @onclick="@(e=>ChangeSystem("Other"))" class="m-2 btn btn-primary">Other</button>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var category in _allCategories)
+        {
+            if (_accountUnits.Count > 0)
+            {
+                @if (_allUnits.Count(x => x.Category == category) > 1)
+                {
+                    <div class="col-md-6 col-12 mb-3 radio-group unit-item">
+                        <span class="font-weight-bold">@category</span>
+                        <MudRadioGroup Name="@category" @bind-SelectedOption="_accountUnits.FirstOrDefault(x=>x.Category == category).Id">
+                            @foreach (var unit in _allUnits.Where(x => x.Category == category))
+                            {
+                                <MudRadio Option="unit.Id" Color="Color.Primary">@unit.System</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6 col-12" style="display:none;">
+                        <span>@category</span>
+                        <MudRadioGroup Name="@category" @bind-SelectedOption="_accountUnits.FirstOrDefault(x=>x.Category == category).Id">
+                            @foreach (var unit in _allUnits.Where(x => x.Category == category))
+                            {
+                                <MudRadio Option="unit.Id" Color="Color.Primary">@unit.System</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <button class="btn  btn-primary mx-auto d-block w-100" @onclick="SaveUnits">
+        @localizer[LocalizationKeys.Button_Save]
+        <MudIcon Icon="@Icons.Material.Filled.Save"></MudIcon>
+    </button>
+</div>
+@code {
+    private List<UnitModel> _allUnits { set; get; } = new List<UnitModel>();
+    private List<string> _allCategories { set; get; } = new List<string>();
+    private List<UnitModel> _accountUnits { set; get; } = new List<UnitModel>();
+    protected string SelectedSystem { set; get; } = "SI";
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllUnits();
+        await GetMyUnits();
+        await base.OnInitializedAsync();
+    }
+
+
+    public async Task GetAllUnits()
+    {
+        _allUnits = await _UnitApi.GetAll();
+        _allCategories = _allUnits.Select(x => x.Category).Distinct().OrderBy(x => x).ToList();
+        StateHasChanged();
+    }
+
+    public async Task GetMyUnits()
+    {
+        _accountUnits = await _UnitApi.Get();
+        StateHasChanged();
+    }
+
+    public async Task SaveUnits()
+    {
+        var saveResponse = await _UnitApi.Save(_accountUnits);
+    }
+    protected void ChangeSystem(string e)
+    {
+
+        SelectedSystem = e;
+        _accountUnits.Clear();
+        foreach (var cat in _allUnits)
+        {
+            if (string.IsNullOrEmpty(cat.Template) || cat.Template.Contains(SelectedSystem))
+                _accountUnits.Add(cat);
+        }
+        foreach (var c in _allCategories)
+            if (!_accountUnits.Any(x => x.Category == c))
+                _accountUnits.Add(_allUnits.FirstOrDefault(x => x.Category == c));
+        StateHasChanged();
+    }
+}
+<style>
+    .bordered-container {
+        margin: 5px;
+        padding: 2px;
+    }
+</style>

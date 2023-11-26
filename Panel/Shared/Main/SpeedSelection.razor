@@ -1,0 +1,54 @@
+@using System.Linq.Expressions;
+<div class="speed" style="font-size: 0.8rem">
+    <select @bind="Value" >
+        <option value="0">0x</option>
+        <option value="1">1x</option>
+        @* <option value="2" selected>2x</option> *@
+        <option value="2">2x</option>
+        <option value="3">3x</option>
+        <option value="5">5x</option>
+        <option value="10">10x</option>
+        <option value="20">20x</option>
+        <option value="30">30x</option>
+        <option value="50">50x</option>
+    </select>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public Expression<Func<int>> ValueExpression { get; set; }
+    
+    private int _value = 0;
+
+    [Parameter]
+    public int Value
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+            ValueChanged.InvokeAsync(value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    private void PlusClicked()
+    {
+        Value += 1;
+    }
+
+    private void MinusClicked()
+    {
+        Value = Value <= 0 ? 0 : (Value - 1);
+    }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+
+
+}

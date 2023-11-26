@@ -1,0 +1,75 @@
+﻿@page "/Organizations"
+@inject ApiUtils.IUserApi _userApi
+@inject ApiUtils.IOrganizationApi _organizationApi
+
+<div class="container">
+    <div class="page-header">
+        <h2 class="heading">
+            @localizer[LocalizationKeys.Organizations]
+        </h2>
+        <a href="/SaveOrganization" class="btn btn-block-center btn-primary"><i class="fa fa-plus-circle"></i>@localizer[LocalizationKeys.AddNew]</a>
+    </div>
+    <table class="table table-striped table-bordered border">
+        <thead>
+            <tr>
+                <th>
+                    @localizer[LocalizationKeys.Title]
+                </th>
+                <th>
+                    @localizer[LocalizationKeys.OrganizationUrl]
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var org in OrganizationList)
+            {
+                <tr>
+                    <td>
+                        @org.Title
+                    </td>
+                    <td>
+                        @org.UniqueUrl
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="()=>Delete(org)">@localizer[LocalizationKeys.Delete]</button>
+                        <button class="btn btn-info" @onclick="()=>Edit(org)">@localizer[LocalizationKeys.Edit]</button>
+                        <a href="/users?organizationId=@org.Id" class="btn btn-info">Users</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@code {
+    protected List<Models.BaseData.OrganizationModel> OrganizationList { set; get; } = new();
+    protected override async void OnInitialized()
+    {
+        await GetData();
+        base.OnInitialized();
+    }
+    protected async Task GetData()
+    {
+        OrganizationList = await _organizationApi.GetAll();
+        StateHasChanged();
+        await BrowserTools.PrepareResponsiveTable();
+    }
+    protected async Task Delete(Models.BaseData.OrganizationModel org)
+    {
+        var con = await
+            Swal.ShowSwal(title: localizer[LocalizationKeys.Delete], message: localizer[LocalizationKeys.Text_DeleteConfirm], icon: SweetAlertIcon.Question);
+        if (!con.IsConfirmed)
+            return;
+        var res = await _organizationApi.Delete(org.Id.Value);
+        if (res.IsSuccessStatusCode)
+            OrganizationList.Remove(org);
+        StateHasChanged();
+    }
+    protected async Task Edit(Models.BaseData.OrganizationModel org)
+    {
+        NavigationManager.NavigateTo($"/SaveOrganization?organizationId={org.Id}");
+    }
+
+}

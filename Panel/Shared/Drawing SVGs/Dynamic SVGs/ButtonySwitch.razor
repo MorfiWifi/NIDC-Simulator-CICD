@@ -1,0 +1,171 @@
+﻿@using System.Linq.Expressions;
+<g
+    id="Buttony_Switch"
+    style="transform: @(BaseTransform)">
+    <g
+        @onclick="changeSwitchState"
+        id="button_switch"
+        class="animation"
+        transform=@(SwitchState>0 ? SwitchOn : SwitchOff)
+        style="cursor:pointer;stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        <rect
+            style="fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.564999"
+            id="rect1487"
+            width="38.377811"
+            height="20.439062"
+            x="40.493877"
+            y="240.72978"
+            rx="3.151983"
+            ry="3"
+            transform="matrix(-12.598425,0,0,-12.598425,993.65911,3403.3162)"/>
+        <path
+            d="M 354.75,113 H 127.25 C 56.946,113.827 0,171.258 0,241.75 c 0,70.492 56.946,127.923 127.25,128.731 0,0.019 227.5,0.019 227.5,0.019 70.993,0 128.75,-57.757 128.75,-128.75 C 483.5,170.757 425.743,113 354.75,113 Z m -226,227.5 C 74.299,340.5 30,296.201 30,241.75 30,187.299 74.299,143 128.75,143 c 54.451,0 98.75,44.299 98.75,98.75 0,54.451 -44.299,98.75 -98.75,98.75 z"
+            id="path12014"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"/>
+        <g
+            id="g12016"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12018"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12020"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12022"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12024"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12026"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12028"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12030"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12032"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12034"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12036"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12038"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12040"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12042"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+        <g
+            id="g12044"
+            style="stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">
+        </g>
+    </g>
+    <g
+        id="g24359">
+        <rect
+            style="fill:#333333;fill-opacity:1;stroke:#808080;stroke-width:0.6648;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+            id="rect13158"
+            width="63.502415"
+            height="20.205185"
+            x="27.931578"
+            y="270.70978"/>
+        <text
+            xml:space="preserve"
+            style="font-size:7.7611px;text-align:center;text-anchor:middle;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+            x="59.36446"
+            y="283.58447"
+            id="text13218">
+            <tspan
+                sodipodi:role="line"
+                id="tspan13216"
+                style="stroke-width:0"
+                x="59.36446"
+                y="283.58447">
+                @SwitchText
+            </tspan>
+        </text>
+    </g>
+    <text
+        xml:space="preserve"
+        style="font-size:9.87778px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.410225;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+        x="26.968149"
+        y="258.57532"
+        id="text23879-6"
+        inkscape:transform-center-x="0.22096356"
+        transform="scale(1.0163103,0.98395145)"
+        inkscape:transform-center-y="8.6272641e-06">
+        <tspan
+            sodipodi:role="line"
+            id="tspan23877-3"
+            style="font-size:9.87778px;stroke-width:0.410224"
+            x="26.968149"
+            y="258.57532">
+            @(SwitchState>0 ? "On" : "Off")
+        </tspan>
+    </text>
+</g>
+
+
+@code{
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> SwitchStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> SwitchStateExpression { get; set; }
+    public double _SwitchState = 0;
+    [Parameter]
+    public double SwitchState
+    {
+        get => _SwitchState;
+        set
+        {
+            if (_SwitchState == value) return;
+            _SwitchState = value;
+            SwitchStateChanged.InvokeAsync(_SwitchState);
+            var fieldIdentifier = FieldIdentifier.Create(SwitchStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public string SwitchText { get; set; } = "";
+
+    [Parameter]
+    public string BaseTransform { get; set; } = "";
+    protected string SwitchOn { get; set; } = "matrix(-0.079375,0,0,-0.079375,78.871692,270.13822)";
+    protected string SwitchOff { get; set; } = "matrix(0.079375,0,0,0.079375,40.493879,231.76041)";
+
+    protected void changeSwitchState()
+    {
+        if (SwitchState>0)
+            SwitchState = 0;
+        else
+            SwitchState = 100;
+        StateHasChanged();
+    }
+
+}

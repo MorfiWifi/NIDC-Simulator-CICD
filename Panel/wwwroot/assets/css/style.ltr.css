@@ -1,0 +1,54 @@
+﻿* {
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    text-align: left;
+}
+body {
+    direction: ltr;
+}
+
+aside {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: -300px;
+    z-index: 999999;
+    background-color: #C2DDE3;
+    border-left: 1px solid #eee;
+    color: #333;
+    box-shadow: 0 0 8px 1px #2e394b;
+    transition: right .2s linear;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media (min-width:768px) {
+    aside {
+        left: 0;
+        box-shadow: none;
+        border-right: 1px solid #7070700a;
+    }
+
+    main{
+        margin-right: 0;
+        margin-left:250px;
+        width: calc(100% - 250px);
+    }
+}
+
+aside.open {
+    left: 0;
+}
+
+aside ul li a i {
+    margin-left: 0.5em;
+}
+
+.mud-input-label-inputcontrol {
+    right: auto !important;
+    left: 0 !important;
+}
+
+.mud-day-label, .mud-inherit-text {
+    font-family: sans-serif !important;
+}

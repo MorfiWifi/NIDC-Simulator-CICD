@@ -1,0 +1,49 @@
+@using System.Linq.Expressions;
+<div class="control">
+    <p>@ControlText</p>
+    <div class="handles">
+        <div class="plus noselect" @onclick="PlusClicked">+</div>
+        <div class="minus noselect" @onclick="MinusClicked">-</div>
+    </div>
+    <div class="text">@Math.Round(Value , 1) @Prefix</div>
+</div>
+@code {
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter] public Expression<Func<double>> ValueExpression { get; set; }
+    [Parameter]
+    public string ControlText { get; set; } = "";
+    private double _value = 0;
+    [Parameter]
+    public double Value
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+            ValueChanged.InvokeAsync(value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public string Prefix { get; set; }
+    [Parameter]
+    public double Step { set; get; } = 1;
+
+
+    private void PlusClicked()
+    {
+        Value += 1;
+    }
+    private void MinusClicked()
+    {
+        Value = Value <= 0 ? 0 : (Value - 1);
+    }
+
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+
+
+}

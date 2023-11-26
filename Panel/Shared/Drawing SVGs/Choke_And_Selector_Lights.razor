@@ -1,0 +1,141 @@
+﻿@using System.Linq
+@using System.Linq.Expressions;
+<g
+       id="Choke_And_Selector_Lights_Group"><circle
+        @onclick="ChangeLight1"
+         style=@(Choke1Light==1?LightOn:LightOff)
+         id="choke_1_light"
+         cx="59.682785"
+         cy="152.74278"
+         r="6.7884998" /><circle
+             @onclick="ChangeSelectorLight"
+         style=@(SelectorLight?LightOn:LightOff)
+         id="selector_light"
+         cx="59.682785"
+         cy="178.7856"
+         r="6.7884998" /><circle
+        @onclick="ChangeLight2"
+         style=@(Choke2Light==1?LightOn:LightOff)
+         id="choke_2_light"
+         cx="59.682785"
+         cy="204.82841"
+         r="6.7884998" /><text
+         xml:space="preserve"
+         style="font-size:9.87778px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.410225;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="100.32294"
+         y="158.76701"
+         id="text23879-6-9"
+         inkscape:transform-center-x="0.22096356"
+         transform="scale(1.0163103,0.98395145)"
+         inkscape:transform-center-y="8.6272641e-06"><tspan
+           sodipodi:role="line"
+           id="tspan23877-3-7"
+           style="font-size:9.87778px;stroke-width:0.410224"
+           x="100.32294"
+           y="158.76701">CHOKE 1</tspan></text><text
+         xml:space="preserve"
+         style="font-size:9.87778px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.410225;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="103.82057"
+         y="185.23459"
+         id="text24642"
+         inkscape:transform-center-x="0.22096356"
+         transform="scale(1.0163103,0.98395145)"
+         inkscape:transform-center-y="8.6272641e-06"><tspan
+           sodipodi:role="line"
+           id="tspan24640"
+           style="font-size:9.87778px;stroke-width:0.410224"
+           x="103.82057"
+           y="185.23459">SELECTOR</tspan></text><text
+         xml:space="preserve"
+         style="font-size:9.87778px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.410225;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="99.606705"
+         y="211.70218"
+         id="text24646"
+         inkscape:transform-center-x="0.22096356"
+         transform="scale(1.0163103,0.98395145)"
+         inkscape:transform-center-y="8.6272641e-06"><tspan
+           sodipodi:role="line"
+           id="tspan24644"
+           style="font-size:9.87778px;stroke-width:0.410224"
+           x="99.606705"
+           y="211.70218">CHOKE 2</tspan></text></g>
+
+
+@code{
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<int> Choke1LightChanged { get; set; }
+    [Parameter]
+    public Expression<Func<int>> Choke1LightExpression { get; set; }
+    public int _Choke1Light = 0;
+    [Parameter]
+    public int Choke1Light
+    {
+        get => _Choke1Light;
+        set
+        {
+            if (_Choke1Light == value) return;
+            _Choke1Light = value;
+            Choke1LightChanged.InvokeAsync(_Choke1Light);
+            var fieldIdentifier = FieldIdentifier.Create(Choke1LightExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> Choke2LightChanged { get; set; }
+    [Parameter]
+    public Expression<Func<int>> Choke2LightExpression { get; set; }
+    public int _Choke2Light = 0;
+    [Parameter]
+    public int Choke2Light
+    {
+        get => _Choke2Light;
+        set
+        {
+            if (_Choke2Light == value) return;
+            _Choke2Light = value;
+            Choke2LightChanged.InvokeAsync(_Choke2Light);
+            var fieldIdentifier = FieldIdentifier.Create(Choke2LightExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<bool> SelectorLightChanged { get; set; }
+    [Parameter]
+    public Expression<Func<bool>> SelectorLightExpression { get; set; }
+    public bool _SelectorLight = false;
+    [Parameter]
+    public bool SelectorLight
+    {
+        get => _SelectorLight;
+        set
+        {
+            if (_SelectorLight == value) return;
+            _SelectorLight = value;
+            SelectorLightChanged.InvokeAsync(_SelectorLight);
+            var fieldIdentifier = FieldIdentifier.Create(SelectorLightExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+
+    }
+    protected string LightOff = "cursor:pointer;fill:#1f241c;fill-opacity:1;stroke:#ababab;stroke-width:4.023;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOn= "cursor:pointer;fill:#2aff2a;fill-opacity:1;stroke:#ababab;stroke-width:4.023;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected void ChangeLight1()
+    {
+
+    }
+    protected void ChangeLight2()
+    {
+
+
+    }
+
+    protected void ChangeSelectorLight()
+    {
+
+        SelectorLight = !SelectorLight;
+    }
+}

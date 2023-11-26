@@ -1,0 +1,175 @@
+﻿@page "/simulator_1"
+@layout SimulationLayout
+@using Panel16.Shared.Drawing_SVGs.Dynamic_SVGs
+<div class="container-fluid simulator-pg">
+
+    <div class="row row align-items-center mb-4">
+        <div class="col-lg-5">
+            <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs._12Selector/>
+        </div>
+        
+        <div class="col-lg-1">
+            <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.EmergencyButton/>
+        </div>
+        
+        <div class="col-lg-3">
+
+            <div class="monitor-light">
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item on">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item on">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">efg</span>
+                </div>
+                <div class="item on">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item on">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+                <div class="item off">
+                    <span class="ml-light"></span>
+                    <span class="ml-name">ABC 01</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <Selector6 BaseTransform="translate(-48.872785,-40.48714)"/>
+            </div>
+        
+    </div>
+        
+
+    <div class="simulator-row">
+
+        <div class="item">
+            <div><SeperateHalfDegreeGage GageText="testt"/></div>
+        </div>
+        
+        <div class="item" >
+            <div><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Volume VolumeText="test"/></div>
+        </div>
+
+        <div class="item">
+            <div><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Volume /></div>
+        </div>
+
+        <div class="item">
+            <div> <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Volume /></div>
+        </div> 
+        
+        <div class="item">
+            <div> <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Volume /></div>
+        </div> 
+
+        <div class="item d-flex flex-column">
+            <OnOffButton/>
+            <div class="stateSwitch"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs._3StateSwitch LeftText="test" MiddleText="test" RightText="test" SideText="test"/></div>
+        </div>
+
+        <div class="item d-flex flex-column">
+            <div class="stateSwitch"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs._3StateSwitch LeftText="test" MiddleText="test" RightText="test" SideText="test"/></div>
+            <div class="stateSwitch"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs._3StateSwitch LeftText="test" MiddleText="test" RightText="test" SideText="test"/></div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+        <div class="simulator-row">
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Lever ButtomBoxText="TEST" TopBoxText="TEST" />
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Volume />
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Lever ButtomBoxText="TEST" TopBoxText="TEST" />
+            </div>
+            <div class="item"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Shifter ButtomBoxText="TEST" TopBoxText="TEST"/></div>
+            <div class="item"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Shifter ButtomBoxText="TEST" TopBoxText="TEST"/></div>
+            <div class="item"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Shifter ButtomBoxText="TEST" TopBoxText="TEST"/></div>
+            <div class="item"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Shifter ButtomBoxText="TEST" TopBoxText="TEST"/></div>
+            <div class="item"><Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Shifter ButtomBoxText="TEST" TopBoxText="TEST"/></div>
+
+        </div>
+        <div class="switch-row">
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+            <div class="item">
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+                <Panel16.Shared.Drawing_SVGs.Dynamic_SVGs.Switch DownText="test" MiddleText="test" UpText="test"/>
+            </div>
+        </div>
+    </div>
+@code {
+
+}

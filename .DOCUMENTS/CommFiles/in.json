@@ -1,0 +1,925 @@
+{
+    "status": 0,
+    "speed": 0,
+    "endstep": 0,
+    "Configuration": {
+        "StringConfiguration": {
+            "StringConfigurationItems": [],
+            "BitDefenition": {
+                "BitCodeHundreds": 0,
+                "BitCodeOnes": 0,
+                "BitCodeTens": 0,
+                "BitLength": 0,
+                "BitNozzleNo": 0,
+                "BitNozzleSize": 0,
+                "BitSize": 0,
+                "BitType": 0,
+                "BitWeightPerLength": 0,
+                "FloatValve": false
+            }
+        },
+        "Formations": [],
+        "Reservoir": {
+            "AutoMigrationRate": 0,
+            "FluidGradient": 0,
+            "FluidType": 0,
+            "FluidViscosity": 0,
+            "FormationNo": 0,
+            "FormationPermeability": 0,
+            "FormationTop": 0,
+            "GeothermalGradient": 0,
+            "InactiveInflux": false,
+            "IsAutoMigrationRateSelected": false,
+            "MakeKickSinglePacket": false,
+            "PressureGradient": 0
+        },
+        "Shoe": {
+            "Breakdown": 0,
+            "FormationNo": 0,
+            "FracturePropagation": 0,
+            "InactiveFracture": false,
+            "LeakOff": 0,
+            "ShoeDepth": 0
+        },
+        "Accumulator": {
+            "AccumulatorMinimumOperatingPressure": 0,
+            "AccumulatorSystemSize": 0,
+            "AirPlungerPumpOutput": 0,
+            "ElectricPumpOutput": 0,
+            "NumberOfBottels": 0,
+            "OilTankVolume": 0,
+            "PrechargePressure": 0,
+            "StartPressure": 0,
+            "StartPressure2": 0,
+            "StopPressure": 0,
+            "StopPressure2": 0
+        },
+        "BopStack": {
+            "AboveAnnularHeight": 0,
+            "AnnularPreventerClose": 0,
+            "AnnularPreventerHeight": 0,
+            "AnnularPreventerOpen": 0,
+            "AnnularStringDrag": 0,
+            "BlindRamClose": 0,
+            "BlindRamHeight": 0,
+            "BlindRamOpen": 0,
+            "ChokeClose": 0,
+            "ChokeLineId": 0,
+            "ChokeLineLength": 0,
+            "ChokeOpen": 0,
+            "GroundLevel": 0,
+            "KillClose": 0,
+            "KillHeight": 0,
+            "KillOpen": 0,
+            "LowerRamClose": 0,
+            "LowerRamHeight": 0,
+            "LowerRamOpen": 0,
+            "RamStringDrag": 0,
+            "UpperRamClose": 0,
+            "UpperRamHeight": 0,
+            "UpperRamOpen": 0
+        },
+        "Hoisting": {
+            "DrillingLineBreakingLoad": 0,
+            "DriveType": 0,
+            "KellyWeight": 0,
+            "NumberOfLine": 0,
+            "TopDriveWeight": 0,
+            "TravelingBlockWeight": 0
+        },
+        "Power": {
+            "CementPump": 0,
+            "Drawworks": 0,
+            "GeneratorPowerRating": 0,
+            "MudPump1": 3,
+            "MudPump2": 1,
+            "NumberOfgenerators": 0,
+            "RotaryTable": 2,
+            "TopDrive": 0
+        },
+        "Pumps": {
+            "MudPump1LinerDiameter": 0,
+            "MudPump1Stroke": 0,
+            "MudPump1MechanicalEfficiency": 0,
+            "MudPump1VolumetricEfficiency": 0,
+            "MudPump1Output": 0,
+            "MudPump1OutputBblStroke": 0,
+            "MudPump1Maximum": 5,
+            "MudPump1ReliefValvePressure": 0,
+            "MudPump2LinerDiameter": 0,
+            "MudPump2Stroke": 0,
+            "MudPump2MechanicalEfficiency": 0,
+            "MudPump2VolumetricEfficiency": 0,
+            "MudPump2Output": 0,
+            "MudPump2OutputBblStroke": 0,
+            "MudPump2Maximum": 0,
+            "MudPump2ReliefValvePressure": 0,
+            "CementPumpLinerDiameter": 0,
+            "CementPumpStroke": 0,
+            "CementPumpMechanicalEfficiency": 0,
+            "CementPumpVolumetricEfficiency": 0,
+            "CementPumpOutput": 0,
+            "CementPumpOutputBblStroke": 0,
+            "CementPumpMaximum": 0,
+            "CementPumpReliefValvePressure": 0,
+            "MudPump1ReliefValveIsSet": false,
+            "MudPump2ReliefValveIsSet": false,
+            "CementPumpReliefValveIsSet": false,
+            "ManualPumpPower": false,
+            "Valve1": false,
+            "Valve2": false,
+            "Valve3": false,
+            "Valve4": false,
+            "Valve5": false
+        },
+        "RigSize": {
+            "RigType": 0,
+            "CrownHeight": 0,
+            "MonkeyBoandHeight": 0,
+            "RigFloorHeight": 0
+        },
+        "CasingLinerChoke": {
+            "CasingDepth": 0,
+            "CasingId": 0,
+            "CasingOd": 0,
+            "CasingWeight": 0,
+            "CasingCollapsePressure": 0,
+            "CasingTensileStrength": 0,
+            "LinerTopDepth": 0,
+            "LinerLength": 0,
+            "LinerId": 0,
+            "LinerOd": 0,
+            "LinerWeight": 0,
+            "LinerCollapsePressure": 0,
+            "LinerTensileStrength": 0,
+            "OpenHoleId": 0,
+            "OpenHoleLength": 0
+        },
+        "Path": {
+            "Items": []
+        },
+        "Mud": {
+            "ActiveMudType": 0,
+            "ActiveRheologyModel": 0,
+            "ActiveMudVolume": 0,
+            "ActiveMudVolumeGal": 0,
+            "ActiveDensity": 0,
+            "ActivePlasticViscosity": 0,
+            "ActiveYieldPoint": 0,
+            "ActiveThetaThreeHundred": 0,
+            "ActiveThetaSixHundred": 0,
+            "ReserveMudType": 0,
+            "ReserveMudVolume": 0,
+            "ReserveMudVolumeGal": 0,
+            "ReserveDensity": 0,
+            "ReservePlasticViscosity": 0,
+            "ReserveYieldPoint": 0,
+            "ReserveThetaThreeHundred": 0,
+            "ReserveThetaSixHundred": 0,
+            "ActiveTotalTankCapacity": 0,
+            "ActiveTotalTankCapacityGal": 0,
+            "ActiveSettledContents": 0,
+            "ActiveSettledContentsGal": 0,
+            "ActiveTotalContents": 0,
+            "ActiveTotalContentsGal": 0,
+            "ActiveAutoDensity": false,
+            "InitialTripTankMudVolume": 0,
+            "InitialTripTankMudVolumeGal": 0,
+            "PedalFlowMeter": 0
+        }
+    },
+    "Problems": {
+        "BitProblems": {
+            "JetWashout": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "PlugJets": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "JetWashoutCount": 0,
+            "PlugJetsCount": 0
+        },
+        "BopProblems": {
+            "AnnularWash": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AnnularFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AnnularLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "UpperRamWash": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "UpperRamFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "UpperRamLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "MiddleRamWash": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "MiddleRamFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "MiddleRamLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "LowerRamWash": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "LowerRamFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "LowerRamLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AccumulatorPumpFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AccumulatorPumpLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AccumulatorSystemFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AccumulatorSystemLeak": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "ChokeProblems": {
+            "HydraulicChoke1Plugged": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "HydraulicChoke1Fail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "HydraulicChoke1Washout": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "HydraulicChoke2Plugged": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "HydraulicChoke2Fail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "HydraulicChoke2Washout": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke1Plugged": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke1Fail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke1Washout": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke2Plugged": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke2Fail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke2Washout": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ChokePanelAirFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManualChoke1PluggedPercent": 0,
+            "HydraulicChoke2PluggedPercent": 0,
+            "HydraulicChoke1PluggedPercent": 0,
+            "ManualChoke2PluggedPercent": 0
+        },
+        "DrillStemsProblems": {
+            "StringDragIncrease": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StringTorqueIncrease": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StringTorqueFluctuation": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StringDragIncreaseTime": 0,
+            "StringTorqueIncreaseTime": 0
+        },
+        "GaugesProblems": {
+            "WeightIndicator": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "RotaryRpm": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "RotaryTorque": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StandPipePressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "CasingPressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Pump1Strokes": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Pump2Strokes": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ReturnLineTemperature": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "TripTank": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "PitGainLoss": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "MudTankVolume": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ReturnMudFlow": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "TorqueLimit": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "PowerLimit": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AccumulatorPressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ManifoldPressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "AnnularPressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "RigAirPressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StandPipe1": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "StandPipe2": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "DrillPipePressure": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ChokePosition": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "CasingPressure2": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "HoistingProblems": {
+            "MotorFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ClutchEngage": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ClutchDisengage": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "KickProblems": {
+            "Kick": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "FluidType": 0,
+            "FlowRate": 0,
+            "OverBalancePressure": 0,
+            "IsAutoMigrationRateSelected": false,
+            "AutoMigrationRate": 0
+        },
+        "LostProblems": {
+            "LostCirculation": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "FlowRate": 0
+        },
+        "MudTreatmentProblems": {
+            "Degasser": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "ShaleShaker": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Desander": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Desilter": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "OtherProblems": {
+            "RigAlarm": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "RigWaterSupply": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "RigAir": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Gen1": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Gen2": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Gen3": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Gen4": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Scr1": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Scr2": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Scr3": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Scr4": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "PumpProblems": {
+            "Pump1PowerFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Pump1BlowPopOffValve": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Pump2PowerFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "Pump2BlowPopOffValve": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "CementPumpPowerFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "CementPumpBlowPopOffValve": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        },
+        "RotaryProblems": {
+            "MotorFail": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            },
+            "OverideTorqueLimit": {
+                "ProblemType": 0,
+                "StatusType": 0,
+                "Value": 0,
+                "DueValue": 0
+            }
+        }
+    },
+    "Equipments": {
+        "BopControl": {
+            "ManifoldPressureGauge": 0,
+            "AirSupplyPressureGauge": 0,
+            "AccumulatorPressureGauge": 0,
+            "AnnularPressureGauge": 0,
+            "AnnularOpenLED": 0,
+            "AnnularCloseLED": 0,
+            "UpperRamsOpenLED": 0,
+            "UpperRamsCloseLED": 0,
+            "MiddleRamsOpenLED": 0,
+            "MiddleRamsCloseLED": 0,
+            "KillLineOpenLED": 0,
+            "KillLineCloseLED": 0,
+            "ChokeLineOpenLED": 0,
+            "ChokeLineCloseLED": 0,
+            "LowerRamsOpenLED": 0,
+            "LowerRamsCloseLED": 0,
+            "AnnularStatus": 0,
+            "UpperRamsStatus": 0,
+            "MiddleRamsStatus": 0,
+            "LowerRamsStatus": 1,
+            "AirMasterValve": 0,
+            "KillLineValve": -1,
+            "ChokeLineValve": 0,
+            "UpperRamsValve": 1,
+            "LowerRamsValve": 0,
+            "AnnularValve": 1
+        },
+        "ChokeControl": {
+            "StandPipePressure": 0,
+            "CasingPressure": 0,
+            "ChokePosition": 0,
+            "ChokePanelSPMCounter": 0,
+            "ChokePanelTotalStrokeCounter": 0,
+            "Choke1LED": 0,
+            "Choke2LED": 0,
+            "ChokePanelRigAirSwitch": true,
+            "ChokePanelStrokeResetSwitch": true,
+            "ChokeControlLever": 1,
+            "ChokePanelPumpSelectorSwitch": 2
+        },
+        "ChokeManifold": {
+            "HydraulicChock1": 0,
+            "HydraulicChock2": 2,
+            "HyChock1OnProblem": false,
+            "HyChock2OnProblem": false,
+            "LeftManChokeOnProblem": false,
+            "RightManChokeOnProblem": false,
+            "ChokeManifoldValve1": false,
+            "ChokeManifoldValve2": false,
+            "ChokeManifoldValve3": false,
+            "ChokeManifoldValve4": false,
+            "ChokeManifoldValve5": false,
+            "ChokeManifoldValve6": false,
+            "ChokeManifoldValve7": true,
+            "ChokeManifoldValve8": true,
+            "ChokeManifoldValve9": true,
+            "ChokeManifoldValve10": false,
+            "ChokeManifoldValve11": true,
+            "ChokeManifoldValve12": false,
+            "ChokeManifoldValve13": false,
+            "LeftManualChoke": 0,
+            "RightManualChoke": 0
+        },
+        "DataDisplay": {
+            "WOBPointer": 0,
+            "HookLoadPointer": 0,
+            "TripTankGauge": 0,
+            "TripTankAlarmLED": 0,
+            "TripTankPumpLED": 0,
+            "StandPipePressureGauge": 0,
+            "CasingPressureGauge": 0,
+            "MP1SPMGauge": 0,
+            "MP2SPMGauge": 0,
+            "ReturnLineTempGauge": 0,
+            "RotaryTorqueGauge": 0,
+            "RotaryRPMGauge": 0,
+            "AcidGasDetectionLED": 0,
+            "TotalStrokeCounter": 0,
+            "PitGainLossGauge": 0,
+            "MudTanksVolumeGauge": 0,
+            "MVTAlarmLED": 0,
+            "ReturnMudFlowGauge": 0,
+            "FillStrokeCounter": 0,
+            "MFFITotalStrokeCounter": 0,
+            "MFFIAlarmLED": 0,
+            "MFFIPumpLED": 0,
+            "TotalWellDepth": 0,
+            "BitDepth": 0,
+            "HookLoad": 0,
+            "StandPipePressure": 0,
+            "CasingPressure": 0,
+            "MP1SPM": 0,
+            "MP2SPM": 0,
+            "RTTorque": 0,
+            "RTRPM": 0,
+            "WOP": 0,
+            "ROP": 0,
+            "MudWeightIn": 0,
+            "MudWeightOut": 0,
+            "Buzzer1": false,
+            "Buzzer2": false,
+            "Buzzer3": false,
+            "Buzzer4": false
+        },
+        "Drilling": {
+            "ParkingBrakeLed": false,
+            "GEN1LED": 0,
+            "GEN2LED": 0,
+            "GEN3LED": 0,
+            "GEN4LED": 0,
+            "SCR1LED": 0,
+            "SCR2LED": 0,
+            "SCR3LED": 0,
+            "SCR4LED": 0,
+            "MP1BLWR": 0,
+            "MP2BLWR": 0,
+            "DWBLWR": 0,
+            "RTBLWR": 0,
+            "PWRLIM": 0,
+            "PWRLIMMTR": 0,
+            "RTTorqueLimitGauge": 0,
+            "AutoDWLED": 0,
+            "GEN1BTNLED": 0,
+            "GEN2BTNLED": 0,
+            "GEN3BTNLED": 0,
+            "GEN4BTNLED": 0,
+            "OpenKellyCockLed": 0,
+            "CloseKellyCockLed": 0,
+            "OpenSafetyValveLed": 0,
+            "CloseSafetyValveLed": 0,
+            "IRSafetyValveLed": 0,
+            "IRIBopLed": 0,
+            "LatchPipeLED": 0,
+            "UnlatchPipeLED": 0,
+            "SwingLed": 0,
+            "FillMouseHoleLed": 0
+        },
+        "Hook": {
+            "HookHeight_S": 0,
+            "HookHeight": 0
+        },
+        "StandPipeManifold": {
+            "StandPipeGauge1": 0,
+            "StandPipeGauge2": 0,
+            "StandPipeManifoldValve1": true,
+            "StandPipeManifoldValve2": false,
+            "StandPipeManifoldValve3": false,
+            "StandPipeManifoldValve4": true,
+            "StandPipeManifoldValve5": true,
+            "StandPipeManifoldValve6": false,
+            "StandPipeManifoldValve7": false,
+            "StandPipeManifoldValve8": false,
+            "StandPipeManifoldValve9": false,
+            "StandPipeManifoldValve10": false,
+            "StandPipeManifoldValve11": false,
+            "StandPipeManifoldValve12": false,
+            "StandPipeManifoldValve13": false,
+            "StandPipeManifoldValve14": true,
+            "StandPipeManifoldValve15": false
+        },
+        "DrillingWatch": {
+            "Depth": 0,
+            "BitPosition": 0,
+            "HookLoad": 0,
+            "WeightOnBit": 0,
+            "RPM": 0,
+            "ROP": 0,
+            "Torque": 0,
+            "PumpPressure": 0,
+            "SPM1": 0,
+            "SPM2": 0,
+            "CasingPressure": 0,
+            "PercentFlow": 0,
+            "PitGainLose": 0,
+            "PitVolume": 0,
+            "KillMudVolume": 0,
+            "TripTankVolume": 0,
+            "MudWeightIn": 0,
+            "FillVolume": 0,
+            "MudWeightOut": 0
+        }
+    }
+}

@@ -1,0 +1,40 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using AbrBlazorTools
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.JSInterop
+@using Panel16.Shared
+@using Models
+@using CurrieTechnologies.Razor.SweetAlert2
+@using Newtonsoft.Json
+@using MudBlazor
+@using Microsoft.Extensions.Localization
+@using Infrastructure
+@using Panel16.AbrTools
+@using Panel16.ApiUtils
+
+@using ChartJs.Blazor;
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor.Common.Axes
+@using ChartJs.Blazor.Common.Axes.Ticks
+@using ChartJs.Blazor.Common.Enums
+@using ChartJs.Blazor.Common.Handlers
+@using ChartJs.Blazor.Common.Time
+@using ChartJs.Blazor.Util
+@using ChartJs.Blazor.Interop
+@using Panel16.Shared.Drawing_SVGs.Dynamic_SVGs
+
+@inject NavigationManager NavigationManager
+@inject AbrBlazorTools.ILoadingSpinner LoadingSpinner
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject AbrBlazorTools.IHttpClientWithLoginToken HttpClientWithToken
+@inject CurrieTechnologies.Razor.SweetAlert2.SweetAlertService Swal
+@inject IJSRuntime JsRunTime;
+
+@inject IBrowserTools BrowserTools
+@inject IStringLocalizer<Panel16.Shared.ResourceFiles.Resource> localizer
+    

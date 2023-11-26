@@ -1,0 +1,117 @@
+﻿@page "/SimulationUsers"
+@using AbrBlazorTools
+@using Models.Config
+@using Models.Identity;
+@using Panel16.Shared.Main
+@layout SimulationLayout
+@inject ISimulationApi SimulationApi
+@inject IUserApi UserApi
+
+<div class="container">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Simulation Users  @(string.IsNullOrEmpty(Simulation.Title) ? "" : $" | {Simulation.Title}")
+        </span>
+    </h1>
+    <table class="@Statics.TableClass">
+        <thead>
+            <tr>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Lastname
+                </th>
+                <th>
+                    Mobile
+                </th>
+                <th>
+                    Access right
+                </th>
+            </tr>
+        </thead>
+        @foreach (var u in Accounts)
+        {
+            <tr>
+                <td>
+                    @u.FirstName
+                </td>
+                <td>
+                    @u.LastName
+                </td>
+                <td>
+                    @u.Mobile
+                </td>
+                <td>
+                    <select class="form-control" @onchange="(e)=>AccessRightChanged(u,e)">
+                        <option value="" selected>None</option>
+                        @if (SimulationUsersList.Any(x => x.AccountId == u.Id))
+                        {
+                            var simUser = SimulationUsersList.FirstOrDefault(x => x.AccountId == u.Id);
+                            if (simUser.UserRole == Consts.Assessor)
+                            {
+                                <option value="@Consts.Assessor" selected>@Consts.Assessor</option>
+                            }
+                            else
+                            {
+                                <option value="@Consts.Assessor">@Consts.Assessor</option>
+                            }
+                            if (simUser.UserRole == Consts.CoordinatorRole)
+                            {
+                                <option value="@Consts.CoordinatorRole" selected>@Consts.CoordinatorRole</option>
+                            }
+                            else
+                            {
+                                <option value="@Consts.CoordinatorRole">@Consts.CoordinatorRole</option>
+                            }
+                            if (simUser.UserRole == Consts.Driller)
+                            {
+                                <option value="@Consts.Driller" selected>@Consts.Driller</option>
+                            }
+                            else
+                            {
+                                <option value="@Consts.Driller">@Consts.Driller</option>
+                            }
+                        }
+                        else
+                        {
+
+                            <option value="@Consts.Assessor">@Consts.Assessor</option>
+                            <option value="@Consts.CoordinatorRole">@Consts.CoordinatorRole</option>
+                            <option value="@Consts.Driller">@Consts.Driller</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@code {
+    protected string SimulationId { set; get; }
+    protected bool Mobile { set; get; }
+    public int Page { set; get; } = 1;
+    protected SimulationModel Simulation { set; get; } = new();
+    protected List<SimulationUserModel> SimulationUsersList { set; get; } = new();
+    protected List<AccountModel> Accounts { set; get; } = new();
+
+    protected override async void OnInitialized()
+    {
+        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
+        Simulation = await SimulationApi.GetById(new Guid(SimulationId));
+        SimulationUsersList = await SimulationApi.GetSimulationUsers(SimulationId);
+        Accounts = await UserApi.GetAll("");
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    public async Task AccessRightChanged(AccountModel account, ChangeEventArgs e)
+    {
+        var res = await SimulationApi.AssigUserToSimulation(new Models.Simulations.AssignUserToSimulationModel
+            {
+                Role = "" + e.Value,
+                SimulationId = new Guid(SimulationId),
+                UserId = account.Id.Value
+            });
+    }
+
+}

@@ -1,0 +1,87 @@
+﻿@page "/SaveConfig_7"
+@using Models.Config
+@using Panel16.Pages.Components
+@using Models.Config
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                Active Tank
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Active Tank Volume
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.ActiveTank.ActiveTankVolume" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Reserve Tank Volume
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.ActiveTank.ReserveTankVolume" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Mud Loss Proporation
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.ActiveTank.MudLossProporation" unitCat="@Enums.UnitCategory.Percentage" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Pedal Flow Meter
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.ActiveTank.PedalFlowMeter" unitCat="@Enums.UnitCategory.FlowRate" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+            </div>
+           
+        </div>
+
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Active Tank";
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_8?Id={ConfigId}");
+        
+    }
+}

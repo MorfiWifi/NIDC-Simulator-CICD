@@ -1,0 +1,207 @@
+﻿@using System.Linq.Expressions;
+
+<g id="annular_whole_box"
+   transform="translate(0,4.8570778)">
+    <rect style="fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:1.24946;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect3418"
+          width="117.00367"
+          height="6.1213903"
+          x="342.66031"
+          y="98.021439" />
+    <g id="Annular_Open_Close_Box">
+        <rect style="fill:#ff8080;stroke:#000000;stroke-width:0.672867;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              id="rect3364"
+              width="106.19723"
+              height="20.207434"
+              x="348.06351"
+              y="77.54348" />
+        <circle style=@(CloseLed==1?LightOn:LightOff)
+                id="annular_left_light"
+                cx="373.12192"
+                cy="91.776001"
+                r="4.9289351" />
+        <circle style=@(OpenLed==1?LightOn:LightOff)
+                id="annular_right_light"
+                cx="439.95892"
+                cy="91.651566"
+                r="4.9532042" />
+        <text xml:space="preserve"
+              style="font-size:6.70694px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.661614;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              x="373.24146"
+              y="82.635452"
+              id="annular_left_text_open_close"><tspan sodipodi:role="line"
+                                                       id="tspan7201"
+                                                       style="fill:#000000;stroke-width:0.661611"
+                                                       x="373.24146"
+                                                       y="82.635452">@(CloseText)</tspan></text>
+        <text xml:space="preserve"
+              style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              x="439.95566"
+              y="82.635452"
+              id="annular_right_text_open_close"><tspan sodipodi:role="line"
+                                                        id="tspan7307"
+                                                        style="fill:#000000;stroke-width:0.664639"
+                                                        x="439.95566"
+                                                        y="82.635452">@(OpenText)</tspan></text>
+    </g>
+    <g id="Annular_Box">
+        <rect style="fill:#ff8080;stroke:#000000;stroke-width:1.848;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              id="rect1351"
+              width="116.18849"
+              height="53.760159"
+              x="343.06787"
+              y="23.198149" />
+        <g id="g7075"
+           transform="matrix(0.01306482,-0.99991465,0.97514137,0.01274114,59.002425,710.76033)">
+            <g id="g7073">
+                <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect7069"
+                      width="6.1515517"
+                      height="17.636511"
+                      x="639.41064"
+                      y="287.31256"
+                      transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                      id="path7071" />
+            </g>
+        </g>
+        <g id="g7083"
+           transform="matrix(-0.01306482,-0.99991465,-0.97514137,0.01274114,744.85488,710.76033)">
+            <g id="g7081">
+                <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect7077"
+                      width="6.1515517"
+                      height="17.636511"
+                      x="639.41064"
+                      y="287.31256"
+                      transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                      id="path7079" />
+            </g>
+        </g>
+        <text xml:space="preserve"
+              style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.920999;stroke-linecap:round;paint-order:stroke fill markers"
+              x="401.21552"
+              y="31.434521"
+              id="text7552"><tspan sodipodi:role="line"
+                                   id="tspan7550"
+                                   style="fill:#000000;stroke-width:0.921"
+                                   x="401.21552"
+                                   y="31.434521">ANNULAR</tspan></text>
+    </g>
+    <g @onclick="SwitchAnnularState"
+       style="cursor:pointer;"
+       id="Annular_handler"
+       transform=@(AnnularState==1?AnnularHandleRight:AnnularHandleLeft)>
+        <g id="g7065"
+           transform="matrix(1,0,0,1.1462453,24.854787,-17.273821)">
+            <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  d="m 178.67045,237.32887 4.6874,-37.61587 z"
+                  id="path7053" />
+            <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  d="M 194.31183,237.32887 189.62443,199.713 Z"
+                  id="path7055" />
+            <g id="g7061"
+               style="stroke:none"
+               transform="rotate(135,258.46546,195.72114)">
+                <circle style="fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.967048;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle7057"
+                        cx="-393.0795"
+                        cy="90.963303"
+                        r="44.516476"
+                        transform="rotate(-135)" />
+                <circle style="fill:#f9f9f9;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle7059"
+                        cx="-393.0795"
+                        cy="90.963295"
+                        r="9.321229"
+                        transform="rotate(-135)" />
+            </g>
+            <circle style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    id="circle7063"
+                    cx="186.54437"
+                    cy="196.16248"
+                    r="4.770761" />
+        </g>
+    </g>
+</g>
+@code{
+    protected string AnnularHandleLeft { get; set; } = "matrix(0.31626654,-0.19533597,0.19533597,0.31626654,282.98458,27.174923)";
+    protected string AnnularHandleRight { get; set; } = "matrix(0.31904193,0.19076926,-0.19076926,0.31904193,382.63662,-54.967047)";
+    protected string LightOff { get; set; } = "fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOn { get; set; } = "fill:#00ff00;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string OpenText { get; set; } = "Open";
+    protected string CloseText { get; set; } = "Close";
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> AnnularStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> AnnularStateExpression { get; set; }
+    public double _AnnularState = 0;
+    [Parameter]
+    public double AnnularState
+    {
+        get => _AnnularState;
+        set
+        {
+            if (_AnnularState == value) return;
+            _AnnularState = value;
+            AnnularStateChanged.InvokeAsync(_AnnularState);
+            var fieldIdentifier = FieldIdentifier.Create(AnnularStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> OpenLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> OpenLedExpression { get; set; }
+    public int _OpenLed = 0;
+    [Parameter]
+    public int OpenLed
+    {
+        get => _OpenLed;
+        set
+        {
+            if (_OpenLed == value) return;
+            _OpenLed = value;
+            OpenLedChanged.InvokeAsync(_OpenLed);
+            var fieldIdentifier = FieldIdentifier.Create(OpenLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> CloseLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> CloseLedExpression { get; set; }
+    public int _CloseLed = 0;
+    [Parameter]
+    public int CloseLed
+    {
+        get => _CloseLed;
+        set
+        {
+            if (_CloseLed == value) return;
+            _CloseLed = value;
+            CloseLedChanged.InvokeAsync(_CloseLed);
+            var fieldIdentifier = FieldIdentifier.Create(CloseLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+   
+
+
+    protected void SwitchAnnularState()
+    {
+
+        if (AnnularState==1)
+            AnnularState = 0;
+        else
+            AnnularState = 1;
+        StateHasChanged();
+
+    }
+}

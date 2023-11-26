@@ -1,0 +1,133 @@
+﻿@page "/SaveConfig_0"
+@using Models.Config
+@using Panel16.Shared
+@using Panel16.Pages.Components
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <div class="m-1 row ">
+            <h1 class="w-100 page-title d-flex justify-content-between align-items-center">
+                <span>
+                    Kelly & Top Drive
+                </span>
+                <span class="d-inline-flex justify-content-end">
+                    <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+                </span>
+            </h1>
+        </div>
+        <div class="row ">
+            <div class="col-md-6 ">
+
+
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Drive Type
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="input-group">
+                                <select @bind="ConfigDetails.Hoisting.DriveType" class="form-control">
+                                    <option value="0">TopDrive</option>
+                                    <option value="1">Kelly</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Rig Type
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="input-group">
+                                <select @bind="ConfigDetails.RigSize.RigType" class="form-control">
+                                    <option value="0">TopDrive</option>
+                                    <option value="1">Kelly</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Drilling Line Breaking Load
+                    </div>
+
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.Hoisting.DrillingLineBreakingLoad"
+                                         unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Kelly Weight
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.Hoisting.KellyWeight"
+                                         unitCat="@Enums.UnitCategory.Weight" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Number Of Line
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row no-gutters">
+                            <div class="input-group">
+                                <input @bind="ConfigDetails.Hoisting.NumberOfLine" type="number" class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Top Drive Weight
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.Hoisting.TopDriveWeight" unitCat="@Enums.UnitCategory.Weight"
+                                         units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Kelly & Top Drive";
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        var formation = ConfigDetails.Formations.FirstOrDefault(x => x.Shoe);
+        ConfigDetails.LastShowLeakOffModel.FormationNo = formation == null ? 0 : formation.Index;
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_1?Id={ConfigId}");
+
+    }
+}

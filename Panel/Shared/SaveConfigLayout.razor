@@ -1,0 +1,285 @@
+﻿@using Panel16.AbrTools
+@using AbrBlazorTools
+@using Models.Identity
+@inherits LayoutComponentBase
+@inject ISimulationApi SimulationApi
+
+<MudThemeProvider Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<aside class="@(IsMenuOpen?"open":"")">
+
+    <nav>
+        <h3 class="title">VSIM</h3>
+        <MudTreeView Items="NavMenuItems">
+            <ItemTemplate>
+                <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Items">
+                    <Content>
+                        @if (context.HasIcon)
+                        {
+                            <i class="ico"><MudIcon Icon="@Icons.Material.Filled.SupervisorAccount"></MudIcon></i>
+                        }
+                        else
+                        {
+                            <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="@context.HasChild" />
+                        }
+                        <a href="@context.Link">
+                            <span>@context.Title</span>
+                        </a>
+                    </Content>
+                </MudTreeViewItem>
+            </ItemTemplate>
+        </MudTreeView>
+    </nav>
+</aside>
+<div class="dashboard-main save-config @(IsMenuOpen?"menu-open":"")">
+    <header class="header justify-content-between">
+        <a class="menu" @onclick="ToggleMenu"><i class="fa fa-bars"></i></a>
+
+        <div class="d-flex">
+            <button class="btn btn-primary btn-block" @onclick="@(()=>StartSim(new Guid(ConfigId)))">
+                <i><MudIcon Icon="@Icons.Material.Filled.PlayArrow"></MudIcon></i>
+                Start Simulation
+            </button>
+
+            <CultureDropDown />
+        </div>
+    </header>
+    <main @onclick="HideMenu">
+        @Body
+    </main>
+</div>
+@code {
+    public MudTheme _theme = new MudTheme();
+    public string ConfigId { set; get; }
+    public class NavMenuItem
+    {
+        public bool IsExpanded { get; set; } = true;
+
+        public string Title { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Link { get; set; }
+
+        public HashSet<NavMenuItem> Items { get; set; }
+
+        public bool HasChild => Items != null && Items.Count > 0;
+        public bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
+    }
+    public HashSet<NavMenuItem> Items { get; set; }
+    public HashSet<NavMenuItem> NavMenuItems = new HashSet<NavMenuItem>();
+
+
+    protected override async void OnInitialized()
+    {
+        //_theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = localizer[LocalizationKeys.MainPage],
+                Link = "/",
+                Icon = Icons.Material.Filled.Dashboard,
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Rig",
+                Link = "",
+                Items = new HashSet<NavMenuItem>
+                {
+                    new NavMenuItem{
+                        Title = "Kelly & Top Drive",
+                        Link = $"/SaveConfig_0?Id={ConfigId}",
+                    },
+                    new NavMenuItem{
+                        Title = "Pumps",
+                        Link = $"/SaveConfig_1?Id={ConfigId}",
+                    },
+                    new NavMenuItem
+                    {
+                        Title="BOP Stack",
+                        Link=$"/SaveConfig_2?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="BOP control System",
+                        Link=$"/SaveConfig_3?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="Casing & liner",
+                        Link=$"/SaveConfig_3b?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="Choke manifold",
+                        Link=$"/SaveConfig_4?Id={ConfigId}"
+                    },
+                     new NavMenuItem
+                    {
+                        Title="Top Drive and Rotary Table",
+                        Link=$"/SaveConfig_5?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="String Traveling settings",
+                        Link=$"/SaveConfig_6?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title = "Active Tank",
+                        Link = $"/SaveConfig_7?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title = "Power of equipment",
+                        Link = $"/SaveConfig_8?Id={ConfigId}"
+                    }
+                    }
+            });
+
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Holes Settings",
+                Link = $"/SaveConfig_10?Id={ConfigId}"
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Formation data",
+                Link = $"/SaveConfig_15?Id={ConfigId}",
+                Items = new HashSet<NavMenuItem>
+
+    {
+    new NavMenuItem
+    {
+    Title="Reservoir & Shoe",
+    Link = $"/SaveConfig_16?Id={ConfigId}",
+    },
+    }
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Mud system",
+                Link = $"/SaveConfig_19?Id={ConfigId}"
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "string components",
+                Link = $"/SaveConfig_20?Id={ConfigId}"
+            });
+        NavigationManager.LocationChanged += LocationChanged;
+        await CheckLogin();
+        base.OnInitialized();
+
+    }
+    bool IsMenuOpen { set; get; } = true;
+    protected void ToggleMenu()
+    {
+        IsMenuOpen = !IsMenuOpen;
+    }
+    protected async Task HideMenu()
+    {
+        var h = (await BrowserTools.GetDimensions()).Width;
+        if (h > 900)
+            return;
+        IsMenuOpen = false;
+    }
+
+
+
+
+    async void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+
+        await CheckLogin();
+        StateHasChanged();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        var h = (await BrowserTools.GetDimensions()).Width;
+        IsMenuOpen = h > 900;
+        if (firstRender)
+            await CheckLogin();
+        base.OnAfterRender(firstRender);
+    }
+
+    async Task CheckLogin()
+    {
+        Console.WriteLine("" + Statics.LastCheck);
+        if (Statics.LastCheck.HasValue && DateTime.Now.Subtract(Statics.LastCheck.Value).TotalMinutes < 5)
+        {
+            Console.WriteLine("less than 5 minutes login check");
+            base.OnInitialized();
+            return;
+        }
+        Console.WriteLine("checking login...");
+        Statics.LastCheck = DateTime.Now;
+        var hasToken = await LocalStorage.ContainKeyAsync(AbrBlazorTools.Statics.LoginTokenKey);
+        if (!hasToken)
+            NavigationManager.NavigateTo("/login");
+        else
+        {
+            var token = await LocalStorage.GetItemAsStringAsync(Statics.LoginTokenKey);
+            var res = await HttpClientWithToken.HttpGet("/api/Auth/CheckLogin");
+            var result =
+            JsonConvert.DeserializeObject<CheckLoginResponse>
+                (
+                await res.Content.ReadAsStringAsync());
+            if (res.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var refreshRes = await HttpClientWithToken.HttpPost("/api/Auth/refresh", new RefreshTokenModel
+                    {
+                        Token = token
+                    });
+                if (refreshRes.IsSuccessStatusCode)
+                {
+                    var newToken = JsonConvert.DeserializeObject<PlainToken>
+                        (await refreshRes.Content.ReadAsStringAsync());
+                    Statics.LoginTokenKey = newToken.AccessToken;
+                    Statics.RefreshTokenKey = newToken.RefreshToken;
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.LoginTokenKey, Statics.LoginTokenKey);
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.RefreshTokenKey, Statics.RefreshTokenKey);
+                }
+            }
+            if (!res.IsSuccessStatusCode)
+            {
+                await LoadingSpinner.HideLoading();
+                await Swal.ShowSwal(title: "", message: localizer[LocalizationKeys.InvalidCredential], SweetAlertIcon.Error);
+                NavigationManager.NavigateTo("/login");
+            }
+            await LoadingSpinner.HideLoading();
+            Statics.CurrentLoginInfo = result;
+            StateHasChanged();
+        }
+    }
+
+    private async void SignOut()
+    {
+        await LocalStorage.RemoveItemAsync(Statics.LoginTokenKey);
+        await LocalStorage.RemoveItemAsync(Statics.RefreshTokenKey);
+        NavigationManager.NavigateTo("/login");
+    }
+    public async Task StartSim(Guid configId)
+    {
+        var dict = new Dictionary<string, string>();
+        dict.Add("style", "display:block");
+        var res = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Text = "Enter a name for new Simulation",
+                ShowCancelButton = true,
+                ShowConfirmButton = true,
+                InputValue = "",
+                Input = new SweetAlertInputType("text"),
+            });
+        if (res.Dismiss == DismissReason.Cancel || res.Dismiss == DismissReason.Close || string.IsNullOrEmpty(res.Value))
+            return;
+        var sim = await SimulationApi.AddSimulation(new Models.Config.SimulationModel
+            {
+                ConfigId = configId,
+                IsRunning = true,
+                Title = res.Value
+            });
+        NavigationManager.NavigateTo($"/Main?simulationID={sim.Id}");
+    }
+}

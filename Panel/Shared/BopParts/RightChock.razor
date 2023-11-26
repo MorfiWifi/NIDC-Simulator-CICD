@@ -1,0 +1,74 @@
+﻿@using System.Linq.Expressions
+
+<g @onclick="SwitchRightChokeState"
+   style="cursor:pointer;"
+   id="right_handle"
+   transform=@(RightChokeState==0?HandMiddle:RightChokeState==1?HandleRight:HandleLeft)>
+    <g id="g5557"
+       transform="matrix(1,0,0,1.1462453,24.854787,-17.273821)">
+        <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              d="m 178.67045,237.32887 4.6874,-37.61587 z"
+              id="path5545" />
+        <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              d="M 194.31183,237.32887 189.62443,199.713 Z"
+              id="path5547" />
+        <g id="g5553"
+           style="stroke:none"
+           transform="rotate(135,258.46546,195.72114)">
+            <circle style="fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.967048;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+                    id="circle5549"
+                    cx="-393.0795"
+                    cy="90.963303"
+                    r="44.516476"
+                    transform="rotate(-135)" />
+            <circle style="fill:#f9f9f9;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    id="circle5551"
+                    cx="-393.0795"
+                    cy="90.963295"
+                    r="9.321229"
+                    transform="rotate(-135)" />
+        </g>
+        <circle style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                id="circle5555"
+                cx="186.54437"
+                cy="196.16248"
+                r="4.770761" />
+    </g>
+</g>
+@code {
+    protected string HandleRight { get; set; } = "matrix(0.33844669,0.15373516,-0.15373516,0.33844669,177.88626,273.80619)";
+    protected string HandMiddle { get; set; } = "matrix(0.33844669,0,0,0.33844669,140,305)";
+    protected string HandleLeft { get; set; } = "matrix(0.33844669,-0.15373516,0.15373516,0.33844669,99.040446,338.80516)";
+
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> RightChokeStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> RightChokeStateExpression { get; set; }
+    public double _rightChokeState = 0;
+    [Parameter]
+    public double RightChokeState
+    {
+        get => _rightChokeState;
+        set
+        {
+            if (_rightChokeState == value) return;
+            _rightChokeState = value;
+            RightChokeStateChanged.InvokeAsync(_rightChokeState);
+            var fieldIdentifier = FieldIdentifier.Create(RightChokeStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    protected void SwitchRightChokeState()
+    {
+        if (RightChokeState == 1)
+            RightChokeState = -1;
+        else if (RightChokeState == -1)
+            RightChokeState = 0;
+        else
+            RightChokeState = 1;
+        StateHasChanged();
+
+    }
+}

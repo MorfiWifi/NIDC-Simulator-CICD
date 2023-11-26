@@ -1,0 +1,175 @@
+﻿@page "/SaveConfig_16"
+@using Models.Config
+@using Panel16.Shared
+@using Panel16.Pages.Components
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <div class="m-1 row ">
+            <h1 class="w-100 page-title d-flex justify-content-between align-items-center">
+                <span>
+                    Reservoir & Shoe
+                </span>
+                <span class="d-inline-flex justify-content-end">
+                    <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+                </span>
+            </h1>
+        </div>
+        <div class="row justify-content-around">
+            <div class="col-md-5 border border-primary">
+                <div class="text-center mx-auto d-block">
+                    <p class="h5 m-1">Reservoir</p>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <MudCheckBox T="bool" @bind-Value="ConfigDetails.Reservoir.IsAutoMigrationRateSelected" Label="Auto Migration "></MudCheckBox><br />
+                    </div>
+                </div>
+
+                @if (!ConfigDetails.Reservoir.IsAutoMigrationRateSelected)
+                {
+                    <div class="row w-100 m-1">
+
+                        <div class="m-1 row w-100">
+                            <div class="col-md-7">
+                                Auto-Migration Rate
+                            </div>
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="input-group">
+                                        <input @bind="ConfigDetails.Reservoir.AutoMigrationRate" type="number" class="form-control"></input>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <MudCheckBox T="bool" @bind-Value="ConfigDetails.Reservoir.MakeKickSinglePacket" Label="Make Kick Single Packet"></MudCheckBox><br />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Formation Permeability
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="input-group">
+                                <input @bind="ConfigDetails.Reservoir.FormationPermeability" type="number" class="form-control"></input>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-5 border border-primary">
+
+
+                <div class="text-center mx-auto d-block">
+                    <p class="h5 m-1">Shoe</p>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Formation No
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="input-group">
+                                <input @bind="ConfigDetails.LastShowLeakOffModel.FormationNo" type="number" class="form-control"></input>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Fraction Prpagation Pressure
+                    </div>
+
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastShowLeakOffModel.FractionPrpagationPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Leak off Pressure
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastShowLeakOffModel.LeakoffPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Breakdown Pressure
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastShowLeakOffModel.BreakdownPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Fraction Prpagation Pressure
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastShowLeakOffModel.FractionPrpagationPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+                    <div class="col-md-7">
+                        Permeability
+                    </div>
+                    <div class="col-md-5">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastShowLeakOffModel.Permeability" unitCat="@Enums.UnitCategory.Permeability" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="m-1 row w-100">
+
+                    <div class="col-md-12">
+                        <MudCheckBox T="bool" @bind-Value="ConfigDetails.LastShowLeakOffModel.InactiveFracture" Label="Inactive Fracture"></MudCheckBox><br />
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Last Shoe Leak-Off";
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        var formation = ConfigDetails.Formations.FirstOrDefault(x => x.Shoe);
+        ConfigDetails.LastShowLeakOffModel.FormationNo = formation == null ? 0 : formation.Index;
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_19?Id={ConfigId}");
+
+    }
+}

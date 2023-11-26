@@ -1,0 +1,88 @@
+﻿@page "/ThreeJs"
+
+@inject IJSRuntime JSRuntime
+
+<div id="profthreejs" style="width:100%; height:100vh;"></div>
+
+<div id="threejscontainer" style="width: 800px; height: 800px;"></div>
+<br />
+<br />
+<button type="button" class="btn btn-primary" @onclick="() => MoveCameraX(0.1)">
+    Move Camera X 0.1
+</button>
+<button type="button" class="btn btn-primary" @onclick="() => MoveCameraX(-0.1)">
+    Move Camera X -0.1
+</button>
+<button type="button" class="btn btn-primary" @onclick="() => MoveCameraY(0.1)">
+    Move Camera Y 0.1
+</button>
+<button type="button" class="btn btn-primary" @onclick="() => MoveCameraY(-0.1)">
+    Move Camera Y -0.1
+</button>
+<button type="button" class="btn btn-primary" @onclick="() => RotateCameraZ(10)">
+    Rotate Camera Z 10
+</button>
+<br />
+<br />
+<button type="button" class="btn btn-primary" @onclick="() => RotateObjectX(10)">
+    Rotate Object X 10
+</button>
+<button type="button" class="btn btn-primary" @onclick="() => RotateObjectY(10)">
+    Rotate Object Y 10
+</button>
+<button type="button" class="btn btn-primary" @onclick="ToggleRotating">
+    @(Rotating ? "Stop Rotating" : "Start Rotating")
+</button>
+@code {
+    public bool Rotating { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.load", "threejscontainer", "../assets/models/KB01.dae");
+    }
+
+    public async Task MoveCameraX(double x)
+    {
+
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.move", "threejscontainer", "camera", "x", x);
+    }
+
+    public async Task MoveCameraY(double y)
+    {
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.move", "threejscontainer", "camera", "y", y);
+    }
+
+    public async Task RotateCameraZ(double a)
+    {
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.rotate", "threejscontainer", "camera", "z", a);
+    }
+
+    public async Task RotateObjectX(double a)
+    {
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.rotate", "threejscontainer", "object", "x", a);
+    }
+
+    public async Task RotateObjectY(double a)
+    {
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.rotate", "threejscontainer", "object", "y", a);
+    }
+
+    public async Task ToggleRotating()
+    {
+        await JSRuntime.InvokeVoidAsync("ThreeJSFunctions.rotating", "threejscontainer", 0, Rotating ? 0 : 0.05, 0);
+        Rotating = !Rotating;
+        StateHasChanged();
+    }
+
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await BrowserTools.Prepare3dTest();
+
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+}

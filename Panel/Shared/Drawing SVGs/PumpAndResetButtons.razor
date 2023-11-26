@@ -1,0 +1,172 @@
+﻿@using System.Linq.Expressions;
+
+<g id="Pump_And_Reset_Buttons_Group">
+    <g id="g24829" @onclick="ResetToggle">
+        <rect style=@(Reset?LightOn:LightOff)
+              id="reset_button"
+              width="36.510372"
+              height="21.297718"
+              x="183.71233"
+              y="152.20291"
+              rx="3"
+              ry="3" /><path id="text20510"
+                             style="font-size:7.7611px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                             d="m 198.53148,162.80604 c -0.0535,0.019 -0.10861,0.0337 -0.16536,0.0455 h 0.20515 c -0.0138,-0.0145 -0.0269,-0.0297 -0.0398,-0.0455 z" /><text xml:space="preserve"
+                                                                                                                                                                             style="font-size:7.7611px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                                                                                                                                                                             x="201.63403"
+                                                                                                                                                                             y="165.62386"
+                                                                                                                                                                             id="reset_text"><tspan sodipodi:role="line"
+                                                                                                                                                                                                    id="tspan21436"
+                                                                                                                                                                                                    style="stroke-width:1.9"
+                                                                                                                                                                                                    x="201.63403"
+                                                                                                                                                                                                    y="165.62386">RESET</tspan></text>
+    </g>
+    <g @onclick="ChangePump1Light"
+           style="cursor:pointer"
+           id="pump1box">
+        <rect style="fill:#f9f9f9;fill-opacity:1;stroke:#b3b3b3;stroke-width:1.4433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              id="pump1_key"
+              width="38.90168"
+              height="11.534069"
+              x="234.69991"
+              y="144.46642"
+              rx="3.1960001"
+              ry="3.1960001" /><rect style=@(PumpState==1 || PumpState==3?LightOn:LightOff)
+                                     id="pump_1_light_box"
+                                     width="6.5438242"
+                                     height="11.534068"
+                                     x="239.51335"
+                                     y="144.46642" /><text xml:space="preserve"
+                                                           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                                                           x="259.26849"
+                                                           y="151.77135"
+                                                           id="text21498"><tspan sodipodi:role="line"
+                                                                                 id="tspan21496"
+                                                                                 style="font-size:5.64444px;stroke-width:1.9"
+                                                                                 x="259.26849"
+                                                                                 y="151.77135">Pump 1</tspan></text>
+    </g>
+    <g id="pump2box"
+    @onclick="ChangePump2Light"
+       style="cursor:pointer">
+        <rect style="fill:#f9f9f9;fill-opacity:1;stroke:#b3b3b3;stroke-width:1.4433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              id="rect21492"
+              width="38.901684"
+              height="11.534069"
+              x="234.69991"
+              y="159.93262"
+              rx="3.1960001"
+              ry="3.1960001" /><rect style=@(PumpState>=2?LightOn:LightOff)
+                                     id="pump_2_light_box"
+                                     width="6.5438242"
+                                     height="11.534068"
+                                     x="239.51335"
+                                     y="159.93262" /><text xml:space="preserve"
+                                                           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                                                           x="258.85922"
+                                                           y="167.06529"
+                                                           id="pump2_text"><tspan sodipodi:role="line"
+                                                                                  id="tspan21500"
+                                                                                  style="font-size:5.64444px;stroke-width:1.9"
+                                                                                  x="258.85922"
+                                                                                  y="167.06529">Pump 2</tspan></text>
+    </g>
+</g>
+
+<g id="Bothbox"
+@onclick="BothOn"
+   style="cursor:pointer">
+    <rect style="fill:#f9f9f9;fill-opacity:1;stroke:#b3b3b3;stroke-width:1.4433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect21492"
+          width="38.901684"
+          height="11.534069"
+          x="234.69991"
+          y="175.93262"
+          rx="3.1960001"
+          ry="3.1960001" /><rect style=@(PumpState==3?LightOn:LightOff)
+                                 id="pump_2_light_box"
+                                 width="6.5438242"
+                                 height="11.534068"
+                                 x="239.51335"
+                                 y="175.93262" /><text xml:space="preserve"
+                                                       style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                                                       x="258.85922"
+                                                       y="176.06529"
+                                                       id="pump2_text"><tspan sodipodi:role="line"
+                                                                              id="tspan21500"
+                                                                              style="font-size:5.64444px;stroke-width:1.9"
+                                                                              x="258.85922"
+                                                                              y="183.06529">both</tspan></text>
+</g>
+
+@code {
+    protected string LightOn = "fill:#2aff2a;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOff = "fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+
+
+    protected bool Both = false;
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<bool> ResetChanged { get; set; }
+    [Parameter]
+    public Expression<Func<bool>> ResetExpression { get; set; }
+    public bool _Reset = false;
+    [Parameter]
+    public bool Reset
+    {
+        get => _Reset;
+        set
+        {
+            if (_Reset == value) return;
+            _Reset = value;
+            ResetChanged.InvokeAsync(_Reset);
+            var fieldIdentifier = FieldIdentifier.Create(ResetExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<double> PumpStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> PumpStateExpression { get; set; }
+    public double _PumpState = 0;
+    [Parameter]
+    public double PumpState
+    {
+        get => _PumpState;
+        set
+        {
+            if (_PumpState == value) return;
+            _PumpState = value;
+            PumpStateChanged.InvokeAsync(_PumpState);
+            var fieldIdentifier = FieldIdentifier.Create(PumpStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    protected void ChangePump1Light()
+    {
+        PumpState = 1;
+
+        StateHasChanged();
+
+    }
+    protected void ChangePump2Light()
+    {
+
+
+        PumpState = 2;
+        StateHasChanged();
+
+    }
+    protected void BothOn()
+    {
+        PumpState = 3;
+
+    }
+    protected void ResetToggle()
+    {
+        Reset = !Reset;
+
+    }
+}

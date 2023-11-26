@@ -1,0 +1,54 @@
+﻿@inherits UnitInput<double>
+
+@if (ReadOnly)
+{
+    <span> @GetViewValue()</span>
+    <span>
+        (@System)
+    </span>
+}
+else
+{
+    <div class="row@(noGutters?" no-gutters":"")">
+        <div class="input-group">
+            <input value="@GetViewValue()" class="@CssClass" step="any" @onchange="HandleInput" type="number" />
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">@System</span>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+@code {
+
+    protected override bool TryParseValueFromString(string value, out double result, out string validationErrorMessage)
+    {
+        validationErrorMessage = "Invalid input";
+        result = 0;
+        try
+        {
+            result = double.Parse(value);
+            validationErrorMessage = null;
+            return true;
+        }
+        catch (Exception e)
+        {
+        }
+
+        return false;
+    }
+    [Parameter]
+    public int DecimalPlaces { set; get; } = 1;
+    public override double GetViewValue()
+    {
+        return Math.Round(Value * Coefficient, DecimalPlaces);
+    }
+
+    public override double GetSiValue(object value)
+    {
+        var input = double.Parse(value + "");
+        return Math.Round(input / Coefficient, DecimalPlaces+2);
+    }
+}

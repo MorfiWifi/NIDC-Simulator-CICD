@@ -1,0 +1,1 @@
+liara deploy --app haffari --port 80

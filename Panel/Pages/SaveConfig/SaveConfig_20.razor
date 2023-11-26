@@ -1,0 +1,267 @@
+﻿@page "/SaveConfig_20"
+@using Panel16.Pages.Components
+@using Models.Config
+@layout SaveConfigLayout
+@inject IConfigApi _configApi
+@inject IDialogService DialogService
+
+<div class="container-fluid">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            String Components
+        </span>
+        <span class="d-inline-flex justify-content-end">
+            <MudFab StartIcon="@Icons.Filled.Add" Label="Add" OnClick="OpenDialog" DisableElevation="true" />
+            <MudFab StartIcon="@Icons.Filled.Save" Label="Bit Defenition" OnClick="OpenBitDialog" DisableElevation="true" />
+            <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+        </span>
+    </h1>
+
+    <MudDialog @bind-IsVisible=ShowDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                Add String Components
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Length</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.Length" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Type</label>
+                        <select @bind="StringComponent.Component">
+                            <option value="@((int)Component.Bit)">@Component.Bit</option>
+                            <option value="@((int)Component.Collar)">@Component.Collar</option>
+                            <option value="@((int)Component.DrillPipe)">@Component.DrillPipe</option>
+                            <option value="@((int)Component.Heavyweight)">@Component.Heavyweight</option>
+                            <option value="@((int)Component.Stabilizer)">@Component.Stabilizer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>ID</label>
+                        <IntUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.ID" unitCat="Enums.UnitCategory.Diameter" units="ConfigDetails.Units" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Weight/Length</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.WeightLength" unitCat="Enums.UnitCategory.WeightOfUnitLength" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label>Total Length</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.TotalLength" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Number Of Joints</label>
+                        <NoUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.NumberOfJoint" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </div>
+                </div>      
+                <div class="form-row">
+                 
+                    <div class="form-group col-md-6">
+                        <label>Length Per Joint</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="StringComponent.LengthPerJoint" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+            </form>
+
+        </DialogContent>
+        <DialogActions>
+            <div class="mb-3">
+                <button class="btn btn-primary mr-3" @onclick="Add">
+                    <i class="fa fa-save"></i>
+                    Add
+                </button>
+            </div>
+        </DialogActions>
+    </MudDialog>
+
+    <MudDialog @bind-IsVisible=ShowBitDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                Bit Defenition
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Bit Code</label>
+                        <input type="number" class="form-control" @bind="ConfigDetails.BitCode" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Type</label>
+                        <select @bind="ConfigDetails.BitDefenition.BitType">
+                            <option value="@((int)BitType.Cone)">@BitType.Cone</option>
+                            <option value="@((int)BitType.PDC)">@BitType.PDC</option>                         
+                            <option value="@((int)BitType.Rock)">@BitType.Rock</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Length</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="ConfigDetails.BitDefenition.BitLength" unitCat="Enums.UnitCategory.Length" 
+                        units="ConfigDetails.Units" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Weight/Length</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="ConfigDetails.BitDefenition.BitWeightPerLength" 
+                        unitCat="Enums.UnitCategory.WeightOfUnitLength"
+                                         units="ConfigDetails.Units" />
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label>Bit Nozzle No</label>
+                        <input type="number"  class="form-control" @bind="ConfigDetails.BitDefenition.BitNozzleNo"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Nozzle Size</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="ConfigDetails.BitDefenition.BitNozzleSize" 
+                        unitCat="Enums.UnitCategory.Diameter" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Bit Size</label>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="ConfigDetails.BitDefenition.BitSize"
+                                         unitCat="Enums.UnitCategory.Diameter" units="ConfigDetails.Units" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Float Valve</label>
+                        In
+                        <MudSwitch @bind-Checked="ConfigDetails.BitDefenition.FloatValve" />
+                        Out
+                    </div>
+                </div>
+
+            </form>
+
+        </DialogContent>
+        <DialogActions>
+            <div class="mb-3">
+                <button class="btn btn-primary mr-3" @onclick="SaveBit">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
+        </DialogActions>
+    </MudDialog>
+
+
+
+
+
+    <table class="table table-striped table-bordered border">
+        <thead class="thead-light">
+            <tr>
+                <th>Component</th>
+                <th>Length </th>
+                <th>OD </th>
+                <th>ID </th>
+                <th>Weight/Length</th>
+                <th>Total Length</th>
+                <th>Number Of Joint</th>
+                <th>Length Per Joint</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stringcomponent in ConfigDetails.StringComponents)
+            {
+                <tr>
+                    <td>@stringcomponent.Component</td>
+                    <td>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="stringcomponent.Length" ReadOnly="true"
+                        unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="stringcomponent.OD" ReadOnly="true"
+                                         unitCat="Enums.UnitCategory.Diameter" units="ConfigDetails.Units" />
+                    </td>
+                    <td>@stringcomponent.ID</td>
+                    <td>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="stringcomponent.WeightLength" ReadOnly="true"
+                                         unitCat="Enums.UnitCategory.WeightOfUnitLength" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="stringcomponent.TotalLength" ReadOnly="true"
+                                         unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        @stringcomponent.NumberOfJoint
+                    </td>
+                    <td>
+                        <DoubleUnitInput noGutters="true" class="form-control" @bind-Value="stringcomponent.LengthPerJoint" ReadOnly="true"
+                                         unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="()=>Delete(stringcomponent)">@localizer[LocalizationKeys.Delete]</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public string ConfigId { set; get; }
+    public bool ShowDialog { get; set; } = false;
+    public bool ShowBitDialog { get; set; } = false;
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public StringComponent StringComponent { set; get; } = new();
+    protected override async void OnInitialized()
+    {
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+
+    }
+
+    protected async Task Delete(Models.Config.StringComponent stringComponent)
+    {
+        ConfigDetails.StringComponents.Remove(stringComponent);
+        StateHasChanged();
+    }
+
+
+    protected async Task Add()
+    {
+        ConfigDetails.StringComponents.Add(StringComponent);
+        ShowDialog = false;
+        StateHasChanged();
+
+    }
+    protected async Task SaveBit()
+    {
+        ShowBitDialog = false;
+        StateHasChanged();
+
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+    }
+    public void OpenDialog()
+    {
+        ShowDialog = true;
+
+        StateHasChanged();
+    }
+    public void OpenBitDialog()
+    {
+        ShowBitDialog = true;
+
+        StateHasChanged();
+    }
+}

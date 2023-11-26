@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="/manifest.json" rel="manifest" />
+    <link href="/css/app.css?v=10" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/fa.css?v=10">  
+    <link href="/assets/styles/splash.css?v=10" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/roboto.css?v=10">
+    <link href="/_content/MudBlazor/MudBlazor.min.css?v=10" rel="stylesheet" />
+    <link href="/assets/styles/base.css?v=10" rel="stylesheet" />
+    <link href="/assets/styles/bootstrap.min.css?v=10" rel="stylesheet" />
+    <link href="/assets/styles/login.css?v=10" rel="stylesheet" />
+    <link href="/assets/styles/dashboard.css?v=10" rel="stylesheet" />
+    <link href="/assets/css/main.css?v=10" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/main-page.css?v=10">
+    <link rel="stylesheet" href="/assets/css/chock.css?v=6">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.css?v=7">
+    <link rel="stylesheet" href="assets/css/bop.css?v=1">
+</head>
+
+<body>
+    <div id="spinnerDiv" style="display:none;">
+        <div class="spinner">
+        </div>
+    </div>
+    <div id="app">
+        <div class="splash-wrapper">
+            <div class="splash">
+                <div class="splash__logo">
+                    <!--<img src="/assets/img/logo.png"  alt="logo" />-->
+                </div>
+                <div class="loader3">
+                    <span></span>
+                    <span></span>
+                </div>
+                <h4 class="text-white">
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui" style="display: none;height:2em;">
+        <div class="retry flex">
+            <i class="fa fa-spinner"></i>
+            <span>تلاش مجدد</span>
+        </div>
+    </div>
+    <script src="/_content/CurrieTechnologies.Razor.SweetAlert2/sweetAlert2.min.js?v=10"></script>
+    <script src="/_content/MudBlazor/MudBlazor.min.js?v=10"></script>
+    <script src="/assets/js/moment.min.js?v=10"></script>
+
+    <script src="/assets/js/Chart.min.js?v=10"></script>
+
+    <!-- This is the glue between Blazor and Chart.js -->
+    <script src="/_content/ChartJs.Blazor.Fork/ChartJsBlazorInterop.js?v=10"></script>
+    <script src="/assets/js/jquery-2.2.4.js?v=10"></script>
+
+    <script type="module" src="/assets/js/newThree.js?v=10"></script>
+    <script type="module" src="/assets/js/rotaryKbThree.js?v=10"></script>
+    
+    <script src="assets/js/chart_4_4.js?v=10"></script>
+    <script src="assets/js/main-page.js?v=10"></script>
+    <script src="assets/js/chock.js?v=5"></script>
+
+    <script>
+        window.methods = {
+            GetRect: function (elemetId) {
+                var element = document.getElementById(elemetId);
+                return element.getBoundingClientRect();
+            },
+            ShowLoading: function () {
+                document.getElementById("spinnerDiv").style.display = "block";
+            },
+            HideLoading: function () {
+                document.getElementById("spinnerDiv").style.display = "none";
+            },
+            getDimensions: function () {
+                return {
+                    width: document.body.clientWidth,
+                    height: document.body.clientHeight
+                };
+            },
+            CopyInputValue: function (inputId) {
+                /* Get the text field */
+                var copyText = document.getElementById(inputId);
+
+                /* Select the text field */
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+                /* Copy the text inside the text field */
+                document.execCommand("copy");
+
+            },
+            PrepareResponsiveTable: function (inputId) {
+                jQuery('table').each(function () {
+                    var $table = jQuery(this);
+                    var tableCols = $table.find('th').length;
+                    $table.find('tbody > tr').each(function (index, tr) {
+                        if (!$(tr).hasClass('extra'))
+                            for (var i = 1; i <= tableCols; i++) {
+                                var header = $table.find("thead > tr th:nth-child(" + i + ")").html();
+                                if (header)
+                                    header += ": ";
+                                $("td:nth-child(" + i + ")", tr).attr('data-content', header);
+                            }
+                    });
+                });
+
+            },
+        };
+        window.blazorCulture = {
+            get: () => localStorage['BlazorCulture'],
+            set: (value) => localStorage['BlazorCulture'] = value
+        };
+
+        (function () {
+
+            //if ((window.blazorCulture.get() || "fa-IR").toLowerCase() !== "fa-ir") {
+            //    var l = document.createElement("link");
+            //    l.rel = "stylesheet";
+            //    l.href = "/assets/css/style.ltr.css";
+            //    document.getElementsByTagName("head")[0]?.append(l);
+            //}
+
+        })();
+
+    </script>
+    <script src="/_framework/blazor.webassembly.js?version=Panel20"></script>
+    <script>navigator.serviceWorker.register('/service-worker.js?version=20');</script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+@page "/Chat"
+@using Microsoft.AspNetCore.SignalR.Client
+<h3>Chat - part </h3>
+
+<input placeholder="sim Id" @bind="simId" />
+<button class="btn btn-primary" @onclick="() => join()">JOIN</button>
+
+@foreach (var mess in messages)
+{
+    <div>
+        @mess
+    </div>
+}
+
+
+<input placeholder="write your message ..." @bind="message" />
+<button class="btn btn-primary" @onclick="() => send()">SEND</button>
+
+
+@code {
+    public List<string> messages = new List<string>();
+    public string simId { get; set; }
+    public string message { get; set; }
+    HubConnection hubConnection;
+    
+    public async Task join()
+    {
+        // joining 
+        await hubConnection.SendAsync("join", simId);
+    }
+    
+    public async Task send()
+    {
+    // send message 
+        messages.Add(message);
+        await hubConnection.SendAsync("send", simId , message);
+
+        message = ""; // clear 
+        
+        StateHasChanged();
+    }
+    
+    
+    protected override async void OnInitialized()
+    {
+        // StateHasChanged();
+        // //Read();
+        // EditContext.OnFieldChanged += OnFieldChanged;
+
+        #region hub comment
+        //
+        // var hubConnection = new HubConnectionBuilder()
+        //     .WithUrl("http://localhost:51392/testhub", options =>
+        //     {
+        //         options.SkipNegotiation = true;
+        //         options.Transports = HttpTransportType.WebSockets;
+        //         options.AccessTokenProvider = () => Task.FromResult(tokenString);
+        //     })
+        //     .WithAutomaticReconnect()
+        //     .Build();
+        //
+        //
+        // hubConnection = (new HubConnectionBuilder()
+        //     .WithUrl($"{Statics.BaseAddress}ChatHub") , op =>
+        //     {
+        //         
+        //     })
+        //     // .WithAutomaticReconnect()
+        //     .Build();
+
+        hubConnection.Reconnected += async (connectionId) =>
+        {
+            // re join hub - validate group id
+            Console.WriteLine($"Connection successfully reconnected. The ConnectionId is now: {connectionId}");
+            if (!string.IsNullOrEmpty(simId))
+                await hubConnection.SendAsync("join", simId);
+        };
+        
+        hubConnection.On<string>("new-message", async (message) =>
+        {
+            Console.WriteLine($"new-message => {message}");
+            messages.Add(message);
+            
+            StateHasChanged();
+        });
+
+
+        await hubConnection.StartAsync();
+        #endregion
+
+        base.OnInitialized();
+    }
+}

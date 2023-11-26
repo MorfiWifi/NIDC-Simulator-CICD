@@ -1,0 +1,81 @@
+﻿@page "/SaveConfig_5"
+@using Models.Config
+@using Panel16.Pages.Components
+@using Models.Config
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                Top Drive and Rotary Table
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group row">
+                    <div class="col-md-7">
+                        Top Drive Weight
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput @bind-Value="ConfigDetails.TopDriveModel.TopDriveWeight" unitCat="Enums.UnitCategory.Weight" units="ConfigDetails.Units"  class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-7">
+                        Top drive Rotation Acceleration
+                    </div>
+
+                    <div class="col-md-3">
+                        <LongUnitInput @bind-Value="ConfigDetails.TopDriveModel.RotationAcceleration" unitCat="Enums.UnitCategory.FrequencyGradient" units="ConfigDetails.Units"  class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-7">
+                        Rotary Table Rotation Acceletation
+                    </div>
+
+                    <div class="col-md-3">
+                        <LongUnitInput @bind-Value="ConfigDetails.TopDriveModel.RotaryTableRotationAcceletation" unitCat="Enums.UnitCategory.FrequencyGradient" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <img src="/assets/img/topdrive.jpg" class="w-100" />
+            </div>
+        </div>
+        <br/>
+
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Top Drive and Rotary Table";
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_6?Id={ConfigId}");
+        
+    }
+}

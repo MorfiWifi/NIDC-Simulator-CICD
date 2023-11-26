@@ -1,0 +1,216 @@
+@page "/DataDisplayConsole"
+@using Panel16.Shared.DataDisplayConsole
+@layout SimulationLayout
+<div class="container-fluid noselect">
+    <div class="row align-items-center mb-4 section-boreder">
+        <div class="col table-display-box">
+            <div class="row display-row">
+                <div class="col">
+                    <DrillingDataDisplayTable/>
+                </div>
+            </div>
+            <div class="row row-box align-items-center">
+                <div class="col-md-7">
+                    <Display DisplayName="Total Strokes"/>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="row onoff-button">
+                        <OnOffButton Text="Trip"/>
+                    </div>
+                    <div class="row onoff-button">
+                        <OnOffButton Text="Trip"/>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <CircleLED LEDColor="CircleLED.Color.Red" Discription="Acid Gas Detection"/>
+                </div>
+
+            </div>
+        </div>
+        <div class="col">
+            <div class="row justify-content-center">
+                <div class="col-5">
+                    <GageWith2Hands/>
+                </div>
+                <div class="col-5">
+                    <GageWithoutTextbox/>
+                </div>      
+              <div class="col-5">
+                        <GageWith2Degrees/>
+                    </div>      
+                                
+            </div>
+            <div class="row align-items-center">
+                <div class="col-10">
+                    <TwoVolume/>
+                </div>
+                <div class="col-1">
+                    <CircleLED LEDColor="CircleLED.Color.Green"/>
+                </div>
+            </div>
+
+            <div class="row row-box align-items-center" style="margin-left: 15px">
+                <div class="col">
+                    <OnOffButton/>
+                </div>
+
+                <div class="col">
+
+                    <OnOffButton/>
+                </div>
+
+                <div class="col">
+
+                    <OnOffButton/>
+                </div>
+                <div class="col">
+                    <CircleLED LEDColor="CircleLED.Color.Green"/>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    @* Gage row *@
+    <div class="row section-boreder">
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Rotary Speed"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Rotary Torque"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Pump 1 SPM"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Pump 2 SPM"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Pump Pressure"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Casing Pressure"/>
+        </div>
+        <div class="col">
+            <SeperateHalfDegreeGage GageText="Return Line" GageBottomText="Temperature"/>
+        </div>
+
+    </div>
+    <div class="row align-items-center section-boreder">
+
+        <div class="col-2">
+            <SeperateHalfDegreeGage/>
+        </div>
+        <div class="col-2">
+            <SeperateHalfDegreeGage/>
+        </div>
+        <div class="col-5">
+            <TwoVolume/>
+        </div>
+        <div class="col">
+            <CircleLED LEDColor="CircleLED.Color.Red"/>
+
+        </div>
+        <div class="col-1">
+            <OnOffButton/>
+            <OnOffButton/>
+
+        </div>
+        <div class="col">
+            <OnOffButton/>
+            <OnOffButton/>
+        </div>
+    </div>
+    <div class="row section-boreder">
+        <div class="col">
+            <div class="row">
+                <div class="col-9">
+                    <TwoVolume/>
+
+                </div>
+                <div class="col-2">
+                    <OnOffButton/>
+                    <OnOffButton/>
+                    <OnOffButton/>
+                    <OnOffButton/>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+    <div class="row section-boreder">
+                            <div class="col-4">
+                                <SeperateHalfDegreeGage/>
+                            </div>
+                            <div class="col-4">
+                                <Display DisplayName="Fill Or SPM"/>
+                                <Display/>
+                            </div>
+                            <div class="col-4">
+                                <Switch/>
+                                <Switch/>
+                            </div>
+            
+                </div>
+            
+        </div>
+
+    </div>
+    <div class="row section-boreder align-items-center">
+        <div class="col-5">
+            <TwoVolume/>
+        </div>
+        <div class="col-1">
+            <CircleLED LEDColor="CircleLED.Color.Red"/>
+        </div>
+        <div class="col">
+    <div class="row  align-items-center">
+                    <div class="col-2">
+                        <OnOffButton/>
+                    </div>
+                    <div class="col-2">
+                        <OnOffButton/>
+                    </div>
+                    <div class="col-2">
+                        <CircleLED LEDColor="CircleLED.Color.Green"/>
+                    </div>
+                    <div class="col-2">
+                        <OnOffButton/>
+                    </div>
+                    <div class="col-2">
+                        <OnOffButton />
+                        <OnOffButton/>
+                        <OnOffButton/>
+                        <OnOffButton/>
+                    </div>
+                </div>
+            
+        </div>
+
+    </div>
+</div>
+<style>
+.table-display-box{
+    padding: 5px;
+}
+.container{
+margin-left: 45px;
+}
+.onoff-button{
+margin-bottom: 10px
+;
+}
+.row-box{
+    max-width: 45vw;
+    max-height: 20vh;
+}
+.section-boreder{
+    border: solid 2px grey;
+}
+</style>
+
+@code {
+
+}

@@ -1,0 +1,38 @@
+﻿@inherits UnitInput<double>
+
+<div class="row@(noGutters?" no-gutters":"")">
+    <div class="input-group">
+        <input value="@GetViewValue()" class="@CssClass" @oninput="HandleInput" type="number" />
+    </div>
+</div>
+    @code {
+    
+    protected override bool TryParseValueFromString(string value, out double result, out string validationErrorMessage)
+    {
+        validationErrorMessage = "Invalid input";
+        result = 0;
+        try
+        {
+            result = double.Parse(value);
+            validationErrorMessage = null;
+            return true;
+        }
+        catch (Exception e)
+        {
+        }
+
+        return false;
+    }
+
+    public override double GetViewValue()
+    {
+        return Value ;
+    }
+
+    public override double GetSiValue(object value)
+    {
+        var input = double.Parse(value + "");
+        return input ;
+    }
+
+    }

@@ -1,0 +1,63 @@
+﻿@using System.Linq.Expressions;
+
+<g
+       id="strokes_count_box"
+       transform="translate(-9.6283048,-8.4474147)"><g
+         id="g4029"
+         transform="translate(86.128301,65.626576)"><rect
+           style="fill:#f9f9f9;stroke:#808080;stroke-width:0.781292;stroke-linecap:square;paint-order:stroke fill markers"
+           id="rect4021"
+           width="94.576958"
+           height="38.908096"
+           x="101.21152"
+           y="20.314342" /><rect
+           style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.779712;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect4023"
+           width="94.578575"
+           height="8.9990377"
+           x="101.21072"
+           y="59.221676" /><text
+           xml:space="preserve"
+           style="font-size:6.85939px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#808080;stroke-width:0.781292;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+           x="144.60915"
+           y="67.957771"
+           id="text4027"
+           transform="scale(1.028037,0.97272763)"><tspan
+             sodipodi:role="line"
+             id="tspan4025"
+             style="font-size:6.85939px;stroke-width:0.781293"
+             x="144.60915"
+             y="67.957771">STROKES COUNT</tspan></text></g><text
+         xml:space="preserve"
+         style="font-size:12.7px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.706001;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         x="271.4035"
+         y="112.04399"
+         id="strokes_count_number"><tspan
+           sodipodi:role="line"
+           id="tspan24850"
+           style="font-size:12.7px;stroke-width:0.706"
+           x="271.4035"
+           y="112.04399">
+           @Value
+       </tspan></text></g>
+       @code{
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> ValueExpression { get; set; }
+    public double _Value = 0;
+    [Parameter]
+    public double Value
+    {
+        get => _Value;
+        set
+        {
+            if (_Value == value) return;
+            _Value = value;
+            ValueChanged.InvokeAsync(_Value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+       }

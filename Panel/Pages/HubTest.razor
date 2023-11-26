@@ -1,0 +1,64 @@
+﻿@page "/Door"
+
+@using Microsoft.AspNetCore.SignalR.Client
+
+
+<EditForm EditContext="@EditContext">
+
+    <InputCheckbox @bind-Value="Model.Sens1" id="sens1" name="sens1"></InputCheckbox>
+    <label for="sens1">Sens 1</label>
+
+    <br />
+
+    <InputCheckbox @bind-Value="Model.Sens2" id="sens2" name="sens2"></InputCheckbox>
+    <label for="sens2">Sens 2</label>
+
+    <br />
+
+</EditForm>
+
+@code {
+
+    // hal ndashtam hamun model ro import konam :D
+    public class DoorModel
+    {
+        public bool Sens1 { get; set; }
+        public bool Sens2 { get; set; }
+    }
+
+    protected DoorModel Model { get; set; } = new DoorModel {
+            Sens1 = true
+    };
+    private EditContext EditContext;
+    private HubConnection? hubConnection;
+
+    protected override async void OnInitialized()
+    {
+
+        EditContext = new EditContext(Model);
+        EditContext.OnFieldChanged += OnFieldChanged;
+
+        hubConnection = (new HubConnectionBuilder().WithUrl($"{Statics.BaseAddress}DoorHub")).Build();
+
+        hubConnection.On<DoorModel>("update-model", async (newModel) =>
+        {
+            Model = newModel;
+            StateHasChanged();            
+
+        });
+
+        await hubConnection.StartAsync();
+
+        base.OnInitialized();
+    }
+
+
+    private async void OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+        {
+            await hubConnection.SendAsync("UpdateModel", Model);
+        }
+
+    }
+}

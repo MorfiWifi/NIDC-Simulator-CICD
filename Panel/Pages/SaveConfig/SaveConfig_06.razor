@@ -1,0 +1,109 @@
+﻿@page "/SaveConfig_6"
+@using Models.Config
+@using Panel16.Pages.Components
+@using Models.Config
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                String Traveling settings
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Max Top Of String Accelration
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput @bind-Value="ConfigDetails.maxTopConfig.MaxTopOfStringAccelration" unitCat="Enums.UnitCategory.Acceleration" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Travling Block Weight
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput @bind-Value="ConfigDetails.maxTopConfig.TravlingBlockWeight" unitCat="Enums.UnitCategory.Weight" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Kelly And Swivel Weight
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput @bind-Value="ConfigDetails.maxTopConfig.KellyAndSwivleWeight" unitCat="Enums.UnitCategory.Weight" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Number of Line
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="input-group">
+                                <select @bind="ConfigDetails.maxTopConfig.NumberOfLine" class="form-control">
+                                    @for (var i = 8; i < 16; i+=2)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Drilling Line Breaking Load
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput @bind-Value="ConfigDetails.maxTopConfig.DrillingLineBreakingLoad" unitCat="Enums.UnitCategory.Weight" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <img src="/assets/img/topdrive.jpg" class="w-100" />
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Max Top Acceleration";
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_7?Id={ConfigId}");
+
+    }
+}

@@ -1,0 +1,181 @@
+﻿@page "/SaveConfig_2"
+@using Panel16.Shared
+@using Panel16.Pages.Components
+@using Models.Config
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                BOP Stack
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+
+        <div class="row align-items-start">
+            <div class="col-md-4">
+                <div class="extra-config card" style="padding:0 30px 0 15px">
+                    <div class="form-group row my-3">
+                        <div class="col-md-8">
+                            <label>RAM String Drag:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.RamStringDrag" unitCat="@Enums.UnitCategory.Weight" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <div class="col-md-8">
+                            <label>ANNULAR String Drag:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.AnnularStringDrag" unitCat="@Enums.UnitCategory.Drag" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+            </div>
+            <div class="bop-config col-md-8">
+                <div class="bop-config">
+                    <img src="/assets/img/bop.png" />
+                    <div class="open-close-config annular">
+                        <div class="d-flex mb-1">
+                            <label>Open:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.AnnularPreventer.Open" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="d-flex">
+                            <label>Close:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.AnnularPreventer.Close" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="open-close-config upper">
+                        <div class="d-flex mb-1">
+                            <label>Open:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.UpperRams.Open" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="d-flex">
+                            <label>Close:</label>
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.UpperRams.Close" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="open-close-config blind">
+                        <div class="d-flex mb-1">
+                            <label>Open:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.BlindShearRams.Open" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="d-flex">
+                            <label>Close:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.BlindShearRams.Close" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="open-close-config kill">
+                        <div class="d-flex mb-1">
+                            <label>Open:</label>
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.KillChoke.Open" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="d-flex">
+                            <label>Close:</label>
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.KillChoke.Close" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="open-close-config lower">
+                        <div class="d-flex mb-1">
+                            <label>Open:</label>
+                            <DoubleUnitInput DecimalPlaces="3" @bind-Value="ConfigDetails.BopModel.LowerRams.Open" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="d-flex">
+                            <label>Close:</label>
+                            <DoubleUnitInput DecimalPlaces="3" W100="false" @bind-Value="ConfigDetails.BopModel.LowerRams.Close" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "BOP";
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_3?Id={ConfigId}");
+    }
+}
+
+<style>
+
+    .bop-config {
+        position: relative
+    }
+
+        .bop-config img {
+            width: 445px;
+            height: 550px;
+            object-fit: contain;
+            object-position: center;
+            margin-left: 20px;
+        }
+
+    .open-close-config {
+        position: absolute;
+        left: 465px;
+        width: 200px;
+        font-size:12px;
+    }
+
+        .open-close-config .form-control {
+            width:90px;
+            font-size: 12px;
+        }
+
+        .open-close-config .input-group-text{
+            font-size: 12px;
+        }
+
+        .open-close-config > .d-flex >.row{
+            margin: 0 !important;
+        }
+
+        .open-close-config label{
+            position: relative;
+            top: .5em;
+            margin-right: .5em
+        }
+
+        .open-close-config.annular {
+            top: 110px;
+        }
+
+        .open-close-config.upper {
+            top: 227px;
+        }
+
+        .open-close-config.blind {
+            top: 305px;
+        }
+
+        .open-close-config.kill {
+            top: 385px;
+        }
+
+        .open-close-config.lower {
+            top: 464px;
+        }
+</style>

@@ -1,0 +1,362 @@
+﻿@using Panel16.AbrTools
+@using AbrBlazorTools
+@using Models.Identity
+@using Models.Config
+@using Microsoft.AspNetCore.SignalR.Client;
+
+@inject ISimulationApi SimulationApi
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<aside class="@(IsMenuOpen?"open":"")">
+    <nav>
+        <h3 class="title">@Simulation.Title</h3>
+        <ul>
+            <li>
+                <a href="/">
+                    <span>@localizer[LocalizationKeys.MainPage]</span>
+                </a>
+            </li>
+            <li>
+                <a><i class="fa fa-stopwatch"></i> Step: @Simulation.SimulationFeilds.OutputVals.Step</a>
+            </li>
+            <li>
+                <a><i class="fa fa-hourglass"></i> Status : @(Simulation.SimulationFeilds.InputValues.status == 1 ? "running" : (Simulation.SimulationFeilds.InputValues.status == 3 ? "Stoped" : "Paused"))</a>
+            </li>
+            @if (Simulation.SimulationFeilds.InputValues.status == 1)
+            {
+                <li>
+
+                    <a @onclick="()=>PauseSim(Simulation)" >
+                        <i class="fa fa-pause"></i>Pause
+                    </a>
+                </li>
+                <li>
+
+                    <a @onclick="()=>Stop(Simulation)" >
+                        <i class="fa fa-stop"></i>Stop
+                    </a>
+                </li>
+            }
+        </ul>
+        @*
+        <MudTreeView Items="NavMenuItems">
+        <ItemTemplate>
+        <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Items">
+        <Content>
+        <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="@context.HasChild" />
+        <a href="@context.Link">
+        @if (context.HasIcon)
+        {
+        <i><MudIcon Icon="@Icons.Material.Filled.SupervisorAccount"></MudIcon></i>
+        }
+        <span>@context.Title</span>
+        </a>
+        </Content>
+        </MudTreeViewItem>
+        </ItemTemplate>
+        </MudTreeView>
+        <button class="btn btn-primary btn-block" @onclick="@(()=>NavigationManager.NavigateTo($"/Simulator_1?configId={ConfigId}"))">
+        Start Simulation
+        </button>*@
+    </nav>
+</aside>
+<div class="dashboard-main layout-fixedmenu @(IsMenuOpen?"menu-open":"")">
+    <header class="top-header fixed">
+        <div class="top-header-left">
+            <a class="menu itm" @onclick="ToggleMenu"><i class="fa fa-bars"></i></a>
+
+            <div class="info itm">
+                <span> Sim speed: 250 </span>
+                <span> Sim time: 02:50 </span>
+            </div>
+
+
+
+            <ul class="menu-links">
+                <li><a href="/main?simulationId=@(SimulationId)">Main</a></li>
+                <li><a href="/BopPanel?simulationId=@(SimulationId)">Bop Panel</a></li>
+                <li><a href="/ChockPanel?simulationId=@(SimulationId)">Chock Panel</a></li>
+                <li><a href="/StandPipe?simulationId=@(SimulationId)">Stand pipe </a></li>
+                <li><a href="/TanksLineup?simulationId=@(SimulationId)">Tanks line-up</a></li>
+                <li><a href="/ChokeMonifold?simulationId=@(SimulationId)">Choke Monifold</a></li>
+                @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))
+                {
+                    <li><a href="/SimulationUsers?simulationId=@(SimulationId)">Users</a></li>
+                }
+            </ul>
+        </div>
+        <div class="top-header-right">
+            <div class="itm lang">
+                <CultureDropDown />
+            </div>
+            <div class="itm logo">
+                <img src="./assets/img/logo.png" />
+            </div>
+        </div>
+    </header>
+    <main @onclick="HideMenu" class="dashboard-body">
+        <div class="main-body">
+            <CascadingValue Value=ToggleMenu >
+                @Body
+            </CascadingValue>
+        </div>
+    </main>
+</div>
+@code {
+    public MudTheme _theme = new MudTheme();
+    public string ConfigId { set; get; }
+    public string SimulationId { set; get; }
+    public class NavMenuItem
+    {
+        public bool IsExpanded { get; set; }
+
+        public string Title { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Link { get; set; }
+
+        public HashSet<NavMenuItem> Items { get; set; }
+
+        public bool HasChild => Items != null && Items.Count > 0;
+        public bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
+    }
+    public HashSet<NavMenuItem> Items { get; set; }
+    public HashSet<NavMenuItem> NavMenuItems = new HashSet<NavMenuItem>();
+    protected SimulationModel Simulation { set; get; } = new();
+
+    protected async Task PauseSim(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to pause this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await SimulationApi.Pause(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = false;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not pause This Simulation!", icon: SweetAlertIcon.Error);
+        NavigationManager.NavigateTo("/");
+
+    }
+    protected async Task Stop(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to Stop this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await SimulationApi.Pause(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = false;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not Stop This Simulation!", icon: SweetAlertIcon.Error);
+        NavigationManager.NavigateTo("/");
+
+    }
+    private HubConnection? hubConnection;
+
+    protected override async void OnInitialized()
+    {
+        //_theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
+        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationID");
+        Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        #region usless Nav
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = localizer[LocalizationKeys.MainPage],
+                Link = "/",
+                Icon = Icons.Material.Filled.Dashboard,
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Rig",
+                Link = "",
+                Items = new HashSet<NavMenuItem>
+                {
+                    new NavMenuItem{
+                        Title = "Pumps",
+                        Link = $"/SaveConfig_1?Id={ConfigId}",
+                    },
+                    new NavMenuItem
+                    {
+                        Title="BOP Stack",
+                        Link=$"/SaveConfig_2?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="BOP control System",
+                        Link=$"/SaveConfig_3?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="Choke manifold",
+                        Link=$"/SaveConfig_4?Id={ConfigId}"
+                    },
+                     new NavMenuItem
+                    {
+                        Title="Top Drive and Rotary Table",
+                        Link=$"/SaveConfig_5?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title="String Traveling settings",
+                        Link=$"/SaveConfig_6?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title = "Active Tank",
+                        Link = $"/SaveConfig_7?Id={ConfigId}"
+                    },
+                    new NavMenuItem
+                    {
+                        Title = "Power of equipment",
+                        Link = $"/SaveConfig_8?Id={ConfigId}"
+                    }
+                    }
+            });
+
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Holes Settings",
+                Link = $"/SaveConfig_10?Id={ConfigId}"
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Formation data",
+                Link = $"/SaveConfig_15?Id={ConfigId}",
+                Items = new HashSet<NavMenuItem>
+
+    {
+    new NavMenuItem
+    {
+    Title="Leak-off Test",
+    Link = $"/SaveConfig_16?Id={ConfigId}",
+    },
+    new NavMenuItem
+    {
+    Title="Last Zone Data",
+    Link = $"/SaveConfig_17?Id={ConfigId}",
+    },
+    new NavMenuItem
+    {
+    Title="Reservoir Data",
+    Link = $"/SaveConfig_18?Id={ConfigId}",
+    }
+    }
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "Mud system",
+                Link = $"/SaveConfig_19?Id={ConfigId}"
+            });
+        NavMenuItems.Add(new NavMenuItem
+            {
+                Title = "string components",
+                Link = $"/SaveConfig_20?Id={ConfigId}"
+            });
+            #endregion
+
+        hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
+
+        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
+        {
+            Console.WriteLine("Update-Outputs");
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+            StateHasChanged();
+        });
+        await hubConnection.StartAsync();
+        NavigationManager.LocationChanged += LocationChanged;
+        await CheckLogin();
+        base.OnInitialized();
+
+    }
+    bool IsMenuOpen { set; get; } = false;
+    protected void ToggleMenu()
+    {
+        Console.WriteLine("Toggle MENU Applyed");
+        IsMenuOpen = !IsMenuOpen;
+        StateHasChanged();
+    }
+    protected void HideMenu()
+    {
+        IsMenuOpen = false;
+        StateHasChanged();
+    }
+
+    
+    // EventCallback ToggleMenuCallback => EventCallback.Factory.Create(this, ToggleMenu);
+
+
+    async void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        IsMenuOpen = false;
+        await CheckLogin();
+        StateHasChanged();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            await CheckLogin();
+        base.OnAfterRender(firstRender);
+    }
+
+    async Task CheckLogin()
+    {
+        Console.WriteLine("" + Statics.LastCheck);
+        if (Statics.LastCheck.HasValue && DateTime.Now.Subtract(Statics.LastCheck.Value).TotalMinutes < 5)
+        {
+            Console.WriteLine("less than 5 minutes login check");
+            base.OnInitialized();
+            return;
+        }
+        Console.WriteLine("checking login...");
+        Statics.LastCheck = DateTime.Now;
+        var hasToken = await LocalStorage.ContainKeyAsync(AbrBlazorTools.Statics.LoginTokenKey);
+        if (!hasToken)
+            NavigationManager.NavigateTo("/login");
+        else
+        {
+            var token = await LocalStorage.GetItemAsStringAsync(Statics.LoginTokenKey);
+            var res = await HttpClientWithToken.HttpGet("/api/Auth/CheckLogin");
+            var result =
+            JsonConvert.DeserializeObject<CheckLoginResponse>
+                (
+                await res.Content.ReadAsStringAsync());
+            if (res.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var refreshRes = await HttpClientWithToken.HttpPost("/api/Auth/refresh", new RefreshTokenModel
+                    {
+                        Token = token
+                    });
+                if (refreshRes.IsSuccessStatusCode)
+                {
+                    var newToken = JsonConvert.DeserializeObject<PlainToken>
+                        (await refreshRes.Content.ReadAsStringAsync());
+                    Statics.LoginTokenKey = newToken.AccessToken;
+                    Statics.RefreshTokenKey = newToken.RefreshToken;
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.LoginTokenKey, Statics.LoginTokenKey);
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.RefreshTokenKey, Statics.RefreshTokenKey);
+                }
+            }
+            if (!res.IsSuccessStatusCode)
+            {
+                await LoadingSpinner.HideLoading();
+                await Swal.ShowSwal(title: "", message: localizer[LocalizationKeys.InvalidCredential], SweetAlertIcon.Error);
+                NavigationManager.NavigateTo("/login");
+            }
+            await LoadingSpinner.HideLoading();
+            Statics.CurrentLoginInfo = result;
+            StateHasChanged();
+        }
+    }
+
+    private async void SignOut()
+    {
+        await LocalStorage.RemoveItemAsync(Statics.LoginTokenKey);
+        await LocalStorage.RemoveItemAsync(Statics.RefreshTokenKey);
+        NavigationManager.NavigateTo("/login");
+    }
+}

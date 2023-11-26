@@ -1,0 +1,27 @@
+﻿<button @onclick="Callback" class="btn btn-borderd btn-white"><i class="fa fa-language"></i></button>
+<MudDialog @bind-IsVisible="ShowLanguageDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Language" Class="mr-3" />
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        Select Language:<br/>
+        <select class="form-control culture-selector m-1" @bind="Culture">
+            @foreach (var culture in cultures)
+            {
+                <option value="@culture">@culture.DisplayName</option>
+            }
+        </select>
+    </DialogContent>
+
+</MudDialog>
+@code
+{
+    protected bool ShowLanguageDialog { set; get; } = false;
+    private void Callback()
+    {
+        ShowLanguageDialog = true;
+        StateHasChanged();
+    }
+}

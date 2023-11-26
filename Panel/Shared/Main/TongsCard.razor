@@ -1,0 +1,73 @@
+@using System.Linq.Expressions
+@inject IThreeJsClient ThreeJs
+<div class="buttons">
+    <h3>Tongs</h3>
+    <div class="button" @onclick="() =>LatchSwivelToPipe()">
+        <span class="light"></span>
+        <span class="text"> Latch</span>
+    </div>
+    <div class="button" @onclick="() => UnlatchSwivelFromPipe()">
+        <span class="light"></span>
+        <span class="text">Unlatch</span>
+    </div>
+</div>
+
+@code {
+
+
+
+
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<bool> MakeUpStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<bool>> MakeUpStateExpression { get; set; }
+    public bool _MakeUpState = false;
+    [Parameter]
+    public bool MakeUpState
+    {
+        get => _MakeUpState;
+        set
+        {
+            if (_MakeUpState == value) return;
+            _MakeUpState = value;
+            if (_MakeUpState)
+                ThreeJs.TongOpen();
+            MakeUpStateChanged.InvokeAsync(_MakeUpState);
+            var fieldIdentifier = FieldIdentifier.Create(MakeUpStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<bool> BreakOutStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<bool>> BreakOutStateExpression { get; set; }
+    public bool _BreakOutState = false;
+    [Parameter]
+    public bool BreakOutState
+    {
+        get => _BreakOutState;
+        set
+        {
+            if (_BreakOutState == value) return;
+            _BreakOutState = value;
+            if (_BreakOutState)
+                ThreeJs.TongClose();
+            BreakOutStateChanged.InvokeAsync(_BreakOutState);
+            var fieldIdentifier = FieldIdentifier.Create(BreakOutStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    protected async Task LatchSwivelToPipe()
+    {
+        MakeUpState = _BreakOutState = !MakeUpState;
+        await ThreeJs.TongClose();
+    }
+    protected async Task UnlatchSwivelFromPipe()
+    {
+        BreakOutState = _MakeUpState = !BreakOutState;
+        await ThreeJs.TongOpen();
+    }
+}

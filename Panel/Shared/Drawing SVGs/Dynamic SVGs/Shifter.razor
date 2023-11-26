@@ -1,0 +1,299 @@
+﻿@using MudBlazor.Interop
+@inject IJSRuntime JS
+@inherits Panel16.Pages.Components.RangedComponent
+
+
+<svg
+    @onmousemove="args => onmousemove(args)" @onmouseout="mouseout"
+    viewBox="0 0 103 236"
+    version="1.1"
+    id="@lever_id"
+    sodipodi:docname="DrawWorks.svg"
+    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg">
+<sodipodi:namedview
+    id="namedview7"
+    pagecolor="#ffffff"
+    bordercolor="#000000"
+    borderopacity="0.25"
+    inkscape:showpageshadow="2"
+    inkscape:pageopacity="0.0"
+    inkscape:pagecheckerboard="0"
+    inkscape:deskcolor="#d1d1d1"
+    inkscape:document-units="mm"
+    showgrid="false"
+    showguides="true"
+    inkscape:zoom="0.25323113"
+    inkscape:cx="-529.16085"
+    inkscape:cy="29.617212"
+    inkscape:window-width="1920"
+    inkscape:window-height="991"
+    inkscape:window-x="-9"
+    inkscape:window-y="-9"
+    inkscape:window-maximized="1"
+    inkscape:current-layer="g9094"/>
+<defs
+    id="defs2">
+    <inkscape:path-effect
+        effect="bspline"
+        id="path-effect2942"
+        is_visible="true"
+        lpeversion="1"
+        weight="33.333333"
+        steps="2"
+        helper_size="0"
+        apply_no_weight="true"
+        apply_with_weight="true"
+        only_selected="false"/>
+</defs>
+<g
+    inkscape:label="Layer 1"
+    inkscape:groupmode="layer"
+    id="layer1">
+    <rect
+        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.228577;stroke-linecap:round"
+        id="rect184"
+        width="24.664228"
+        height="169.35843"
+        x="14.252746"
+        y="33.331669"
+        rx="6"
+        ry="6"/>
+    <g
+        id="g8886"
+        transform="matrix(0.89088823,0,0,1.4322557,-14.696628,6.7460844)">
+        <path
+            sodipodi:type="star"
+            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.265999;stroke-linecap:round"
+            id="path7358"
+            inkscape:flatsided="true"
+            sodipodi:sides="3"
+            sodipodi:cx="117.47015"
+            sodipodi:cy="33.615673"
+            sodipodi:r1="24.972296"
+            sodipodi:r2="12.486148"
+            sodipodi:arg1="0.52359878"
+            sodipodi:arg2="1.5707963"
+            inkscape:rounded="0"
+            inkscape:randomized="0"
+            d="m 139.0968,46.101821 -43.253289,0 21.626639,-37.4584437 z"
+            inkscape:transform-center-x="1.6872096e-06"
+            inkscape:transform-center-y="-1.6595517"
+            transform="matrix(0.39668781,0,0,0.26582269,0.03815189,18.166037)"/>
+        <rect
+            style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.635805;stroke-linecap:round"
+            id="rect8870"
+            width="9.1564054"
+            height="91.143272"
+            x="42.058929"
+            y="29.986809"/>
+        <path
+            sodipodi:type="star"
+            style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.265999;stroke-linecap:round"
+            id="path9666"
+            inkscape:flatsided="true"
+            sodipodi:sides="3"
+            sodipodi:cx="117.47015"
+            sodipodi:cy="33.615673"
+            sodipodi:r1="24.972296"
+            sodipodi:r2="12.486148"
+            sodipodi:arg1="0.52359878"
+            sodipodi:arg2="1.5707963"
+            inkscape:rounded="0"
+            inkscape:randomized="0"
+            d="m 139.0968,46.101821 -43.253289,0 21.626639,-37.4584437 z"
+            inkscape:transform-center-y="1.6595492"
+            transform="matrix(-0.39668781,0,0,-0.26582269,93.622894,133.33597)"/>
+    </g>
+    <g
+        id="g9094">
+        <rect
+            style="fill:#999999;fill-opacity:0;stroke:#8a8a8a;stroke-width:1.03156;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+            id="rect9541"
+            width="96.724007"
+            height="182.78542"
+            x="2.8086607"
+            y="27.350546"
+            rx="5.4712582"
+            ry="8.3866625"/>
+        <rect @onmousedown="e => mousedoen(e)" @onmouseup="e => mouseup(e)"
+              style="fill:#919191;fill-opacity:1;stroke:#000000;stroke-width:0.466;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+              id="lever_handel"
+              width="23.508661"
+              height="5.7465615"
+              x="60.968182"
+              y="@y"
+              rx="1"
+              ry="1"/>
+
+        <path
+            style="fill:#000000;stroke:#919191;stroke-width:1.9029;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+            d="M 72.722515,38.401324 V 198.14963"
+            id="@path_id"/>
+        <g
+            id="roller"
+            transform="matrix(1.3576218,0,0,1.1979446,-95.17543,-4.4721604)">
+            <rect
+                style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.265999;stroke-linecap:round"
+                id="rect9000"
+                width="22.164179"
+                height="11.238358"
+                x="80.529846"
+                y="93.978806"
+                transform="matrix(0.81899874,0,0,1,14.576007,1.125e-8)"/>
+            <g
+                id="g9067"
+                transform="translate(0,16.404171)">
+                <rect
+                    style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.265999;stroke-linecap:round"
+                    id="rect9059"
+                    width="7.9883437"
+                    height="5.6191788"
+                    x="80.529846"
+                    y="80.384216"/>
+                <path
+                    style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.823624;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+                    d="m 84.208128,80.384216 -3.994169,-6.035125 v 17.546643 l 3.994169,-5.89234 v -5.619178"
+                    id="path9625"/>
+            </g>
+            <path
+                style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.238054;stroke-linecap:round"
+                d="m 88.365178,96.769119 2.619863,2.809586 -2.673677,2.809595 z"
+                id="path9085"/>
+        </g>
+        @if (TopBoxText != "")
+        {
+            <g
+                id="top_textbox"
+                transform="matrix(1.3576218,0,0,1.1979446,-95.17543,0.29034022)">
+                <rect
+                    style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.205519;stroke-linecap:round"
+                    id="rect9308"
+                    width="73.910538"
+                    height="17.239685"
+                    x="71.032875"
+                    y="1.9380975"/>
+                <text
+                    xml:space="preserve"
+                    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.3712px;font-family:Arial;-inkscape-font-specification:'Arial Bold';direction:rtl;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.231583;stroke-linecap:round"
+                    x="145.03641"
+                    y="11.054486"
+                    id="text9424"
+                    transform="scale(0.87061404,1.1486146)">
+                    <tspan
+                        sodipodi:role="line"
+                        id="tspan9422"
+                        style="font-size:7.3712px;stroke-width:0.231583"
+                        x="145.03641"
+                        y="11.054486">
+                        @TopBoxText
+                    </tspan>
+                </text>
+            </g>
+        }
+        @if (ButtomBoxText != "")
+        {
+            <g
+                id="down_textbox"
+                transform="matrix(1.3576218,0,0,1.1979446,-95.341919,210.96496)">
+                <rect
+                    style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.205519;stroke-linecap:round"
+                    id="rect9481"
+                    width="73.910538"
+                    height="17.239685"
+                    x="71.032875"
+                    y="1.9380975"/>
+                <text
+                    xml:space="preserve"
+                    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.3712px;font-family:Arial;-inkscape-font-specification:'Arial Bold';direction:rtl;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.231583;stroke-linecap:round"
+                    x="145.03641"
+                    y="11.054486"
+                    id="text9485"
+                    transform="scale(0.87061404,1.1486146)">
+                    <tspan
+                        sodipodi:role="line"
+                        id="tspan9483"
+                        style="font-size:7.3712px;stroke-width:0.231583"
+                        x="145.03641"
+                        y="11.054486">
+                        @ButtomBoxText
+                    </tspan>
+                </text>
+            </g>
+        }
+        <text
+            xml:space="preserve"
+            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.46667px;font-family:Arial;-inkscape-font-specification:'Arial Bold';direction:rtl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.066;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+            x="22.773178"
+            y="54.853542"
+            id="text9726">
+            <tspan
+                sodipodi:role="line"
+                id="tspan9724"
+                style="stroke-width:1.066"
+                x="22.773178"
+                y="54.853542"/>
+        </text>
+    </g>
+</g>
+</svg>
+
+<style> 
+    #lever_handel{ 
+        cursor: pointer; 
+    } 
+ </style>
+
+
+@code {
+
+    [Parameter]
+    public string TopBoxText { set; get; } = "";
+
+    [Parameter]
+    public string ButtomBoxText { get; set; } = "";
+    
+
+    bool handler_on_hold = false;
+    string path_id = Guid.NewGuid().ToString("N");
+    string lever_id = Guid.NewGuid().ToString("N");
+
+
+    double start_range = 37;
+    double end_range = 195;
+    public double y => start_range + (end_range - start_range) * Value;
+
+    private async Task onmousemove(MouseEventArgs args)
+    {
+        if (handler_on_hold)
+        {
+            var result = await JS.InvokeAsync<BoundingClientRect>("methods.GetRect", path_id);
+
+            Value = Math.Min(Math.Max(args.ClientY - result.Y, 0), result.Height) / result.Height;
+            //ValueChanged?.InvokeAsync();
+            //OnValueSet?.Invoke(Value);
+        }
+    }
+
+    private void mouseup(MouseEventArgs mouseEventArgs)
+    {
+        handler_on_hold = false;
+    }
+
+    private void mousedoen(MouseEventArgs mouseEventArgs)
+    {
+        handler_on_hold = true;
+    }
+
+    private async Task mouseout(MouseEventArgs args)
+    {
+        var layer_1_bounds = await JS.InvokeAsync<BoundingClientRect>("methods.GetRect", lever_id);
+        if (args.ClientY < layer_1_bounds.Top || args.ClientY > layer_1_bounds.Bottom ||
+            args.ClientX > layer_1_bounds.Right || args.ClientX < layer_1_bounds.Left)
+        {
+            handler_on_hold = false;
+        }
+    }
+
+}

@@ -1,0 +1,135 @@
+﻿@page "/SaveConfig_8"
+@using Models.Config
+@using Panel16.Pages.Components
+@using Models.Config
+@using Panel16.Pages.Components
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                Power of Equipment
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Number Of Generators
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="input-group">
+                                <input class="form-control" @bind="ConfigDetails.GenratorsConfig.NumberOfGenerators" type="numeric"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Generator Power Rating
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.GeneratorPowerRating" unitCat="Enums.UnitCategory.ApparentPower" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Mud Pump 1
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.MudPump1" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Mud Pump 2
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.MudPump2" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Cement Pump
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.CementPump" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        RotaryTable
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.RotaryTable" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Pedal Flow Meter
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.Drawworks" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Top Drive
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.GenratorsConfig.TopDrive" unitCat="Enums.UnitCategory.Power" units="ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="/assets/img/CascadingAndLineBreak.jpg" class="w-100" />
+            </div>
+        </div>
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Generators";
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_10?Id={ConfigId}");
+    }
+}

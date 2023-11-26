@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    background-image: linear-gradient(to right,#001524,#11394699,#22668D33,#64CCC533),url('/assets/img/background.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.wrapper{
+    width: 500px;
+    height: auto;
+    position: relative;
+    margin-left: 5rem;
+}
+
+.login-form{
+    width: 100%;
+    height: 100%;
+    padding-bottom: 3rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+    background-color: rgba(235, 217, 243, 0.4);
+    backdrop-filter: blur(6px);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+}
+
+.nidc-logo{
+    width: 300px;
+    align-self: center;
+}
+
+.drill-svg{
+    position: absolute;
+    width: 250px;
+    bottom: -8rem;
+    right: -6rem;
+}
+
+.login-form label{
+    text-align: right;
+    font-family: sans-serif;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.login-form input[type=text],
+.login-form input[type=password]{
+    margin-bottom: 1rem;
+    background-color: rgba(237, 236, 251, 0.651);
+    border: none;
+    padding: 0.5rem;
+    width: 100%;
+    border-bottom: 1px solid rgb(14, 1, 29);
+    border-radius: 0.25rem;
+}
+
+.button-login{
+    padding: 10px 30px;
+    border-radius: 0.25rem;
+    border: none;
+    margin-top: 2rem;
+    background-color: rgb(73, 28, 128);
+    color: white;
+    align-self: center ;
+}
+
+.info-link{
+    text-decoration: none;
+    color: #001524;
+    font-weight: 600;
+}
+
+@media (max-width: 650px ){
+    .wrapper{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 10px 20px;
+    }
+    .login-form{
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}

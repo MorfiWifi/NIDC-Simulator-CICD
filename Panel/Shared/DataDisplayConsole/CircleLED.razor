@@ -1,0 +1,40 @@
+<span class="AcidGasDetectionLED"/>
+@if (Discription != "")
+{
+    <div class="discription">
+        @Discription
+    </div>
+}
+<style>
+    .AcidGasDetectionLED{
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    border: solid brown 2px;
+    background-color:@(LEDColor==Color.Red?"red":"green");
+    border-radius: 100% 100%;
+    }
+    .discription{
+    background-color: grey;
+    color: white;
+    width: fit-content;
+    font-size: small;
+    text-align: center;
+    padding: 3px 3px;
+    }
+</style>
+@code{
+
+    public enum Color
+    {
+        Red,
+        Green
+    }
+
+    [Parameter]
+    public string Discription { get; set; } = "";
+
+    [Parameter]
+    public Color LEDColor { get; set; }
+    
+}

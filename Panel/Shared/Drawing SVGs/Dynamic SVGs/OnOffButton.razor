@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   viewBox="0 0 40.344986 12.977371"
+   version="1.1"
+   id="svg5"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+                                            id="defs2" /><g
+                                                           style="cursor: pointer;"
+                                                           @onclick="@ToggleKey"
+     id="layer1"
+     transform="translate(-233.97825,-143.74477)"><g
+       id="Pump_And_Reset_Buttons_Group"><g
+         id="g24834"><rect
+           style="fill:#f9f9f9;fill-opacity:1;stroke:#b3b3b3;stroke-width:1.4433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="key"
+           width="38.90168"
+           height="11.534069"
+           x="234.69991"
+           y="144.46642"
+           rx="3.1960001"
+           ry="3.1960001" /><text
+           xml:space="preserve"
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           x="259.26849"
+           y="151.77135"
+           id="text21498"><tspan
+             id="tspan21496"
+             style="font-size:5.64444px;stroke-width:1.9"
+             x="259.26849"
+             y="151.77135">@Text</tspan></text></g><rect
+         style="@(state?LightOn:LightOff)"
+         id="light_box"
+         width="6.5438242"
+         height="11.534068"
+         x="239.51335"
+         y="144.46642" /></g></g></svg>
+@code {
+  protected override void OnInitialized()
+  {
+    if (state)
+    {
+      
+    }
+    base.OnInitialized();
+  }
+
+  protected string LightOn = "fill:#2aff2a;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+  protected string LightOff = "fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public bool state { get; set; } = false;
+
+  private void ToggleKey()
+  {
+    state = !state;
+    StateHasChanged();
+  }
+}

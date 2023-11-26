@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddAssetsPage" xml:space="preserve">
+    <value>Assets</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="Admins" xml:space="preserve">
+    <value>Admins</value>
+  </data>
+  <data name="AssetsPage" xml:space="preserve">
+    <value>Asset</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Button_AddHub" xml:space="preserve">
+    <value>Create new hub</value>
+  </data>
+  <data name="Button_AddSensor" xml:space="preserve">
+    <value>Create new Sensor</value>
+  </data>
+  <data name="Button_Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="Button_LoadMore" xml:space="preserve">
+    <value>Load more...</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="CanNotInviteUser" xml:space="preserve">
+    <value>You can not Invite this User</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="ConvertToAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="ConvertToAssessor" xml:space="preserve">
+    <value>Assessor</value>
+  </data>
+  <data name="ConvertToCoordinator" xml:space="preserve">
+    <value>Coordinator</value>
+  </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="CriticalAssetsPage" xml:space="preserve">
+    <value>CriticalAssets</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DetailsButton" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EnterAUserToInvite" xml:space="preserve">
+    <value>Enter Mobile number to search</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="HubsPageTitle" xml:space="preserve">
+    <value>Hubs</value>
+  </data>
+  <data name="InvalidCredential" xml:space="preserve">
+    <value>Username or password is incorrect</value>
+  </data>
+  <data name="Invite" xml:space="preserve">
+    <value>Invite users </value>
+  </data>
+  <data name="InviteSuccessful" xml:space="preserve">
+    <value>User Added To Your Company</value>
+  </data>
+  <data name="IsPublic" xml:space="preserve">
+    <value>Public Acces</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="MainPage" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="MassagesPage" xml:space="preserve">
+    <value>Massages</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="MyInvitedUsers" xml:space="preserve">
+    <value>My Invited Users</value>
+  </data>
+  <data name="Organizations" xml:space="preserve">
+    <value>Organizations</value>
+  </data>
+  <data name="OrganizationUrl" xml:space="preserve">
+    <value>Organization Url</value>
+  </data>
+  <data name="RemoveAdminRole" xml:space="preserve">
+    <value>Remove Admin Role</value>
+  </data>
+  <data name="RemoveAssessorRole" xml:space="preserve">
+    <value>Remove Assessor Role</value>
+  </data>
+  <data name="RemoveCoordinatorRole" xml:space="preserve">
+    <value>Remove Coordinator Role</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="SaveAndContinue" xml:space="preserve">
+    <value>Save &amp; Continue</value>
+  </data>
+  <data name="SaveHubPage" xml:space="preserve">
+    <value>Save Hub Data</value>
+  </data>
+  <data name="SaveOrganization" xml:space="preserve">
+    <value>Save Organization</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SensorsPage" xml:space="preserve">
+    <value>Sensors</value>
+  </data>
+  <data name="SensorsPageTitle" xml:space="preserve">
+    <value>Sensors</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Sign up</value>
+  </data>
+  <data name="SuccessfulOtpMessage" xml:space="preserve">
+    <value>Verification Code sent to your mobile phone</value>
+  </data>
+  <data name="Text_AssignNewHub" xml:space="preserve">
+    <value>Assign new Hub</value>
+  </data>
+  <data name="Text_AssignNewSensor" xml:space="preserve">
+    <value>Assign new Sensor</value>
+  </data>
+  <data name="Text_CopyToast" xml:space="preserve">
+    <value>copied.</value>
+  </data>
+  <data name="Text_CpuTemperature" xml:space="preserve">
+    <value>CPU Temperature</value>
+  </data>
+  <data name="Text_Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Text_DeleteConfirm" xml:space="preserve">
+    <value>Are you sure to delete this item?</value>
+  </data>
+  <data name="Text_EditHub" xml:space="preserve">
+    <value>Edit Hub</value>
+  </data>
+  <data name="Text_EditSensor" xml:space="preserve">
+    <value>Edit Sensor</value>
+  </data>
+  <data name="Text_ElectricityCurrent" xml:space="preserve">
+    <value>Electricity Current(Amper)</value>
+  </data>
+  <data name="Text_Hub" xml:space="preserve">
+    <value>Hub</value>
+  </data>
+  <data name="Text_HubSuccessfulSaveMessage" xml:space="preserve">
+    <value>The hub data saved.</value>
+  </data>
+  <data name="Text_IsNotAssignable" xml:space="preserve">
+    <value>Can not be assigned to you.</value>
+  </data>
+  <data name="Text_LastSeen" xml:space="preserve">
+    <value>Last seen time</value>
+  </data>
+  <data name="Text_LightLevel" xml:space="preserve">
+    <value>Light Level</value>
+  </data>
+  <data name="Text_lux" xml:space="preserve">
+    <value>Light(LUX)</value>
+  </data>
+  <data name="Text_MaxElectricityWarning" xml:space="preserve">
+    <value>Waringng on greater electricity current</value>
+  </data>
+  <data name="Text_MaxTempratureWarning" xml:space="preserve">
+    <value>Waringng on less electricity temperature</value>
+  </data>
+  <data name="Text_MinElectricityWarning" xml:space="preserve">
+    <value>Waringng on less electricity current</value>
+  </data>
+  <data name="Text_MinTemperatureWarning" xml:space="preserve">
+    <value>Waringng on greater electricity temperature</value>
+  </data>
+  <data name="Text_MyHubs" xml:space="preserve">
+    <value>My Hubs</value>
+  </data>
+  <data name="Text_MySensors" xml:space="preserve">
+    <value>My Sensors</value>
+  </data>
+  <data name="Text_NeverSent" xml:space="preserve">
+    <value>No Data</value>
+  </data>
+  <data name="Text_Night" xml:space="preserve">
+    <value>Night</value>
+  </data>
+  <data name="Text_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Text_PublicKeyTitle" xml:space="preserve">
+    <value>Public Key</value>
+  </data>
+  <data name="Text_Q1Average" xml:space="preserve">
+    <value>Q1 Average</value>
+  </data>
+  <data name="Text_Q2Average" xml:space="preserve">
+    <value>Q2 Average</value>
+  </data>
+  <data name="Text_Q3Average" xml:space="preserve">
+    <value>Q3 Average</value>
+  </data>
+  <data name="Text_Q4Average" xml:space="preserve">
+    <value>Q4 Average</value>
+  </data>
+  <data name="Text_SavePage" xml:space="preserve">
+    <value>Save Data</value>
+  </data>
+  <data name="Text_SecretKeyLabel" xml:space="preserve">
+    <value>Secret Key</value>
+  </data>
+  <data name="Text_Sensor" xml:space="preserve">
+    <value>Sensor</value>
+  </data>
+  <data name="Text_SentData" xml:space="preserve">
+    <value>Last Sent data</value>
+  </data>
+  <data name="Text_SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Text_SuccessfulDeleteMessage" xml:space="preserve">
+    <value>Item deleted successfully.</value>
+  </data>
+  <data name="Text_SuccessfulSaveMessage" xml:space="preserve">
+    <value>The Item data saved</value>
+  </data>
+  <data name="Text_Temperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="Text_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Text_TotalAverage" xml:space="preserve">
+    <value>Total Average</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>An unexpected error has occured</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="VerifyTitle" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="NumConfigs" xml:space="preserve">
+    <value>Number Of Configs</value>
+  </data>
+  <data name="LenSimulate" xml:space="preserve">
+    <value>Length of simulation</value>
+  </data>
+  <data name="DeActive" xml:space="preserve">
+    <value>DeActive</value>
+  </data>
+  <data name="ItemDeletingWrning" xml:space="preserve">
+    <value>Are you sure to Delete this item? It is not restorable!</value>
+  </data>
+  <data name="ConfigsCount" xml:space="preserve">
+    <value>Configs Count</value>
+  </data>
+  <data name="SimulationLength" xml:space="preserve">
+    <value>Simulation Length</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="ItemCopyingConfirm" xml:space="preserve">
+    <value>Are you sure to duplicte this item?</value>
+  </data>
+  <data name="AssignRole" xml:space="preserve">
+    <value>Assign role</value>
+  </data>
+  <data name="HasAccess" xml:space="preserve">
+    <value>Has acces?</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Set</value>
+  </data>
+</root>

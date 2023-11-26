@@ -1,0 +1,459 @@
+﻿@page "/"
+@using Models.Config
+@using Models.Identity
+@using Panel16.Pages.Developer
+@using Models.BaseData
+
+@inject IFolderApi _folderApi
+@inject IConfigApi _configApi
+@inject IOrganizationApi _OrganizationApi
+@inject IUserApi _UserApi
+@inject ISimulationApi _simulationApi;
+
+<div class="container">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Dashboard
+        </span>
+        <span class="d-inline-flex justify-content-end">
+            <MudFab Label="Create Folder" @onclick="AddNewFolder" DisableElevation="true" />
+            <MudFab Label="Create Config" @onclick="ShowAddConfigDialog" DisableElevation="true" />
+        </span>
+    </h1>
+    <div class="folder-cards">
+        @foreach (var folder in Folders)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fa fa-folder"></i>
+                        @folder.Title
+                    </h5>
+                    <div class="card-action">
+                        <a @onclick="()=>ShowFolderDialog(folder)" class="btn">
+
+                            <i class="fa fa-pen"></i>
+                        </a>
+                        <a @onclick="()=>ShowConfigs(folder)" class="btn">
+
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <MudDialog @bind-IsVisible="FolderConfigsDialogShown">
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Folder" Class="mr-2" />
+                @SelectedFolder.Title
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            @foreach (var c in ConfigsToShow)
+            {
+                <div class="folder__item">
+                    <div class="name" @onclick="()=>GotoConfig(c.Id.Value)">
+                        @c.Title
+                    </div>
+                    <div class="cta">
+                        @if (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper)
+                        {
+                            <button class="btn ml-1 btn-info" @onclick="()=>ShowUsersDialogue(c.Id.Value)">
+                                <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle"></MudIcon>
+                            </button>
+                        }
+                        <button class="btn ml-1 btn-info" @onclick="()=>CopyConfig(c.Id.Value)">
+                            <MudIcon Icon="@Icons.Material.Filled.FileCopy"></MudIcon>
+                        </button>
+                        <button class="btn ml-1 btn-danger" @onclick="()=>DeleteConfig(c.Id.Value)">
+                            <MudIcon Icon="@Icons.Material.Filled.Delete"></MudIcon>
+                        </button>
+                    </div>
+                </div>
+            }
+        </DialogContent>
+        <DialogActions>
+
+        </DialogActions>
+    </MudDialog>
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Simulations
+        </span>
+
+    </h1>
+    <div class="folder-cards">
+        @foreach (var sim in Simulations)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fa fa-expand"></i>
+                        @sim.Title
+                    </h5>
+                    <div class="card-action">
+
+                        @if (sim.IsRunning)
+                        {
+                            <a @onclick="()=>PauseSim(sim)" class="btn">
+                                <i class="fa fa-pause"></i>
+                            </a>
+                            <a href="/Main?simulationId=@sim.Id" class="btn">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a @onclick="()=>PlaySim(sim)" class="btn">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        }
+                        <a @onclick="()=>DeleteSimulation(sim)" class="btn">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<MudDialog @bind-IsVisible="FolderDetailDialogShown">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Class="mr-3" />
+            @SelectedFolder.Title
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="SelectedFolder.Title" Label="@localizer[LocalizationKeys.Title]"></MudTextField><br />
+        <MudCheckBox T="bool" @bind-Value="SelectedFolder.IsPublic" Label="@localizer[LocalizationKeys.IsPublic]"></MudCheckBox><br />
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="SaveFolder">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Button_Save]
+        </button>
+        @if (SelectedFolder.Id.HasValue && SelectedFolder.Id != Guid.Empty)
+        {
+            <a class="btn btn-danger w-100" @onclick="DeleteFolder">@localizer[LocalizationKeys.Delete]</a>
+        }
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="AddConfigDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-3" />
+            Add Config
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="SelectedConfig.Title" Label="@localizer[LocalizationKeys.Title]"></MudTextField><br />
+        Folder:<br />
+        <MudSelect T="Guid?" @bind-Value="SelectedConfig.FolderId">
+            @foreach (var f in Folders)
+            {
+                <MudSelectItem Value="@f.Id">@f.Title</MudSelectItem>
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="SaveConfig">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Button_Save]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="ConfigUsersDialogShown">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-3" />
+            @SelectedFolder.Title
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @*search bar should be included!*@
+
+        <table class="table table-striped table-bordered border">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        @localizer[LocalizationKeys.Mobile]
+                    </th>
+                    <th>
+                        @localizer[LocalizationKeys.HasAccess]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var index = 0; index < ConfigUserPermissions.Count; index++)
+                {
+                    var i = index;
+                    var acbConfigBundle = ConfigUserPermissions[index];
+                    <tr>
+                        <td>
+                            @($"{acbConfigBundle.account.FirstName} {acbConfigBundle.account.LastName}")
+                        </td>
+                        <td>
+                            @acbConfigBundle.account.Mobile
+                        </td>
+                        <td>
+                            <MudCheckBox T="bool" Checked="acbConfigBundle.IsActive" @onclick="(arg) => setPermission(i)"></MudCheckBox>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-info " @onclick="() => ApplyConfigUserChange()">
+            <span>
+                @localizer[LocalizationKeys.SaveAndContinue]
+            </span>
+            <MudIcon Icon="@Icons.Material.Filled.Check"></MudIcon>
+        </button>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    //git pull request test
+
+    protected List<FolderModel> Folders { set; get; } = new List<FolderModel>();
+    protected FolderModel SelectedFolder { set; get; } = new FolderModel();
+    protected ConfigModel SelectedConfig { set; get; } = new ConfigModel();
+    protected List<ConfigModel> Configs { set; get; } = new List<ConfigModel>();
+    protected List<ConfigModel> ConfigsToShow { set; get; } = new List<ConfigModel>();
+    protected List<SimulationModel> Simulations { set; get; } = new();
+
+
+    protected bool FolderDetailDialogShown { set; get; } = false;
+    protected bool AddConfigDialog { set; get; } = false;
+    protected bool FolderConfigsDialogShown { set; get; } = false;
+
+    protected Orientation SelectedOrganization { set; get; } = new Orientation();
+    protected List<Guid> SelectedAccountIdsForConfig { set; get; } = new();
+    protected List<AccountConfigModel> SelectedAccountConfigModels { set; get; } = new();
+    protected Guid SelectedConfigId { set; get; } = new();
+    protected List<OrganizationModel> Organizations { set; get; } = new();
+    protected List<AccountModel> AccountModels { set; get; } = new();
+    protected List<AccountConfigBundle> ConfigUserPermissions = new();
+
+    protected bool ConfigUsersDialogShown { set; get; } = false;
+    protected bool OrganizationDialogShown { set; get; } = false;
+
+
+    protected MudChip RigType { set; get; }
+    protected MudChip[] RigTemplate { set; get; }
+    protected MudChip[] WellTemplate { set; get; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Statics.OrganizationUrl = UriExtenssions.GetSubDomain(NavigationManager.Uri);
+            await GetFolders();
+            await GetSimulations();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    //protected override async void OnInitialized()
+    //{
+    //    Statics.OrganizationUrl = UriExtenssions.GetSubDomain(NavigationManager.Uri);
+
+    //    await GetFolders();
+    //    base.OnInitialized();
+    //}
+    protected async Task GetFolders()
+    {
+        Folders = await _folderApi.GetAll();
+        await GetConfigs();
+        StateHasChanged();
+    }
+    protected async Task ShowFolderDialog(FolderModel folder)
+    {
+        SelectedFolder = folder;
+        FolderDetailDialogShown = true;
+        StateHasChanged();
+    }
+
+    protected async Task ShowConfigs(FolderModel folder)
+    {
+        ConfigsToShow = Configs.Where(x => x.FolderId == folder.Id).ToList();
+        SelectedFolder = folder;
+        FolderConfigsDialogShown = true;
+        StateHasChanged();
+    }
+    protected async Task DeleteFolder()
+    {
+        var con = await
+            Swal.ShowSwal(title: localizer[LocalizationKeys.Delete], message: localizer[LocalizationKeys.Text_DeleteConfirm], icon: SweetAlertIcon.Question);
+        if (!con.IsConfirmed)
+            return;
+        var res = await _folderApi.Delete(SelectedFolder.Id.Value);
+        if (res.IsSuccessStatusCode)
+            Folders.Remove(SelectedFolder);
+        FolderDetailDialogShown = false;
+        StateHasChanged();
+    }
+    protected async Task AddNewFolder()
+    {
+        SelectedFolder = new FolderModel();
+        FolderDetailDialogShown = true;
+        StateHasChanged();
+    }
+    protected async Task SaveFolder()
+    {
+        var res = await _folderApi.Save(SelectedFolder);
+        FolderDetailDialogShown = false;
+        GetFolders();
+    }
+    protected async Task SaveConfig()
+    {
+        if (!SelectedConfig.FolderId.HasValue || SelectedConfig.FolderId.Value == Guid.Empty)
+            return;
+        var cfg = await _configApi.AddConfig(SelectedConfig);
+        AddConfigDialog = false;
+        NavigationManager.NavigateTo($"/Saveconfig_0?Id={cfg.Id}");
+    }
+    protected async Task ShowAddConfigDialog()
+    {
+        SelectedConfig = new ConfigModel();
+        AddConfigDialog = true;
+        StateHasChanged();
+    }
+    protected async Task GetConfigs()
+    {
+        Configs = await _configApi.GetConfigs();
+        StateHasChanged();
+    }
+    protected async Task DeleteConfig(Guid id)
+    {
+        var confirm = await Swal.ShowSwal("", message: localizer[LocalizationKeys.ItemDeletingWrning], SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await _configApi.DeleteConfig(id);
+        FolderConfigsDialogShown = false;
+        StateHasChanged();
+        FolderConfigsDialogShown = true;
+        await GetConfigs();
+
+    }
+    protected async Task CopyConfig(Guid id)
+    {
+        var confirm = await Swal.ShowSwal("", message: localizer[LocalizationKeys.ItemCopyingConfirm], SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await _configApi.CopyConfig(id);
+        FolderConfigsDialogShown = false;
+        StateHasChanged();
+        FolderConfigsDialogShown = true;
+        await GetConfigs();
+
+    }
+    protected void GotoConfig(Guid id)
+    {
+        NavigationManager.NavigateTo($"/Saveconfig_0?Id={id}");
+    }
+
+
+
+    protected async Task ShowUsersDialogue(Guid configId)
+    {
+        ConfigUsersDialogShown = true;
+        AccountModels = await _UserApi.GetAllByOrganizationUrl(Statics.OrganizationUrl);
+        SelectedAccountConfigModels = await _configApi.GetAccountConfigs(configId);
+
+        ConfigUserPermissions = AccountModels.Select(x => new AccountConfigBundle
+            {
+                account = x,
+                IsActive = SelectedAccountConfigModels.Any(s => s.AccountId == x.Id),
+                ConfigId = configId
+            }).ToList();
+
+        StateHasChanged();
+    }
+
+    private void setPermission(int index)
+    {
+        ConfigUserPermissions[index].IsActive = !ConfigUserPermissions[index].IsActive;
+    }
+
+    protected async Task ApplyConfigUserChange()
+    {
+        var accountConfigModels = ConfigUserPermissions.Where(x => x.IsActive).Select(x =>
+            new AccountConfigModel()
+                {
+                    AccountId = x.account.Id.Value,
+                    ConfigId = x.ConfigId,
+                    IsActive = x.IsActive
+                }
+            ).ToList();
+        await _configApi.SaveAccountConfigs(accountConfigModels);
+        OrganizationDialogShown = false;
+        ConfigUsersDialogShown = false;
+        FolderDetailDialogShown = false;
+        StateHasChanged();
+    }
+    protected async Task PlaySim(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to run this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await _simulationApi.Play(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = true;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not run This Simulation!", icon: SweetAlertIcon.Error);
+        StateHasChanged();
+
+    }
+
+    protected async Task PauseSim(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to pause this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await _simulationApi.Pause(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = false;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not pause This Simulation!", icon: SweetAlertIcon.Error);
+        StateHasChanged();
+
+    }
+
+    protected async Task DeleteSimulation(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to Delete this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await _simulationApi.Delete(sim.Id.Value);
+        await GetSimulations();        
+    }
+    protected async Task GetSimulations()
+    {
+        Simulations = await _simulationApi.GetMySimulations();
+        StateHasChanged();
+    }
+
+    public class AccountConfigBundle
+    {
+        public AccountModel account { get; set; }
+        public Guid ConfigId { get; set; }
+        public bool IsActive { get; set; }
+
+
+    }
+
+
+}

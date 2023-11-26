@@ -1,0 +1,116 @@
+@using System.Linq.Expressions;
+<div class="handle">
+    <p>max volume lot</p>
+    <div class="plus noselect">
+        <div class="icon" @onclick="AddClicked">+</div>
+        <div class="num">5</div>
+    </div>
+    <div class="total">@Value @(IsPercent ? "%" : "")</div>
+    <div class="minus noselect">
+        <div class="icon" @onclick="MinusClicked">-</div>
+        <div class="num">5</div>
+    </div>
+    <div class="horn">
+        <div class="light @(HornActive?"active":"")" @onclick="() => { HornActive=!HornActive;}"></div>
+        <div class="text">Horn</div>
+    </div>
+    <div class="alarm @(AlarmState?"active":"")">
+        Alarm light
+    </div>
+</div>
+@code
+{
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<bool> HornActiveChanged { get; set; }
+    [Parameter] 
+    public Expression<Func<bool>> HornActiveExpression { get; set; }
+    public bool _hornActive = false;
+    [Parameter]
+    public bool HornActive
+    {
+        get => _hornActive;
+        set
+        {
+            if (_hornActive == value) return;
+            _hornActive = value;
+            HornActiveChanged.InvokeAsync(_hornActive);
+            var fieldIdentifier = FieldIdentifier.Create(HornActiveExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+
+    [Parameter] public Expression<Func<double>> ValueExpression { get; set; }
+    [Parameter] public Expression<Func<bool>> AlarmStateExpression { get; set; }
+
+
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    [Parameter]
+    public EventCallback<bool> AlarmStateChanged { get; set; }
+
+
+    [Parameter]
+    public string HandleText { get; set; }
+    private double _value = 0;
+
+
+
+    [Parameter]
+    public bool IsPercent { get; set; } = false;
+
+
+    public bool _alarmState = false;
+    private int Step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Step = IsPercent ? 10 : 5;
+        base.OnInitialized();
+    }
+
+    private void MinusClicked() => Value = Value <= 0 ? 0 : (Value - Step);
+
+    private void AddClicked()
+    {
+        if (IsPercent && Value >= 100)
+        {
+            Value = 100;
+        }
+        else
+        {
+            Value += Step;
+        }
+    }
+
+
+
+    [Parameter]
+    public double Value
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+            ValueChanged.InvokeAsync(value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    [Parameter]
+    public bool AlarmState
+    {
+        get => _alarmState;
+        set
+        {
+            if (_alarmState == value) return;
+            _alarmState = value;
+            AlarmStateChanged.InvokeAsync(_alarmState);
+            var fieldIdentifier = FieldIdentifier.Create(AlarmStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+   
+}

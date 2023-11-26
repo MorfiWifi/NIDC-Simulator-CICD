@@ -1,0 +1,178 @@
+@font-face {
+  font-family: "SevenSegment";
+  src: url("/assets/fonts/seven_segment/Seven Segment.ttf") format("truetype");
+  /* Add more src declarations for other font formats if needed */
+  font-weight: normal;
+  font-style: normal;
+}
+/** {*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*  box-sizing: border-box;*/
+/*}*/
+
+/*body {*/
+/*  height: 100vh;*/
+/*}*/
+
+.segment {
+  font-family: "SevenSegment";
+  font-weight: 700;
+  color: #f78282 !important;
+  text-shadow: 0 0 5px red;
+}
+
+#bop-v2 {
+  height: calc(100vh - 60px - 2rem);
+  background-image: linear-gradient(to top left, #e81e25, #a91e22);
+  padding: 10px;
+  position: relative;
+  width: 100%;
+}
+#bop-v2 .left,
+#bop-v2 .right {
+  margin-top: 1rem;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  height: 50%;
+  width: 80px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+}
+#bop-v2 .left .item,
+#bop-v2 .right .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+#bop-v2 .left .item .gaging,
+#bop-v2 .right .item .gaging {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+#bop-v2 .left .item .gaging .gage,
+#bop-v2 .right .item .gaging .gage {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#bop-v2 .left .item .gaging .ceret,
+#bop-v2 .right .item .gaging .ceret {
+  width: 40px;
+  position: absolute;
+  z-index: 100;
+  top: 23%;
+  left: 22%;
+}
+#bop-v2 .left .item .gaging .value,
+#bop-v2 .right .item .gaging .value {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 5px;
+  background-color: #333;
+  color: yellow;
+  font-size: 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 3px;
+}
+#bop-v2 .left .item .button,
+#bop-v2 .right .item .button {
+  width: 25px;
+}
+#bop-v2 .left .item .gage-label,
+#bop-v2 .right .item .gage-label {
+  padding: 5px 15px;
+  margin-top: 2px;
+  width: 60px;
+  text-align: center;
+  background-image: url("/assets/img/label.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0, 0, 0, 0.74);
+  font-weight: 600;
+  font-size: 0.3rem;
+}
+#bop-v2 .right {
+  right: 0;
+  margin-right: 5px;
+}
+#bop-v2 .center {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translate(-50%);
+  width: 150px;
+  height: 50px;
+}
+#bop-v2 .center svg {
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+#bop-v2 .center .gage-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%);
+  padding: 5px 15px;
+  margin-top: 2px;
+  width: 60px;
+  text-align: center;
+  background-image: url("/assets/img/label.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0, 0, 0, 0.74);
+  font-weight: 600;
+  font-size: 0.3rem;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.main svg {
+  position: absolute;
+  bottom: 10px;
+  width: 90%;
+  left: 50%;
+  transform: translate(-50%);
+  height: auto;
+  z-index: 2;
+}
+
+.bopbutton {
+  transition: all 0.3s;
+  transform-origin: center center;
+  cursor: pointer;
+  opacity: 0.4;
+}
+
+.bopbutton.show {
+  opacity: 1;
+  filter: brightness(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.bopbutton:hover {
+  transform: scale(1.1);
+}
+
+/*# sourceMappingURL=bop.css.map */

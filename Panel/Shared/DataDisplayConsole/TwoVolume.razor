@@ -1,0 +1,254 @@
+@using MudBlazor.Interop
+@inject IJSRuntime JS
+@inherits Panel16.Pages.Components.RangedComponent
+@using Panel16.Shared.DataDisplayConsole
+<svg
+    viewBox="0 0 316 107"
+    version="1.1"
+   
+    id="twovolume"
+    xml:space="preserve"
+    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+    sodipodi:docname="two volume.svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg">
+    <sodipodi:namedview
+        id="namedview7"
+        pagecolor="#ffffff"
+        bordercolor="#000000"
+        borderopacity="0.25"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:document-units="mm"
+        showgrid="false"
+        inkscape:zoom="0.74742565"
+        inkscape:cx="565.27362"
+        inkscape:cy="306.38499"
+        inkscape:window-width="1920"
+        inkscape:window-height="1011"
+        inkscape:window-x="0"
+        inkscape:window-y="32"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="layer1"/>
+    <defs
+        id="defs2"/>
+
+<LeftVolume @bind-Value="LeftVolumeValue"/>
+<RightVolume @bind-Value="RightVolumeValue"/>
+    <path
+        style="fill:none;stroke:#4d4d4d;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1"
+        d="M 34.328218,23.376271 V 7.341773 L 281.3233,7.253973 v 16.55665 0"
+        id="path3532"
+        sodipodi:nodetypes="ccccc"/>
+    <g id="text_box">
+        <rect
+            style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.21198;stroke-dasharray:none;stroke-opacity:1"
+            id="rect3952"
+            width="53.565987"
+            height="13.642636"
+            x="131.04268"
+            y="0"/>
+        <text
+            xml:space="preserve"
+            style="font-size:9.87778px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1;transform: translate(-22px, 1px);"
+            x="148.99001"
+            y="10.026657"
+            id="text3796"
+    
+        >
+            <tspan
+                sodipodi:role="line"
+                id="tspan3794"
+                style="font-size:9.87778px;stroke-width:0.865"
+                x="148.99001"
+                y="10.026657">
+                text
+            </tspan>
+        </text>
+    </g>
+    <path
+        style="fill:#ffffff;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1"
+        d="m 108.32237,51.563671 99.61625,-0.10355 z"
+        id="path5536"/>
+    <path
+        style="fill:#ffffff;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1"
+        d="m 158.1305,51.511891 v 44.96478 H 50.184928 268.08197 157.90241 Z"
+        id="path5592"/>
+    <path
+        style="fill:#ffffff;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.60911;stroke-dasharray:none;stroke-opacity:1"
+        d="m 50.184928,91.598231 -9.18438,4.87843 9.18438,4.878439 z"
+        id="path5598"/>
+    <path
+        style="fill:#ffffff;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.60911;stroke-dasharray:none;stroke-opacity:1"
+        d="m 268.08545,101.3551 9.1809,-4.884979 -9.18786,-4.87189 z"
+        id="path5600"/>
+    <text
+        xml:space="preserve"
+        style="font-size:9.87778px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1;transform:translate(-22px, 0px)"
+        x="15.772305"
+        y="99.681999"
+        id="text3796-7"
+    >
+        <tspan
+            sodipodi:role="line"
+            id="tspan3794-5"
+            style="font-size:9.87778px;stroke-width:0.865"
+            x="15.772305"
+            y="99.681999">
+            text
+        </tspan>
+    </text>
+    <text
+        xml:space="preserve"
+        style="font-size:9.87778px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.865;stroke-dasharray:none;stroke-opacity:1;transform: translate(-23px, 0px);"
+        x="284.328"
+        y="99.681999"
+        id="text5680"
+    
+    >
+        <tspan
+            sodipodi:role="line"
+            id="tspan5678"
+            style="font-size:9.87778px;stroke-width:0.865"
+            x="284.328"
+            y="99.681999">
+            text
+        </tspan>
+    </text>
+</svg>
+<div class="button_box">
+    <div class="row justify-content-center align-content-center align-items-center">
+
+        <div class="col-1" >
+            
+            <button style="margin-right:2rem" class="volume-button"@onclick="()=>DecreaseValue(LeftVolumeValue)" @onmousedown="()=>MouseDownOnButtons(VolumeButtons.LeftMinus)" @onmouseup="MouseUpOnButtons">-</button>
+        </div>
+        <div class="col-3">
+            <input type="number" max="1" min="0" maxlength="3" size="3" disabled @bind="@(LeftVolumeValue)"/>
+            
+        </div>
+        <div class="col-1">
+            
+            <button class="volume-button"@onclick="()=>IncreaseValue(LeftVolumeValue)" @onmousedown="()=>MouseDownOnButtons(VolumeButtons.LeftPlus)" @onmouseup="MouseUpOnButtons">+</button>
+        </div>
+        <div class="col-1"/>
+                <div class="col-1" >
+                    
+                    <button style="margin-right:2rem"class="volume-button" @onclick="()=>DecreaseValue(RightVolumeValue)" @onmousedown="()=>MouseDownOnButtons(VolumeButtons.RightMinus)" @onmouseup="MouseUpOnButtons">-</button>
+                </div>
+                <div class="col-3">
+                    <input type="number" max="1" min="0" maxlength="3" size="3" disabled @bind="@(RightVolumeValue)"/>
+                    
+                </div>
+                <div class="col-1">
+                    
+                    <button class="volume-button"@onclick="()=>IncreaseValue(RightVolumeValue)" @onmousedown="()=>MouseDownOnButtons(VolumeButtons.RightPlus)" @onmouseup="MouseUpOnButtons">+</button>
+                </div>
+    </div>
+</div>
+<style>
+    .no-drag{
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
+    
+    .roller{
+        cursor: pointer;
+    }
+    .volume-button:focus{
+    outline: 0 !important;
+    }
+</style>
+
+
+@code{
+
+    [Parameter]
+    public string VolumeText { get; set; } = "";
+
+    [Parameter] 
+    public double LeftVolumeValue { get; set; }
+    [Parameter]
+    public double RightVolumeValue{ get; set; }
+    private string Volume1_layer_id = Guid.NewGuid().ToString("N");
+    private string Volume2_layer_id = Guid.NewGuid().ToString("N");
+
+    public enum  VolumeButtons
+    {
+        LeftPlus,
+        LeftMinus,
+        RightPlus,
+        RightMinus
+    }
+    private int min_valur = 0;
+    private int max_value = 290;
+    
+    private int Volume1Angle => (int)((max_value - min_valur) * LeftVolumeValue + min_valur);
+    private int Volume2Angle => (int)((max_value - min_valur) * RightVolumeValue + min_valur);
+    private bool is_on_hold = false;
+
+
+    private bool IsMouseDownOnButtons { get; set; }
+    
+    public double IncreaseValue(double value)
+    {
+        value += (To - From) / 100;
+        value = Math.Round(value, 2);
+        if (value > To)
+            value = To;
+        return value;
+    }
+    public double DecreaseValue(double value)
+    {
+        value -=(To - From) / 100;
+        value = Math.Round(value, 2);
+        if (value < From)
+            value = From;
+        return value;
+    }
+
+    public void MouseUpOnButtons()
+    {
+        IsMouseDownOnButtons = false;
+    }
+
+    public void MouseDownOnButtons(VolumeButtons mb)
+    {
+        IsMouseDownOnButtons = true;
+        HandleMouseDownButton(mb);
+    }
+
+    public async Task HandleMouseDownButton(VolumeButtons mb)
+    {
+        if (IsMouseDownOnButtons)
+        {
+            switch (mb)
+            {
+                case VolumeButtons.LeftMinus:
+                    LeftVolumeValue = DecreaseValue( LeftVolumeValue);
+                    Console.WriteLine(LeftVolumeValue);
+
+                    break;
+                case VolumeButtons.LeftPlus:
+
+                    LeftVolumeValue = IncreaseValue( LeftVolumeValue);
+
+                    break;
+                case VolumeButtons.RightMinus:
+                    RightVolumeValue = DecreaseValue(RightVolumeValue );
+                    break;
+                case VolumeButtons.RightPlus:
+                    RightVolumeValue = IncreaseValue(RightVolumeValue);
+                    break;
+            }
+            await Task.Delay(50);
+            StateHasChanged();
+            await HandleMouseDownButton(mb);
+        }
+    }
+}

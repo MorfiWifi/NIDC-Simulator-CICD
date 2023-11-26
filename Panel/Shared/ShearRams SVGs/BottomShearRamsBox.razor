@@ -1,0 +1,199 @@
+﻿@using System.Linq.Expressions;
+<g id="bottom_shear_rams">
+    <rect style="fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:0.985174;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect15977"
+          width="212.09822"
+          height="49.661953"
+          x="299.41718"
+          y="420.6449" />
+    <text xml:space="preserve"
+          style="font-size:14.1111px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          x="346.48825"
+          y="437.97919"
+          id="text15981"><tspan sodipodi:role="line"
+                                id="tspan15979"
+                                style="font-size:14.1111px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                x="346.48825"
+                                y="437.97919">SHEAR</tspan></text>
+    <text xml:space="preserve"
+          style="font-size:14.1111px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          x="472.84039"
+          y="437.77786"
+          id="text15985"><tspan sodipodi:role="line"
+                                id="tspan15983"
+                                style="font-size:14.1111px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                x="472.84039"
+                                y="437.77786">RAMS</tspan></text>
+    <g id="g15993"
+       transform="translate(4.7625155,291.57233)">
+        <circle style=@(OpenLed==1?LightOn:LightOff)
+                id="buttom_rams_light"
+                cx="459.53314"
+                cy="170.43945"
+                r="4.9532042" />
+        <text xml:space="preserve"
+              style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              x="477.53079"
+              y="172.84927"
+              id="buttom_rams_text"><tspan sodipodi:role="line"
+                                           id="tspan15989"
+                                           style="fill:#000000;stroke-width:0.664639"
+                                           x="477.53079"
+                                           y="172.84927">@(CloseText)</tspan></text>
+    </g>
+    <g id="g16001"
+       transform="rotate(180,408.34546,316.22557)">
+        <circle style=@(CloseLed==1?LightOn:LightOff)
+                cx="459.53314"
+                cy="170.43945"
+                r="4.9532042" />
+        <text xml:space="preserve"
+              style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+              x="-477.29062"
+              y="-168.02962"
+              id="buttom_shear_text"
+              transform="scale(-1)"><tspan sodipodi:role="line"
+                                           id="tspan15997"
+                                           style="fill:#000000;stroke-width:0.664639"
+                                           x="-477.29062"
+                                           y="-168.02962">@( OpenText)</tspan></text>
+    </g>
+    <rect style="fill:#ff8080;stroke:#000000;stroke-width:0.534723;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect16003"
+          width="106.33537"
+          height="12.74519"
+          x="-459.55081"
+          y="-483.41602"
+          transform="scale(-1)" />
+    <g @onclick="SwitchButtomShearRamsState"
+       style="cursor:pointer;"
+       id="buttom_shear_rams_handle"
+       transform=@(ButtomShearRamsState==1?ButtomShearRamsHandleRight:ButtomShearRamsHandleLeft)>
+        <g id="g16017"
+           transform="matrix(1,0,0,1.1462453,24.854787,-17.273821)">
+            <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  d="m 178.67045,237.32887 4.6874,-37.61587 z"
+                  id="path16005" />
+            <path style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  d="M 194.31183,237.32887 189.62443,199.713 Z"
+                  id="path16007" />
+            <g id="g16013"
+               style="stroke:none"
+               transform="rotate(135,258.46546,195.72114)">
+                <circle style="fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.967048;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle16009"
+                        cx="-393.0795"
+                        cy="90.963303"
+                        r="44.516476"
+                        transform="rotate(-135)" />
+                <circle style="fill:#f9f9f9;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle16011"
+                        cx="-393.0795"
+                        cy="90.963295"
+                        r="9.321229"
+                        transform="rotate(-135)" />
+            </g>
+            <circle style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    id="circle16015"
+                    cx="186.54437"
+                    cy="196.16248"
+                    r="4.770761" />
+        </g>
+    </g>
+    <rect style="fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:1.24946;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect16021"
+          width="117.00367"
+          height="6.1213903"
+          x="-464.42654"
+          y="-489.90033"
+          transform="scale(-1)" />
+    <rect style="fill:#ff8080;stroke:#000000;stroke-width:0.486169;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect17937"
+          width="106.38393"
+          height="10.530887"
+          x="348.56665"
+          y="410.11401" />
+    <rect style="fill:#ff8080;fill-opacity:1;stroke:#262626;stroke-width:0.621;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          id="rect17939"
+          width="116.83208"
+          height="7.9297991"
+          x="343.34256"
+          y="401.75977" />
+</g>
+
+@code {
+
+    protected string ButtomShearRamsHandleRight { get; set; } = "matrix(0.31401204,0.19893996,-0.19893996,0.31401204,390.03554,337.60068)";
+    protected string ButtomShearRamsHandleLeft { get; set; } = "matrix(0.31655314,-0.19487118,0.19487118,0.31655314,287.20787,420.37125)";
+    protected string LightOn { get; set; } = "fill:#00ff00;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOff { get; set; } = "fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string OpenText { get; set; } = "Open";
+    protected string CloseText { get; set; } = "Close";
+
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<double> ButtomShearRamsStateChanged { get; set; }
+    [Parameter] public Expression<Func<double>> ButtomShearRamsStateExpression { get; set; }
+    public double _buttomShearRamsState = 0;
+    [Parameter]
+    public double ButtomShearRamsState
+    {
+        get => _buttomShearRamsState;
+        set
+        {
+            if (_buttomShearRamsState == value) return;
+            _buttomShearRamsState = value;
+            ButtomShearRamsStateChanged.InvokeAsync(_buttomShearRamsState);
+            var fieldIdentifier = FieldIdentifier.Create(ButtomShearRamsStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+
+    [Parameter]
+    public EventCallback<int> OpenLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> OpenLedExpression { get; set; }
+    public int _OpenLed = 0;
+    [Parameter]
+    public int OpenLed
+    {
+        get => _OpenLed;
+        set
+        {
+            if (_OpenLed == value) return;
+            _OpenLed = value;
+            OpenLedChanged.InvokeAsync(_OpenLed);
+            var fieldIdentifier = FieldIdentifier.Create(OpenLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> CloseLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> CloseLedExpression { get; set; }
+    public int _CloseLed = 0;
+    [Parameter]
+    public int CloseLed
+    {
+        get => _CloseLed;
+        set
+        {
+            if (_CloseLed == value) return;
+            _CloseLed = value;
+            CloseLedChanged.InvokeAsync(_CloseLed);
+            var fieldIdentifier = FieldIdentifier.Create(CloseLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    protected void SwitchButtomShearRamsState()
+    {
+        if (ButtomShearRamsState == 1)
+            ButtomShearRamsState = 0;
+        else
+            ButtomShearRamsState = 1;
+        StateHasChanged();
+
+    }
+}

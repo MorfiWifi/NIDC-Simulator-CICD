@@ -1,0 +1,146 @@
+﻿@using System.Linq.Expressions;
+
+<g
+    id="OpenClose_HandlerGroup-@(ID)">
+    <g
+        style="@BaseTransform">
+        <g id="rotate_handler-@(ID)" class="rotate-@(ID)">
+            <g
+                @onclick="ChangeHandle"
+                id="Open_and_Close_Handler"
+                class="cursor">
+
+                <path
+                    style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    d="m 178.67045,237.32887 4.6874,-37.61587 z"
+                    id="path23707"/>
+                <path
+                    style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    d="M 194.31183,237.32887 189.62443,199.713 Z"
+                    id="path23709"/>
+                <g
+                    id="g23545"
+                    style="stroke:none"
+                    transform="rotate(135,258.46546,195.72114)">
+                    <circle
+                        style="fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.967048;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle23539"
+                        cx="-393.0795"
+                        cy="90.963303"
+                        r="44.516476"
+                        transform="rotate(-135)"/>
+                    <circle
+                        style="fill:#cccccc;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                        id="circle23543"
+                        cx="-393.0795"
+                        cy="90.963295"
+                        r="9.321229"
+                        transform="rotate(-135)"/></g>
+                <circle
+                    style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                    id="path23651"
+                    cx="186.54437"
+                    cy="196.16248"
+                    r="4.770761"/></g></g>
+    </g>
+    <text
+        xml:space="preserve"
+        style="font-size:12.7px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.706001;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+        x="125.94598"
+        y="262.47473"
+        id="text23879"
+        inkscape:transform-center-x="0.37417737">
+        <tspan
+            sodipodi:role="line"
+            id="tspan23877"
+            style="font-size:12.7px;stroke-width:0.706"
+            x="125.94598"
+            y="262.47473">@LeftText</tspan></text>
+    <text
+        xml:space="preserve"
+        style="font-size:12.7px;text-align:center;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.706001;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+        x="297.21478"
+        y="260.97626"
+        id="text23933"
+        inkscape:transform-center-x="0.37417737">
+        <tspan
+            sodipodi:role="line"
+            id="tspan23931"
+            style="font-size:12.7px;stroke-width:0.706"
+            x="297.21478"
+            y="260.97626">@RightText</tspan></text>
+</g>
+<style>
+    .cursor
+    {
+        cursor:pointer;
+    }
+
+    .rotate-@(ID){
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(@($"{Degree}deg"));
+    transition: all 0.5s;
+    
+    }
+</style>
+
+@code
+{
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> HandelStateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> HandelStateExpression { get; set; }
+    public double _HandelState = 0;
+    [Parameter]
+    public double HandelState
+    {
+        get => _HandelState;
+        set
+        {
+            if (_HandelState == value) return;
+            _HandelState = value;
+            HandelStateChanged.InvokeAsync(_HandelState);
+            var fieldIdentifier = FieldIdentifier.Create(HandelStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public string BaseTransform { get; set; } = "";
+
+    [Parameter]
+    public string LeftText { get; set; } = "";
+
+    [Parameter]
+    public string RightText { get; set; } = "";
+    private int Degree { get; set; } = 0;
+    private int[] StatesDegree { get; set; } = new[] { -90, 0,90 };
+    private string ID = new Random().Next(100, 999).ToString();
+
+    protected override void OnInitialized()
+    {       
+        Degree = StatesDegree[(int)HandelState+1];
+        base.OnInitialized();
+    }
+
+    protected void ChangeHandle()
+    {
+        switch (HandelState)
+        {
+            case 0:
+                HandelState = 1;
+                break;
+            case 1:
+                HandelState = -1;
+                break;
+            case -1:
+                HandelState = 0;
+                break;
+
+        }  
+        Degree = StatesDegree[(int)HandelState+1];
+        StateHasChanged();
+    }
+}

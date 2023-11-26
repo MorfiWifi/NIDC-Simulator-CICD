@@ -1,0 +1,159 @@
+﻿@page "/OLDChockPanel"
+@layout SimulationLayout
+@inject ISimulationApi SimulationApi
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Models.Config;
+
+<div class="prevent-scroll container">
+    <div class="svg-container">
+        <EditForm EditContext="@EditContext">
+            <svg viewBox="0 0 450 300"
+                 version="1.1"
+                 id="svg5"
+                 inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+                 sodipodi:docname="drawing-2.svg"
+                 xml:space="preserve"
+                 inkscape:export-filename="..\..\..\Desktop\drawing-2.svg"
+                 inkscape:export-xdpi="96"
+                 inkscape:export-ydpi="96"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview id="namedview7"
+                                                                            pagecolor="#ffffff"
+                                                                            bordercolor="#111111"
+                                                                            borderopacity="1"
+                                                                            inkscape:showpageshadow="0"
+                                                                            inkscape:pageopacity="0"
+                                                                            inkscape:pagecheckerboard="1"
+                                                                            inkscape:deskcolor="#d1d1d1"
+                                                                            inkscape:document-units="mm"
+                                                                            showgrid="false"
+                                                                            inkscape:zoom="0.7071068"
+                                                                            inkscape:cx="527.50165"
+                                                                            inkscape:cy="706.39966"
+                                                                            inkscape:window-width="1920"
+                                                                            inkscape:window-height="991"
+                                                                            inkscape:window-x="-9"
+                                                                            inkscape:window-y="-9"
+                                                                            inkscape:window-maximized="1"
+                                                                            inkscape:current-layer="Pump_And_Reset_Buttons_Group" /><defs id="defs2" /><g inkscape:label="Layer 1"
+                                                                                                                                                          inkscape:groupmode="layer"
+                                                                                                                                                          id="layer1"
+                                                                                                                                                          transform="translate(-18.891128,-8.8138982)">
+    </g>
+<HalfDegreeGage ID="Casing_Pressure_Components" @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.CasingPressure"
+                BaseTransform="rotate(-135,232.80323,-10.74384)" From="0" To="6000" GageText="Casing" GageBottomText="Pressure"> </HalfDegreeGage>
+<Panel16.Shared.Drawing_SVGs.Choke_And_Selector_Lights @bind-Choke1Light="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.Choke1LED"
+                @bind-Choke2Light="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.Choke2LED"
+                @bind-SelectorLight="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelStrokeResetSwitch" />
+<Panel16.Shared.Drawing_SVGs.Choke_Position From="0" To="10" @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePosition" />
+<HalfDegreeGage @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.StandPipePressure"
+                BaseTransform="translate(-342px)" ID="Drill_Pipe_Pressure_Components" GageText="Drill Pipe" GageBottomText="Pressure"> </HalfDegreeGage>
+<OpenCloseHandle @bind-HandelState="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeControlLever"
+                 LeftText="Open" RightText="Close" BaseTransform="transform: translate(20px, 14px);" />
+<Panel16.Shared.Drawing_SVGs.PumpAndResetButtons @bind-Reset="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelStrokeResetSwitch"
+                @bind-PumpState="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch" />
+<BoolButtonySwitch SwitchText="Rig Air" @bind-SwitchState="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelRigAirSwitch" />
+                @*<ButtonySwitch SwitchText="Choke Rate" BaseTransform="translate(340px, -4px)"
+                @bind-SwitchState="Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeRateControlKnob" />*@
+<Panel16.Shared.Drawing_SVGs.Spm_Box @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelSPMCounter" />
+<Panel16.Shared.Drawing_SVGs.Strokes_Count_Box @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelTotalStrokeCounter" />
+</svg>
+        </EditForm>
+    </div>
+</div>
+<style>
+    .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 80%;
+        padding-bottom: 100%;
+        vertical-align: middle;
+        overflow: hidden;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                              supported by Chrome, Opera and Firefox */
+    }
+    .prevent-scroll {
+        height: 100%;
+        overflow: hidden;
+    }
+</style>
+
+
+@code {
+    private BrowserDimension BrowserDimension { get; set; } = new();
+    private double Width { get; set; }
+    public int test_bind { get; set; }
+    protected SimulationModel Simulation { set; get; } = new();
+    protected string SimulationId { set; get; }
+
+    private EditContext EditContext;
+    private HubConnection? hubConnection;
+
+
+
+
+    protected async override void OnInitialized()
+    {
+        EditContext = new EditContext(Simulation);
+
+        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
+        Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        StateHasChanged();
+        EditContext.OnFieldChanged += OnFieldChanged;
+
+        #region hub comment
+        hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
+
+        hubConnection.On<SimulationModel>("update-model", async (newModel) =>
+        {
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Lastupdate = DateTime.Now;
+
+            Simulation.SimulationFeilds.InputValues = newModel.SimulationFeilds.InputValues;
+            Simulation.SimulationFeilds.TempValues = newModel.SimulationFeilds.TempValues;
+            Console.WriteLine("update-model");
+            StateHasChanged();
+        });
+        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
+        {
+           
+            Console.WriteLine("Update-Outputs");
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+            StateHasChanged();            
+        });
+
+
+        await hubConnection.StartAsync();
+        #endregion
+
+
+        base.OnInitialized();
+    }
+    private DateTime Lastupdate { set; get; } = DateTime.Now;
+    private async void OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (DateTime.Now.Subtract(Lastupdate).TotalMilliseconds < 100)
+            return;
+        Console.WriteLine("OnFieldChanged");
+        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+        {
+            await hubConnection.SendAsync("UpdateModel", Simulation);
+        }
+
+    }
+
+    private void onValueChange()
+    {
+
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,464 @@
+﻿@page "/OLD_BopPanel"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Models.Config;
+@using Microsoft.Extensions.Logging;
+@layout SimulationLayout
+@inject ISimulationApi SimulationApi
+
+
+
+<div class="svg-container">
+    <EditForm EditContext="@EditContext">
+
+        <svg viewBox="0 0 800 500"
+             version="1.1"
+             id="svg312"
+             inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+             sodipodi:docname="drawing4.svg"
+             inkscape:export-filename="..\..\..\Desktop\drawing4.svg"
+             inkscape:export-xdpi="96"
+             inkscape:export-ydpi="96"
+             xmlns="http://www.w3.org/2000/svg"
+             xmlns:svg="http://www.w3.org/2000/svg">
+            @*part1*@
+            @*<Panel16.Shared.Panel16.Shared.BopParts.Part1 />*@
+            @*end of part1*@
+
+            <defs id="defs309" />
+            <g inkscape:label="Layer 1"
+               inkscape:groupmode="layer"
+               id="layer1">
+
+
+                <HalfDegreeGage @bind-Value="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ManifoldPressureGauge"
+                                BaseTransform="translate(-330.44261px,5.8281228px)" GageText="Manifold" GageBottomText=" Pressure" />
+
+
+
+            </g>
+
+
+            <!--left kill line chock-->
+
+
+
+            <ellipse style="fill:#f9f9f9;fill-opacity:1;stroke:#262626;stroke-width:1.09161;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                     id="path23340"
+                     cx="210.0107"
+                     cy="347.15723"
+                     rx="58.772758"
+                     ry="45.391857" />
+            <rect style="fill:#f9f9f9;fill-opacity:1;stroke:#262626;stroke-width:0.921;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  id="rect23185"
+                  width="117.606"
+                  height="53.690784"
+                  x="151.2077"
+                  y="347.61774" />
+            <!--left kill left led-->
+            <circle style=@(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineOpenLED==1?LightOn:LightOff)
+                    id="left_chokeLight"
+                    cx="-188.87799"
+                    cy="-339.09225"
+                    r="4.9532042"
+                    transform="scale(-1)" />
+            <text xml:space="preserve"
+                  style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  x="3.084861"
+                  y="364.49615"
+                  id="left_choke_text"
+                  transform="rotate(-30)"><tspan sodipodi:role="line"
+                                                 id="tspan527"
+                                                 style="fill:#000000;stroke-width:0.664639"
+                                                 x="3.0848606"
+                                                 y="364.49615">@CloseText</tspan></text>
+            <text xml:space="preserve"
+                  style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  x="372.05002"
+                  y="126.43084"
+                  id="left_line_text"
+                  transform="rotate(34.30857)"><tspan sodipodi:role="line"
+                                                      id="tspan531"
+                                                      style="fill:#000000;stroke-width:0.664639"
+                                                      x="372.05002"
+                                                      y="126.43084">@OpenText</tspan></text>
+            <!--left kill right led-->
+            <circle style=@(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineCloseLED==1?LightOn:LightOff)
+                    id="left_lineLight"
+                    cx="-235.08977"
+                    cy="-339.09225"
+                    r="4.9532042"
+                    transform="scale(-1)" />
+            <g id="g5017"
+               transform="matrix(-0.73383052,-0.67933259,0.66250186,-0.71564958,438.70925,985.1411)">
+                <g id="g5296">
+                    <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                          id="rect5013"
+                          width="6.1515517"
+                          height="17.636511"
+                          x="639.41064"
+                          y="287.31256"
+                          transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                    <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                          d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                          id="path5015" />
+                </g>
+            </g>
+            <g id="g5351"
+               transform="matrix(0.73383052,-0.67933259,-0.66250186,-0.71564958,-17.610031,983.85303)">
+                <g id="g5349">
+                    <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                          id="rect5345"
+                          width="6.1515517"
+                          height="17.636511"
+                          x="639.41064"
+                          y="287.31256"
+                          transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                    <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                          d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                          id="path5347" />
+                </g>
+            </g>
+            <!--left chock kill-->
+            <Panel16.Shared.BopParts.LeftChock @bind-LeftChokeState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.KillLineValve" />
+            <text xml:space="preserve"
+                  style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  x="174.22676"
+                  y="358.14539"
+                  id="text5375"><tspan sodipodi:role="line"
+                                       id="tspan5373"
+                                       style="font-size:7.05556px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                       x="174.22676"
+                                       y="358.14539">CHOKE</tspan></text>
+            <text xml:space="preserve"
+                  style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                  x="246.86555"
+                  y="358.14539"
+                  id="text5481"><tspan sodipodi:role="line"
+                                       id="tspan5479"
+                                       style="font-size:7.05556px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                       x="246.86555"
+                                       y="358.14539">LINE</tspan></text>
+
+
+
+            <g id="pipe_and_ram_whole_box"
+               transform="translate(2.6441626)">
+            </g>
+            <g id="g5569"
+               transform="translate(383.49583)">
+                <ellipse style="fill:#f9f9f9;fill-opacity:1;stroke:#262626;stroke-width:1.09161;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                         id="ellipse5513"
+                         cx="210.0107"
+                         cy="347.15723"
+                         rx="58.772758"
+                         ry="45.391857" />
+                <rect style="fill:#f9f9f9;fill-opacity:1;stroke:#262626;stroke-width:0.921;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect5515"
+                      width="117.606"
+                      height="53.690784"
+                      x="151.2077"
+                      y="347.61774" />
+                <!--right chok right led-->
+                <circle style=@(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineOpenLED==1?LightOn:LightOff)
+                        id="right_choke_light"
+                        cx="-188.87799"
+                        cy="-339.09225"
+                        r="4.9532042"
+                        transform="scale(-1)" />
+                <text xml:space="preserve"
+                      style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      x="3.084861"
+                      y="364.49615"
+                      id="right_choke_text"
+                      transform="rotate(-30)"><tspan sodipodi:role="line"
+                                                     id="tspan5519"
+                                                     style="fill:#000000;stroke-width:0.664639"
+                                                     x="3.0848606"
+                                                     y="364.49615">@(CloseText)</tspan></text>
+                <text xml:space="preserve"
+                      style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      x="372.05002"
+                      y="126.43084"
+                      id="right_line_text"
+                      transform="rotate(34.30857)"><tspan sodipodi:role="line"
+                                                          id="tspan5523"
+                                                          style="fill:#000000;stroke-width:0.664639"
+                                                          x="372.05002"
+                                                          y="126.43084">@(OpenText)</tspan></text>
+                <!--right choke left led-->
+                <circle style=@(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineCloseLED==1?LightOn:LightOff)
+                        id="right_line_light"
+                        cx="-235.08977"
+                        cy="-339.09225"
+                        r="4.9532042"
+                        transform="scale(-1)" />
+                <g id="g5535"
+                   transform="matrix(-0.73383052,-0.67933259,0.66250186,-0.71564958,438.70925,985.1411)">
+                    <g id="g5533">
+                        <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                              id="rect5529"
+                              width="6.1515517"
+                              height="17.636511"
+                              x="639.41064"
+                              y="287.31256"
+                              transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                        <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                              d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                              id="path5531" />
+                    </g>
+                </g>
+                <g id="g5543"
+                   transform="matrix(0.73383052,-0.67933259,-0.66250186,-0.71564958,-17.610031,983.85303)">
+                    <g id="g5541">
+                        <rect style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                              id="rect5537"
+                              width="6.1515517"
+                              height="17.636511"
+                              x="639.41064"
+                              y="287.31256"
+                              transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+                        <path style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                              d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+                              id="path5539" />
+                    </g>
+                </g>
+                <Panel16.Shared.BopParts.RightChock @bind-RightChokeState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ChokeLineValve" />
+
+                <text xml:space="preserve"
+                      style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      x="174.22676"
+                      y="358.14539"
+                      id="text5563"><tspan sodipodi:role="line"
+                                           id="tspan5561"
+                                           style="font-size:7.05556px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                           x="174.22676"
+                                           y="358.14539">CHOKE</tspan></text>
+                <text xml:space="preserve"
+                      style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      x="246.86555"
+                      y="358.14539"
+                      id="text5567"><tspan sodipodi:role="line"
+                                           id="tspan5565"
+                                           style="font-size:7.05556px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+                                           x="246.86555"
+                                           y="358.14539">LINE</tspan></text>
+            </g>
+            <!--air master-->
+            <OpenCloseHandle @bind-HandelState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve" BaseTransform="transform: translate(-118px, 151px)" />
+            <g id="g6666"
+               transform="translate(-25.216919,280.01429)">
+                <rect style="fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.17049;stroke-linecap:round;paint-order:stroke fill markers"
+                      id="rect6332"
+                      width="78.967972"
+                      height="14.75316"
+                      x="54.614155"
+                      y="132.40675" />
+                <text xml:space="preserve"
+                      style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.920999;stroke-linecap:round;paint-order:stroke fill markers"
+                      x="93.843201"
+                      y="142.30687"
+                      id="text6507"><tspan sodipodi:role="line"
+                                           id="tspan6505"
+                                           style="fill:#ffffff;stroke-width:0.921"
+                                           x="93.843201"
+                                           y="142.30687">RIG AIR CONTROL</tspan></text>
+            </g>
+            <OpenCloseHandle BaseTransform="transform: translate(563px, 150px)" />
+
+            <g id="g6690"
+               transform="translate(657.53557,280.01429)">
+                <rect style="fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.17049;stroke-linecap:round;paint-order:stroke fill markers"
+                      id="rect6684"
+                      width="78.967972"
+                      height="14.75316"
+                      x="54.614155"
+                      y="132.40675" />
+                <text xml:space="preserve"
+                      style="font-size:7.05556px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.920999;stroke-linecap:round;paint-order:stroke fill markers"
+                      x="93.843201"
+                      y="142.30687"
+                      id="text6688"><tspan sodipodi:role="line"
+                                           id="tspan6686"
+                                           style="fill:#ffffff;stroke-width:0.921"
+                                           x="93.843201"
+                                           y="142.30687">BY PASS</tspan></text>
+            </g>
+            <HalfDegreeGage @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirSupplyPressureGauge"
+                            BaseTransform="translate(-335.5575px,167.19112px)" GageText="Air Supply" GageBottomText=" Pressure" />
+
+            <HalfDegreeGage @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularPressureGauge"
+                            BaseTransform="translate(354.82549px,163.19092px)" GageText="Annular" GageBottomText=" Pressure" />
+
+            <HalfDegreeGage @bind-Value="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AccumulatorPressureGauge"
+                            BaseTransform="translate(352.62674px,5.8281228px)" GageText="Accumelator" GageBottomText=" Pressure" />
+
+            <!--midlle rams :3 -->
+            <Panel16.Shared.ShearRams_SVGs.ShearRamsBox @bind-OpenLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsOpenLED"
+            @bind-CloseLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsCloseLED"
+            @bind-ShearRamsState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.MiddleRamsStatus" />
+            <g id="middle_pipe">
+                <rect style="fill:#ff8080;stroke:#000000;stroke-width:0.486169;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17733"
+                      width="106.38393"
+                      height="10.530887"
+                      x="348.56665"
+                      y="320.68347" />
+                <rect style="fill:#ff8080;fill-opacity:1;stroke:#262626;stroke-width:0.621;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17735"
+                      width="116.83208"
+                      height="7.9297991"
+                      x="343.34256"
+                      y="312.32922" />
+                <rect style="fill:#ff8080;fill-opacity:1;stroke:#262626;stroke-width:0.575121;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17929"
+                      width="99.630447"
+                      height="7.975678"
+                      x="305.80664"
+                      y="-514.69196"
+                      transform="rotate(90)" />
+                <rect style="fill:#ff8080;fill-opacity:1;stroke:#262626;stroke-width:0.575121;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17931"
+                      width="99.630447"
+                      height="7.975678"
+                      x="305.80664"
+                      y="-298.41837"
+                      transform="rotate(90)" />
+                <rect style="fill:#ff8080;fill-opacity:1;stroke:none;stroke-width:1.56038;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17927"
+                      width="573.22614"
+                      height="123.35931"
+                      x="-681.11609"
+                      y="444.02209"
+                      transform="matrix(0.37172659,0,0,0.42608987,546.82181,140.14747)" />
+                <rect style="fill:#ff8080;stroke:#000000;stroke-width:0.486169;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17933"
+                      width="106.38393"
+                      height="10.530887"
+                      x="-454.95053"
+                      y="-392.64377"
+                      transform="scale(-1)" />
+                <rect style="fill:#ff8080;fill-opacity:1;stroke:#262626;stroke-width:0.621;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                      id="rect17935"
+                      width="116.83208"
+                      height="7.9297991"
+                      x="-460.17462"
+                      y="-400.99802"
+                      transform="scale(-1)" />
+            </g>
+            <!--pipe rams 2-->
+            <Panel16.Shared.ShearRams_SVGs.PipeRamsBox @bind-OpenLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsOpenLED"
+            @bind-CloseLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsCloseLED"
+            @bind-PipeRamsState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.UpperRamsValve" />
+            <!--bottom 4-->
+            <Panel16.Shared.ShearRams_SVGs.BottomShearRamsBox @bind-CloseLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsCloseLED"
+            @bind-OpenLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED"
+            @bind-ButtomShearRamsState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.LowerRamsValve" />
+
+            <Panel16.Shared.BopParts.AnnularBox @bind-AnnularState="Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AnnularValve"
+            @bind-CloseLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularCloseLED"
+            @bind-OpenLed="Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularOpenLED" />
+
+
+
+        </svg>
+    </EditForm>
+</div>
+
+<style>
+    .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 90%;
+        padding-bottom: 100%;
+        vertical-align: middle;
+        overflow: hidden;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                                                                                  supported by Chrome, Opera and Firefox */
+    }
+</style>
+@code {
+    protected SimulationModel Simulation { set; get; } = new();
+    protected string SimulationId { set; get; }
+
+    private EditContext EditContext;
+    private HubConnection? hubConnection;
+
+    protected string HandleRight { get; set; } = "matrix(0.33844669,0.15373516,-0.15373516,0.33844669,177.88626,273.80619)";
+    protected string HandleLeft { get; set; } = "matrix(0.33844669,-0.15373516,0.15373516,0.33844669,99.040446,338.80516)";
+    protected string AnnularHandleLeft { get; set; } = "matrix(0.31626654,-0.19533597,0.19533597,0.31626654,282.98458,27.174923)";
+    protected string AnnularHandleRight { get; set; } = "matrix(0.31904193,0.19076926,-0.19076926,0.31904193,382.63662,-54.967047)";
+    protected string LightOff { get; set; } = "fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOn { get; set; } = "fill:#00ff00;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+
+    protected string OpenText { get; set; } = "Open";
+    protected string CloseText { get; set; } = "Close";
+    protected DateTime LastRead { set; get; }
+    //--------------
+
+
+
+    //-------------
+    protected async override void OnInitialized()
+    {
+        EditContext = new EditContext(Simulation);
+
+        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
+        Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        StateHasChanged();
+        EditContext.OnFieldChanged += OnFieldChanged;
+
+        #region hub comment
+        hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
+
+        hubConnection.On<SimulationModel>("update-model", async (newModel) =>
+        {
+
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Lastupdate = DateTime.Now;
+            Simulation.SimulationFeilds.InputValues = newModel.SimulationFeilds.InputValues;
+            Simulation.SimulationFeilds.TempValues = newModel.SimulationFeilds.TempValues;
+            Console.WriteLine("update-model");
+            StateHasChanged();
+
+        });
+        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
+        {           
+            
+            Console.WriteLine("Update-Outputs");
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+            StateHasChanged();
+        });
+
+
+        await hubConnection.StartAsync();
+        #endregion
+
+
+
+
+        base.OnInitialized();
+    }
+    private DateTime Lastupdate { set; get; } = DateTime.Now;
+    private async void OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (DateTime.Now.Subtract(Lastupdate).TotalMilliseconds < 100)
+            return;
+        Console.WriteLine("OnFieldChanged");
+        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+        {
+            await hubConnection.SendAsync("UpdateModel", Simulation);
+        }
+
+    }
+
+
+
+}

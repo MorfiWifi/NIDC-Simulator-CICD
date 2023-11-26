@@ -1,0 +1,271 @@
+﻿@page "/SaveConfig_10"
+@using Panel16.Pages.Components
+@using Models.Config
+@layout SaveConfigLayout
+@inject IConfigApi _configApi
+@inject IDialogService DialogService
+<div class="container-fluid">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Hole Settings
+        </span>
+        <span class="d-inline-flex justify-content-end">
+            <MudMenu Label="@localizer[LocalizationKeys.AddNew]" StartIcon="@Icons.Filled.Add" EndIcon="@Icons.Filled.KeyboardArrowDown" DisableElevation="true">
+                <MudMenuItem OnClick="()=>OpenDialog(HoleType.StraightHole)">Straight Hole</MudMenuItem>
+                <MudMenuItem OnClick="()=>OpenDialog(HoleType.BuildAngle)">Build Angle</MudMenuItem>
+                <MudMenuItem OnClick="()=>OpenDialog(HoleType.DropAngle)">Drop Angle</MudMenuItem>
+            </MudMenu>
+            <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+        </span>
+    </h1>
+    <MudDialog @bind-IsVisible="ShowDialog">
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                Add @(Hole.HoleType == HoleType.StraightHole ? "Straigh tHole" : Hole.HoleType == HoleType.BuildAngle ? "Build Angle" : "Drop Angle")
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <form>
+                <div class="form-group">
+                    <label>Interval</label>
+                    <div class="input-group">
+                        <input @bind="Hole.Interval" type="numeric" class="form-control" placeholder="Length">
+                    </div>
+                </div>
+
+                @if (Hole.HoleType == HoleType.StraightHole)
+                {
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Length</label>
+                            <DoubleUnitInput noGutters="true" @bind-Value="Hole.Length" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label>Angle</label>
+                            <DoubleUnitInput noGutters="true" @bind-Value="Hole.Angle" unitCat="Enums.UnitCategory.Angle" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-2" style="vertical-align:central;align-content:center;">
+                            per
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>Length</label>
+                            <DoubleUnitInput noGutters="true" @bind-Value="Hole.Length" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Final Angle</label>
+                            <DoubleUnitInput noGutters="true" @bind-Value="Hole.FinalAngle" unitCat="Enums.UnitCategory.Angle" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Total Length</label>
+                            <DoubleUnitInput noGutters="true" @bind-Value="Hole.TotalLength" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+                    </div>
+
+
+                }
+                <!--
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Depth</label>
+                        <LongUnitInput noGutters="true" @bind-Value="Hole.Depth" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <div class="input-group">
+                        <textarea @bind="Hole.Description" class="form-control" rows="3" placeholder="Description" required></textarea>
+                    </div>
+                </div>
+                -->
+            </form>
+
+
+        </DialogContent>
+        <DialogActions>
+            <div class="mb-3">
+                <button class="btn btn-primary mr-3" @onclick="Add">
+                    <i class="fa fa-save"></i>
+                    @localizer[LocalizationKeys.Button_Save]
+                </button>
+            </div>
+        </DialogActions>
+    </MudDialog>
+
+    <table class="table table-striped table-bordered border">
+        <thead class="thead-light">
+            <tr>
+                <th>Interval</th>
+                <th>Hole Type</th>
+                <th>Description</th>
+                <th>Angel </th>
+                <th>Final Angel </th>
+                <th>Total Length (By Interval) (@ConfigDetails.Units.GetSystem(Enums.UnitCategory.Length))</th>
+                <th>Measured Depth (@ConfigDetails.Units.GetSystem(Enums.UnitCategory.Length))</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hole in ConfigDetails?.Holes ?? new List<MudSystemHole>())
+            {
+                <tr>
+                    <td>@hole.Interval</td>
+                    <td>@hole.HoleType</td>
+                    <td>@hole.Description</td>
+                    <td>
+                        <DoubleUnitInput @bind-Value="hole.Angle" ReadOnly="true" unitCat="Enums.UnitCategory.Angle" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput @bind-Value="hole.FinalAngle" ReadOnly="true" unitCat="Enums.UnitCategory.Angle" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput @bind-Value="hole.TotalLength" ReadOnly="true" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput @bind-Value="hole.Depth" ReadOnly="true" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="()=>Delete(hole)">@localizer[LocalizationKeys.Delete]</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p id="text">@text</p>
+</div>
+@code {
+    String text;
+    double orientation;
+    List<Point> points;
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    protected MudSystemHole Hole { get; set; }
+    public string ConfigId { set; get; }
+    public bool ShowDialog { get; set; } = false;
+    protected override async void OnInitialized()
+    {
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+        base.OnInitialized();
+        calculate_points();
+    }
+
+    protected async Task Delete(Models.Config.MudSystemHole hole)
+    {
+        ConfigDetails.Holes.Remove(hole);
+        StateHasChanged();
+        calculate_points();
+    }
+
+
+    protected async Task Add()
+    {
+        if (Hole.HoleType == HoleType.StraightHole)
+        {
+            Hole.Description = "Straight Hole (Length=" + Hole.Length + ")";
+        }
+        else
+        {
+            //Hole.FinalAngle = orientation;
+        }
+        ConfigDetails.Holes.Add(Hole);
+        List<Point> ps = calculate_points();
+        Hole.Depth = points.Last().Y;
+        ShowDialog = false;
+        StateHasChanged();
+
+    }
+
+    protected List<Point> calculate_points()
+    {
+        points = new List<Point>();
+        int n_rotate, rotate_sign;
+        double last_rotate, x, y;
+        if (ConfigDetails.Holes.Count() == 0)
+            return points;
+        Point current = new Point(0, 0);
+        orientation = ConfigDetails.Holes[0].Angle;
+        points.Add(current);
+        foreach (MudSystemHole h in ConfigDetails.Holes)
+        {
+            if (h.HoleType == HoleType.StraightHole)
+            {
+                x = current.X + h.Length * Math.Sin(orientation);
+                y = current.Y + h.Length * Math.Cos(orientation);
+                current = new Point(x, y);
+                points.Add(current);
+            }
+            else // or BuildAngle or DropAngle
+            {
+                if (h.HoleType == HoleType.BuildAngle)
+                    rotate_sign = 1;
+                else
+                    rotate_sign = -1;
+
+                if (h.TotalLength == 0)
+                {
+                    double angle_dif = h.FinalAngle - orientation;
+                    n_rotate = Math.Abs((int)(angle_dif / h.Angle));
+                    last_rotate = (h.FinalAngle - h.Angle * n_rotate * rotate_sign);
+                    if (Math.Abs(last_rotate) < 0.001)
+                        last_rotate = 0;
+                }
+                else //Total length is given
+                {
+                    n_rotate = (int)(h.TotalLength / h.Length);
+                    if (h.TotalLength % h.Length > 0.001)
+                        last_rotate = h.Angle * rotate_sign;
+                    else
+                        last_rotate = 0;
+                }
+
+                for (int i = 0; i < n_rotate; i++)
+                {
+                    orientation += h.Angle * rotate_sign;
+                    x = current.X + h.Length * Math.Sin(orientation);
+                    y = current.Y + h.Length * Math.Cos(orientation);
+                    current = new Point(x, y);
+                    points.Add(current);
+                }
+                if (last_rotate != 0)
+                {
+                    orientation += last_rotate;
+                    x = current.X + h.Length * Math.Sin(orientation);
+                    y = current.Y + h.Length * Math.Cos(orientation);
+                    current = new Point(x, y);
+                    points.Add(current);
+                }
+            }
+        }
+        text = "";
+        foreach (Point p in points)
+            text += "(" + p.X + "," + p.Y + ")\n";
+        return points;
+    }
+
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_15?Id={ConfigId}");
+    }
+    public void OpenDialog(HoleType holeType)
+    {
+        Hole = new MudSystemHole();
+        Hole.Interval = ConfigDetails.Holes.Count();
+        Hole.HoleType = holeType;
+        ShowDialog = true;
+
+        StateHasChanged();
+    }
+
+
+}
+

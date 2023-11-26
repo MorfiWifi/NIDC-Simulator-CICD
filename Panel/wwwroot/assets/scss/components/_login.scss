@@ -1,0 +1,30 @@
+﻿.login {
+    &__page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to top, #2C94A8, #707070);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    &__box {
+        p {
+            font-weight: 100;
+        }
+
+        .register_box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &__fields {
+        background: #fff;
+    }
+}

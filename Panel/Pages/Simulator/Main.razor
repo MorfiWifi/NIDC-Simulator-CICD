@@ -1,0 +1,983 @@
+﻿@page "/main"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Models.Config;
+@using Panel16.Shared.Main
+@using SimulationOutPutValues
+@using System.Linq.Expressions
+@using Infrastructure;
+@layout SimulationLayout
+@inject ISimulationApi SimulationApi
+@inject IThreeJsClient ThreeJs
+
+
+
+
+<EditForm EditContext="@EditContext">
+           <div id="new-desgin">
+                   <div class="top">
+                       <div class="controls">
+                           @if (Simulation.SimulationFeilds.InputValues.status == 1)
+                           {
+                               <div class="stop" @onclick="()=>PauseSim(Simulation)">
+                                   <i class="bi bi-pause"></i>
+                               </div>
+                           }
+                           else
+                           {
+                               <div class="end" @onclick="()=>Stop(Simulation)">
+                                   <i class="bi bi-stop-fill"></i>
+                               </div>   
+                           }
+                           
+                           <div class="end">
+                               <i class="bi bi-stop-fill"></i>
+                           </div>   
+                       </div>
+                       
+                       <SpeedSelection @bind-Value="@Simulation.SimulationFeilds.InputValues.speed"/>
+
+                       <div class="timer" >
+                           <div class="start"><span>R:</span> <span style="font-size: 0.8rem">@($"{Simulation?.CreateDate:HH:mm}")</span></div>
+                           @* ..:.. *@
+                           <div class="end"><span>S:</span> <span style="font-size: 0.8rem">@($"{Simulation?.ModifyDate:HH:mm}")</span></div>
+                       </div>
+                       <div class="warning click-scale-down" style="cursor: pointer">
+                           <i class="bi bi-exclamation-triangle"></i>
+                       </div>
+                       <div class="volume control click-scale-down" style="cursor: pointer;" @onclick="ToggleMute">
+                           @if (IsMute)
+                           {
+                               <i class="bi bi-volume-mute"></i>
+                           }
+                           else
+                           {
+                               <i class="bi bi-volume-up"></i>
+                           }
+                       </div>
+                       
+                       <div class="mic control click-scale-down" @onclick="() => OnMicDown()">
+                          @if (IsMicOn)
+                          {
+                              <i class="bi bi-mic"></i>
+                          }
+                          else
+                          {
+                              <i class="bi bi-mic-mute"></i>
+                          }
+                       </div>
+                      
+                       
+                       @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))
+                        {
+                            <div class="user">
+                                <a href="/SimulationUsers?simulationId=@(SimulationId)">
+                                    <i class="bi bi-person"></i>
+                                </a>
+                            </div>
+                        }
+                       
+                       <div class="chat">
+                           <a href="">
+                            <i class="bi bi-chat-left"></i>
+                           </a>
+                       </div>
+                       
+                       @if (hubConnection?.State == HubConnectionState.Connected)
+                       {
+                           <div class="internet connect anim-blink pointer-event"> <!--change connect to disconnect to make it red-->
+                               <i class="bi bi-circle-fill"></i>
+                           </div>
+                       }
+                       else
+                       {
+                           <div class="internet disconnect">
+                              <i class="bi bi-circle-fill"></i>
+                           </div>
+                       }
+                       
+                   </div>
+                   <div class="content">
+                       <div class="top">
+                           <div class="line-chart">
+                               <canvas class="d-block" id="lineChartRop"></canvas>
+                               <canvas class="d-none" id="lineChartPress"></canvas>
+                               <canvas class="d-none" id="lineChartTor"></canvas>
+                               <canvas class="d-none" id="lineChartWob"></canvas>
+                           </div>
+                       </div>
+                       <div class="top-info">
+                           <div class="items">
+                               <div class="item chart-item item-1 active non-selectable" onclick="RopOn()">
+                                   <div class="title">ROP</div>
+                                   <div class="value"> @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.ROP:0}") </div>
+                                   <div class="unit">ft/hr</div>
+                               </div>
+                               <div class="item chart-item item-2 non-selectable" onclick="PressOn()">
+                                   <div class="title">Press</div>
+                                   <div class="value">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PumpPressure:0}")</div>
+                                   <div class="unit">psi</div>
+                               </div>
+                               <div class="item chart-item item-3 non-selectable" onclick="TorOn()">
+                                   <div class="title" >Torque</div>
+                                   <div class="value">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.Torque:0}")</div>
+                                   <div class="unit">lbft</div>
+                               </div>
+                               <div class="item chart-item item-4 non-selectable" onclick="WobOn()">
+                                   <div class="title" >WOB</div>
+                                   <div class="value">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit:0}")</div>
+                                   <div class="unit">lb</div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="threeContainer non-selectable">
+                           <div id="threeContainer">
+                               
+                           </div>
+                            @* <div class="silips-tong"> *@
+                            @*     <div id="silips" @onclick="ToggleSilips"> *@
+                            @*         <img src="/assets/img/silips.png" > *@
+                            @*     </div> *@
+                            @*     <div id="tong" @onclick="ToggleTong"> *@
+                            @*         <img src="/assets/img/tong.png" > *@
+                            @*     </div> *@
+                            @* </div> *@
+                           <div class="screen-params" style="line-height: 20px">
+                           @if (ShowDisplayOn)
+                           {
+                               <div class="non-selectable text-center align-content-center" style="cursor: pointer" @onclick="ToggleScrenDisplay">
+                                   <i class="bi bi-caret-down-fill"></i>
+                               </div>
+                               
+                               <div>
+                                   MD: @(Simulation.SimulationFeilds.InputValues.Configuration.Path?.Items?.FirstOrDefault()?.MeasuredDepth ?? 0)
+                               </div>
+                               
+                               <div>
+                                   TVD: @(Simulation.SimulationFeilds.InputValues.Configuration.Path?.Items?.FirstOrDefault()?.TotalVerticalDepth ?? 0)
+                               </div>
+                               
+                               <div>
+                                   Shoe D: @Simulation.SimulationFeilds.InputValues.Configuration.Shoe.ShoeDepth
+                               </div>
+                               
+                               <div>
+                                   Bit Depth: @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.BitPosition:0}")
+                               </div>
+                               
+                               <div>
+                                   Mw in: @Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.MudWeightIn
+                               </div>
+                               
+                               <div>
+                                   Mw out: @Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.MudWeightOut
+                               </div>
+                               
+                               <div>
+                                   Pit Vol: @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}")
+                               </div>
+                               
+                           }
+                           else
+                           {
+                               <div class="non-selectable text-center align-content-center" style="cursor: pointer;min-width: 3rem" @onclick="ToggleScrenDisplay">
+                                   <i class="bi bi-caret-up-fill"></i>
+                               </div>
+                           }
+                           
+                           
+                             
+                               
+                               
+                           </div>
+                           
+                           @if (HoleIsVisible)
+                           {
+                               <div class="hole-info" @onclick="() => HoleIsVisible = false">
+                                   <i class="bi bi-caret-down-fill"></i>
+                                   <img src="assets/img/drilling.png" alt="">
+                               </div>
+                           }
+                           else
+                           {
+                                <div class="hole-info-minimized" @onclick="() => HoleIsVisible = true">
+                                    <i class="bi bi-caret-up-fill"></i>
+                                </div>
+                           }
+                           
+                          
+                       </div>
+                       <div class="more-info">
+                           <div class="item item-1 non-selectable">
+                               <div class="title">Tot.Stk</div>
+                               <div class="value">@(Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.TotalStrokeCounter)  Stk</div>
+                               <button class="click-scale-down" @onclick="()=> ZeroStrokes()">reset</button>
+                           </div>
+                           <div class="item item-2 non-selectable click-scale-down" style="cursor: pointer;">
+                               <div class="title">Auto Drill</div>
+                           </div>
+                           <div class="item item-3 non-selectable click-scale-down" style="cursor: pointer" @onclick="() => FlowCheckCLicked()">
+                               <div class="icon">
+                                   <i class="bi bi-eye"></i>
+                               </div>
+                               <div class="title">Flow Check</div>
+           
+                           </div>
+                           <div class="item item-4 non-selectable">
+                               <div class="title">HK Load</div>
+                               <div class="value"><span>12</span> <span>lb</span></div>
+                           </div>
+                           <div class="item item-5">
+                               <div class="title">WOB</div>
+                               <div class="value">
+                                   <span>
+                                       @(Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit )
+                                   </span> 
+                                   <span>lb</span>
+                               </div>
+                               <button class="click-scale-down" @onclick="()=> ZeroWob()">Zero</button>
+                           </div>
+                       </div>
+                       <div class="info-and-handle">
+                       
+                           <ControlCardMobile
+                               Prefix="spm"
+                               Maximum = "@Simulation.SimulationFeilds.InputValues.Configuration.Pumps.MudPump1Maximum"
+                               ControlText="MP1"
+                               @bind-Switch="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.MP1CPSwitch"
+                               
+                               IsLedOn="@(Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.MP1CPSwitch == -1)"
+                               @bind-Display="@Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MP1SPM"
+                               @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.MP1Throttle"/>
+                               @* @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MP1SPM"/> *@
+                           @* @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MP2SPM"/> *@
+                           <ControlCardMobile
+                               Prefix="spm"
+                               Maximum = "@Simulation.SimulationFeilds.InputValues.Configuration.Pumps.MudPump2Maximum"
+                               ControlText="MP2"
+                               @bind-Switch="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.MP2Switch"
+                               
+                               IsLedOn="@(Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.MP2Switch == -1)"
+                               @bind-Display="@Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MP2SPM"
+                               @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.MP2Throttle"/>
+
+                           <div class="item item-3 non-selectable" >
+                               <div class="degree">
+                                   <div class="icon border-bottom click-scale-down" style="cursor: pointer" @onclick="PitGainAlarmOnClick">
+                                       
+                                       @if (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmLED == -1 &&
+                                            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTSetAlarmSwitch == -1)
+                                       {
+                                           <i class="bi bi-bell-slash-fill anim-blink"></i>
+                                       }
+                                       else if (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTSetAlarmSwitch == -1)
+                                       {
+                                           <i class="bi bi-bell-slash-fill"></i>
+                                       }
+                                       else
+                                       {
+                                           <i class="bi bi-bell-fill"></i>
+                                       }
+                                       
+                                   </div>
+                                   <div id="PitGainLossGauge" class="degrees" @onclick="PitGainLossClick" style="cursor: pointer">
+                                       <div class="deg deg-01"></div>
+                                       <div class="deg deg-02"></div>
+                                       <div class="deg deg-03"></div>
+                                       <div class="deg deg-05"></div>
+                                       <div class="deg deg-04"></div>
+                                       <div class="deg deg-06"></div>
+                                       <div class="deg deg-07"></div>
+                                       <div class="deg deg-10"></div>
+                                       <div class="deg deg-08"></div>
+                                       <div class="deg deg-09"></div>
+                                       <div class="deg deg-11"></div>
+                                       <div class="arrow">
+                                           <i class="bi bi-caret-left-fill"></i>
+                                       </div>
+                                       <div class="ub"></div>
+                                       <div class="lb"></div>
+                                   </div>
+           
+                               </div>
+                               <div class="name">
+                                   <span>
+                                       @Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitGainLose
+                                   </span>
+                                   <span>bbl</span>
+                               </div>
+                           </div>
+                           <div class="item item-4 non-selectable" >
+                               <div class="degree">
+                                   <div class="icon click-scale-down" style="cursor: pointer" @onclick="PercentFlowAlarmOnClick">
+                                       
+                                       @if (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmLED == -1 &&
+                                            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFISetAlarmSwitch == -1){
+                                                <i class="bi bi-bell-slash-fill anim-blink"></i>
+                                              }
+                                              else if (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFISetAlarmSwitch == -1)
+                                              {
+                                                  <i class="bi bi-bell-slash-fill"></i>
+                                              }
+                                              else
+                                              {
+                                                  <i class="bi bi-bell-fill"></i>
+                                              }
+                                       
+                                   </div>
+                                   <div id="PercentFlowGauge" class="degrees" style="cursor: pointer" @onclick="FlowPercentClick">
+                                       <div class="deg deg-01"></div>
+                                       <div class="deg deg-02"></div>
+                                       <div class="deg deg-03"></div>
+                                       <div class="deg deg-05"></div>
+                                       <div class="deg deg-04"></div>
+                                       <div class="deg deg-06"></div>
+                                       <div class="deg deg-07"></div>
+                                       <div class="deg deg-10"></div>
+                                       <div class="deg deg-08"></div>
+                                       <div class="deg deg-09"></div>
+                                       <div class="deg deg-11"></div>
+                                       <div class="arrow">
+                                           <i class="bi bi-caret-left-fill"></i>
+                                       </div>
+                                       <div class="ub"></div>
+                                       <div class="lb"></div>
+                                   </div>
+           
+                               </div>
+                               <div class="name">
+                                   <span>
+                                       @Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow
+                                   </span> 
+                                   <span>%</span>
+                               </div>
+                           </div>
+
+                           <ControlCardMobile
+                               Prefix="rpm"
+                               ControlText="RT"
+                               Maximum = "130"
+                               Minimum ="0"
+                               @bind-Switch="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.RTSwitch"
+                               IsLedOn="@(Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.RTSwitch == -1)"
+                               @bind-Display="@Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.RTRPM"
+                               @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.RTThrottle"/>
+                           @* @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.RTRPM"/> *@
+                           
+                           @* <ControlCardMobile *@
+                           @*     Step="50" *@
+                           @*     Minimum="-500" *@
+                           @*     Maximum="500" *@
+                           @*     Prefix="rpm" *@
+                           @*     ControlText="DW*" *@
+                           @*     @bind-Switch="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWSwitch" *@
+                           @*     IsLedOn="@(Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.DWSwitch == -1)" *@
+                           @*      *@
+                           @*     @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle"/> *@
+                                @* @bind-Value="@Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle"/> *@
+
+                           <div class="item item-6 non-selectable">
+                               
+                               
+                               @* <div class="handler"> *@
+                               @*     <div class="track"> *@
+                               @*         <div class="handle"></div> *@
+                               @*     </div> *@
+                               @* </div> *@
+                               @* <div class="name"> *@
+                               @*     DW *@
+                               @* </div> *@
+                               
+                                   @* <input @onmousedown="HandlerMouseDown" @onmouseup="HandlerMouseUp"  id="drawWorks" type="text" data-slider-min="-1" data-slider-max="1" data-slider-step="0.1" data-slider-value="0" data-slider-orientation="vertical"/> *@
+
+                               
+                               <div class="range-slider">
+                                   <input type="range" orient="vertical" min="0" max="100" />
+                                   <div class="range-slider__bar"></div>
+                                   <div class="range-slider__thumb__shadow" ></div>
+                                   <div class="range-slider__thumb" ></div>
+                               </div>
+                               
+
+                               @* <input id="ex4" type="text" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="-3" data-slider-orientation="vertical"/> *@
+                               
+                               @if (Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.DWSwitch == -1)
+                               {
+                                   <div class="name led-on click-scale-down" style="cursor: pointer" @onclick="DrawWorkSwitchClicked">
+                                       DW
+                                   </div> 
+                               }
+                               else
+                               {
+                                   <div class="name click-scale-down" style="cursor: pointer" @onclick="DrawWorkSwitchClicked">
+                                       DW
+                                   </div> 
+                               }
+                               
+
+                           </div>
+                           
+                       </div>
+           
+                   </div>
+               </div>
+</EditForm>
+<MudDialog @bind-IsVisible="@(GainLossModalVisibility)" Class="relative-dialog" >
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+           PitGainLoss
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        
+         <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+             <span>
+                 @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}")
+             </span>
+         </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+            <label>High</label>
+            <label>@($"{PitGainLossUb:0}")</label>
+
+            <div class="flex-column">
+                <button @onclick="() => { PitGainLossUb += 1; PitGainLossUb = Math.Min(PitGainLossUb , 50); }">
+                    <i class="bi bi-caret-up-fill"></i>
+                </button>
+                <button @onclick="() => { PitGainLossUb -= 1; PitGainLossUb = Math.Max(PitGainLossUb , 0);}">
+                   <i class="bi bi-caret-down-fill"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+            <label>Low</label>
+            <label>@($"{PitGainLossLb:0}") </label>
+
+            <div class="flex-column">
+                <button @onclick="() => { PitGainLossLb += 1; PitGainLossLb = Math.Min(PitGainLossLb , 0); }">
+                    <i class="bi bi-caret-up-fill"></i>
+                </button>
+                <button @onclick="() => { PitGainLossLb -= 1; PitGainLossLb = Math.Max(PitGainLossLb , -50); }">
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+            </div>
+        </div>
+
+
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="() => PitGainLossSave()">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Set]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="@(FlowPercentModalVisibility)" Class="relative-dialog" >
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            PercentFlow
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        
+        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+            <span>
+                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow:0}")
+            </span>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+            <label>High</label>
+            <label>@($"{FlowPercentUb:0}")</label>
+
+            <div class="flex-column">
+                <button @onclick="() => { FlowPercentUb += 1; FlowPercentUb = Math.Min(FlowPercentUb , 100); }">
+                    <i class="bi bi-caret-up-fill"></i>
+                </button>
+                <button @onclick="() => { FlowPercentUb -= 1; FlowPercentUb = Math.Max(FlowPercentUb , 0); }">
+                   <i class="bi bi-caret-down-fill"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+            <label>Low</label>
+            <label>@($"{FlowPercentLb:0}") </label>
+
+            <div class="flex-column">
+                <button @onclick="() => { FlowPercentLb += 1; FlowPercentLb = Math.Min(100 , FlowPercentLb); FlowPercentLb = Math.Min(FlowPercentUb , FlowPercentLb); }">
+                    <i class="bi bi-caret-up-fill"></i>
+                </button>
+                <button @onclick="() => { FlowPercentLb -= 1; FlowPercentLb = Math.Max(0 , FlowPercentLb); FlowPercentLb = Math.Min(FlowPercentUb , FlowPercentLb); }">
+                    <i class="bi bi-caret-down-fill"></i>
+                </button>
+            </div>
+        </div>
+
+
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="() => FlowPercentSave()">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Set]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="@(FlowCheckDialogueVisibility)" Class="relative-dialog" >
+    @* <TitleContent> *@
+    @*     <MudText Typo="Typo.h6"> *@
+    @*         PercentFlow *@
+    @*     </MudText> *@
+    @* </TitleContent> *@
+    <DialogContent>
+        
+        
+        <div class="flex-row">
+            <button class="btn btn-primary" @onclick="() => WellMudFlowClicked()">
+                Well Mud flow
+            </button>
+            <button class="btn btn-primary" @onclick="() => ShakerMudFlowClicked()">
+                Shaker Mud flow
+            </button>
+        </div>
+
+    </DialogContent>
+    @* <DialogActions> *@
+    @*     <button class="btn  btn-primary w-100" @onclick="() => FlowPercentSave()"> *@
+    @*         <i class="fa fa-save"></i> *@
+    @*         @localizer[LocalizationKeys.Set] *@
+    @*     </button> *@
+    @* </DialogActions> *@
+</MudDialog>
+
+
+@code {
+    
+    [CascadingParameter]
+    public Action ToggleMenu { get; set; }
+    
+    private bool IsMute { get; set; }
+    private void ToggleMute() => IsMute = !IsMute;
+    
+    private bool IsMicOn { get; set; }
+    private void OnMicDown() => IsMicOn = !IsMicOn;
+    // private void OnMicUp() => IsMicOn = false;
+
+    private bool ShowDisplayOn { get; set; } = true;
+    private void ToggleScrenDisplay() => ShowDisplayOn = !ShowDisplayOn;
+
+    private bool FlowCheckDialogueVisibility = false;
+
+    private async Task HandlerMouseDown()
+    {
+        Console.WriteLine("slider - down");
+    }
+
+    private async Task HandlerMouseUp()
+    {
+        Console.WriteLine("slider - up");
+        // BrowserTools.SetSlider(0);
+    }
+
+    private void FlowCheckCLicked()
+    {
+        FlowCheckDialogueVisibility = true;
+    }
+
+    private void ShakerMudFlowClicked()
+    {
+        //todo do some logic
+        FlowCheckDialogueVisibility = false;
+    }
+
+    private void WellMudFlowClicked()
+    {
+        
+        //todo do some logic
+        FlowCheckDialogueVisibility = false;
+    }
+
+
+    private async Task ToggleTong()
+    {
+        await ThreeJs.ToggleTong();
+        if (hubConnection is {State: HubConnectionState.Connected })
+        {
+            await hubConnection?.SendAsync("ToggleTong" , Simulation);
+        }
+    }
+    
+    private async Task ToggleSilips()
+    {
+        await ThreeJs.ToggleSilipsStand();
+        if (hubConnection is {State: HubConnectionState.Connected })
+        {
+            await hubConnection?.SendAsync("ToggleSilipsStand" , Simulation);
+        }
+    }
+    private async Task DrawWorkSwitchClicked()
+    {
+        if (Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.DWSwitch == Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWSwitch)
+        {
+            Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWSwitch = Simulation.SimulationFeilds.OutputVals.Equipments.Drilling.DWSwitch == -1 ? 0 : -1;
+            EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWSwitch));
+        }
+    }
+
+    private async Task PitGainAlarmOnClick()
+    {
+    // already waiting for changes to be apply
+        if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTSetAlarmSwitch !=
+            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTSetAlarmSwitch) return;
+        
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTSetAlarmSwitch =
+            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTSetAlarmSwitch == -1 ? 0 : -1;
+        EditContext.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTSetAlarmSwitch));
+    }
+
+    private async Task PercentFlowAlarmOnClick()
+    {
+        // already waiting for changes to be apply
+        if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFISetAlarmSwitch !=
+            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFISetAlarmSwitch) return;
+        
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFISetAlarmSwitch =
+            Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFISetAlarmSwitch == -1 ? 0 : -1;
+        EditContext.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFISetAlarmSwitch));
+    }
+    
+        private const int ChartLen = 30;
+    private LinkedList<double> RopList = new(new double[ChartLen]);
+    private LinkedList<double> WopList = new(new double[ChartLen]);
+    private LinkedList<double> PressList = new(new double[ChartLen]);
+    private LinkedList<double> TorList = new(new double[ChartLen]);
+
+    public async Task AddReplace(LinkedList<double> list, double item)
+    {
+    // Add the new number to the end of the linked list
+        list.AddLast(item);
+
+    // If the linked list is full, remove the first number
+        if (list.Count > ChartLen)
+        {
+            list.RemoveFirst();
+        }
+    }
+    
+    public bool FlowPercentModalVisibility { get; set; } = false;
+    public double FlowPercentUb { get; set; } = 0;
+    public double FlowPercentLb { get; set; } = 0;
+
+    public async Task FlowPercentClick()
+    {
+        FlowPercentModalVisibility = true;
+    }
+
+    public async Task FlowPercentSave()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh = FlowPercentUb;
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow = FlowPercentLb;
+        EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh));FlowPercentModalVisibility = false;
+    }
+
+    public bool HoleIsVisible { get; set; } = true;
+    
+    public bool GainLossModalVisibility { get; set; } = false;
+    public double PitGainLossUb { get; set; } = 0;
+    public double PitGainLossLb { get; set; } = 0;
+
+    private async Task PitGainLossClick()
+    {
+        GainLossModalVisibility = true;
+    } 
+
+    private async Task PitGainLossSave()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh = PitGainLossUb;
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow = PitGainLossLb;
+        EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow));
+        GainLossModalVisibility = false;
+    }
+    
+    public bool RenderByEquimentsChanged { set; get; } = true;
+    protected string SimulationId { set; get; }
+    // protected bool Mobile { set; get; }
+    protected bool Mobile { set; get; } = true;
+    public int Page { set; get; } = 1;
+    protected SimulationModel Simulation { set; get; } = new();
+    private EditContext EditContext;
+    private HubConnection? hubConnection;
+    //----------
+    private DateTime Lastupdate { set; get; } = DateTime.Now;
+    private async void OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (DateTime.Now.Subtract(Lastupdate).TotalMilliseconds < 100)
+            return;
+        Console.WriteLine("OnFieldChanged");
+        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+        {
+            await hubConnection.SendAsync("UpdateModel", Simulation);
+        }
+
+    }
+    bool firstLatch = true;
+    //-----
+
+    //
+    double lastHookHeight = 114;
+    // double lastHookHeight = 140;
+
+    public static Func<double, Task>? UpdateDrawWorkFunc; 
+    
+    private DateTime lasDwUpdate = DateTime.Now;
+    [JSInvokable]
+    public static void SetDrawWorkHandlerStatus(double ps)
+    {
+        DeBounce.CallAction("DrawWorkHadler" ,() => UpdateDrawWorkFunc?.Invoke(ps) );
+    }
+
+    protected override async void OnInitialized()
+    {
+
+        // func called from JS
+        UpdateDrawWorkFunc = async ps =>
+        {
+            var dwRpm = ((ps - 50) / 50) * 900;
+            Console.WriteLine($"drawork at {dwRpm}");
+                
+            Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle = dwRpm;
+            var fId = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle);
+            EditContext.NotifyFieldChanged(fId);
+            
+            
+            // if (DateTime.Now - lasDwUpdate > TimeSpan.FromMilliseconds(200))
+            // {
+            //     var dwRpm = ((ps - 50) / 50) * 900;
+            //     Console.WriteLine($"drawork at {dwRpm}");
+            //     
+            //     Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle = dwRpm;
+            //     var fId = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle);
+            //     EditContext.NotifyFieldChanged(fId);
+            //
+            //     lasDwUpdate = DateTime.Now;
+            // }
+        };
+        
+        
+        EditContext = new EditContext(Simulation);
+        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
+        Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        StateHasChanged();
+        //Read();
+        EditContext.OnFieldChanged += OnFieldChanged;
+
+        #region hub comment
+        hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
+
+        hubConnection.On<SimulationModel>("Toggle-SilipsStand", async (_) => { await ThreeJs.ToggleSilipsStand();});
+        hubConnection.On<SimulationModel>("Toggle-Tong", async (_) => { await ThreeJs.ToggleTong(); });
+        
+        hubConnection.On<SimulationModel>("update-model", async (newModel) =>
+        {
+            Console.WriteLine("update-model");
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Lastupdate = DateTime.Now;
+            Simulation.SimulationFeilds.InputValues = newModel.SimulationFeilds.InputValues;
+            if (
+                (Simulation.SimulationFeilds.TempValues.TongClose != newModel.SimulationFeilds.TempValues.TongClose ||
+            Simulation.SimulationFeilds.TempValues.TongOpen != newModel.SimulationFeilds.TempValues.TongOpen)
+            && !firstLatch)
+            {
+                if (Simulation.SimulationFeilds.TempValues.TongClose)
+                    await ThreeJs.TongClose();
+                else
+                    await ThreeJs.TongOpen();
+            }
+            firstLatch = false;
+            Simulation.SimulationFeilds.TempValues = newModel.SimulationFeilds.TempValues;
+            StateHasChanged();
+
+        });
+        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
+        {
+            
+            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+                return;
+            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+            
+            /*block detect changes - then change*/
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh != Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmHigh)
+                PitGainLossUb = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh;
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow != Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmLow)
+                PitGainLossLb = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow;
+            
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh != Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmHigh)
+                FlowPercentUb = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh;
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow != Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmLow)
+                FlowPercentLb = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow;
+            
+            
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob == -1 && Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit == 0)
+            {
+                Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob = 0;
+                EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob));
+            }
+            
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch == -1 && Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.TotalStrokeCounter == 0)
+            {
+                Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch = 0;
+                EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch));
+            }
+            
+            // Console.WriteLine("Update-Outputs -MAIN-PAGE");
+            // update hook location
+            var hookHeightChange = newModel.SimulationFeilds.OutputVals.Equipments.Hook.HookHeight - lastHookHeight;
+            // Console.WriteLine($"hook height changed : {hookHeightChange}");
+            // await ThreeJs.AccelerateDown(-hookHeightChange);
+
+            if (hookHeightChange != 0)
+            {
+                // change in 10 steps!
+                for (int i = 0; i < 10; i++)
+                {
+                    await ThreeJs.AccelerateUp(hookHeightChange / 10);
+                    await Task.Delay(Consts.SimulationStep / 10);
+                }
+            }
+            
+            lastHookHeight = newModel.SimulationFeilds.OutputVals.Equipments.Hook.HookHeight;
+
+
+            // update charts
+            // range -50 , 50 -> 0 , 100
+            var pitGainLossPercent = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitGainLose + 50;
+            var percentFlow = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow;
+            
+            var rop = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.ROP;
+            var wob = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit;
+            var trq = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.Torque;
+            var press = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PumpPressure;
+            await AddReplace( RopList , rop);
+            await AddReplace( WopList , wob);
+            await AddReplace( TorList , trq);
+            await AddReplace( PressList , press);
+            
+            if (rendered)
+            {
+                Console.WriteLine("updating-chart-vertical-gages");
+                
+                await BrowserTools.SetVerticalGaugeValue("PitGainLossGauge" , (100 - pitGainLossPercent) ,
+                    100 - (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmHigh + 50), 
+                    100 - (Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmLow + 50) );
+                
+                await BrowserTools.SetVerticalGaugeValue("PercentFlowGauge" , (100 - percentFlow) , 
+                    100 - Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmHigh , 
+                    100 - Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmLow);
+                
+               await BrowserTools.SetRopChart(RopList.ToArray());
+               await BrowserTools.SetWobChart(WopList.ToArray());
+               await BrowserTools.SetTorChart(TorList.ToArray());
+               await BrowserTools.SetPressChart(PressList.ToArray());
+
+                await ThreeJs.Drill();
+                await ThreeJs.DrillRotary(Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.RTRPM);
+            }
+            else
+            {
+                Console.WriteLine("no rendered yet ...");
+            }
+            
+            StateHasChanged();
+        });
+
+
+        await hubConnection.StartAsync();
+        #endregion
+
+        base.OnInitialized();
+    }
+
+    public bool rendered = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dimention = await BrowserTools.GetDimensions();
+            // Mobile = (dimention.Width < 922);
+            Console.WriteLine("page width:" + dimention.Width);
+            await BrowserTools.Prepare3d();
+            
+            await BrowserTools.InitSliderHandler("drawWorks");
+            StateHasChanged();
+        }
+        else if (Page == 1 && !RenderByEquimentsChanged)
+        {
+            await BrowserTools.Prepare3d();
+            Console.WriteLine("3d container updated");
+        }
+
+        rendered = true;
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    protected async Task AccDown()
+    {
+        await JsRunTime.InvokeVoidAsync("window.ThreeObject.accelerateDown");
+    }
+    protected async Task AccUp()
+    {
+        await JsRunTime.InvokeVoidAsync("window.ThreeObject.accelerateUp");
+    }
+    protected async Task SpeedDrill()
+    {
+        await JsRunTime.InvokeVoidAsync("window.ThreeObject.speedDrill");
+    }
+    protected async Task SlowDrill()
+    {
+        await JsRunTime.InvokeVoidAsync("window.ThreeObject.slowDrill");
+    }
+    
+    protected async Task PauseSim(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to pause this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await SimulationApi.Pause(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = false;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not pause This Simulation!", icon: SweetAlertIcon.Error);
+        NavigationManager.NavigateTo("/");
+
+    }
+    protected async Task Stop(SimulationModel sim)
+    {
+        var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to Stop this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
+        if (!confirm.IsConfirmed)
+            return;
+        var res = await SimulationApi.Pause(sim.Id.Value);
+        if (res.IsSuccessStatusCode)
+            sim.IsRunning = false;
+        else
+            await Swal.ShowSwal(title: "", message: $"You can not Stop This Simulation!", icon: SweetAlertIcon.Error);
+        NavigationManager.NavigateTo("/");
+
+    }
+
+    private async Task ZeroWob()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob = -1;
+        EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob));
+    }
+    
+    private async Task ZeroStrokes()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch = -1;
+        EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch));
+    }
+
+}

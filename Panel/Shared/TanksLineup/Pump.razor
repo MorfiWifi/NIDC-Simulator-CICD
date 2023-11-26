@@ -1,0 +1,74 @@
+@using System.Linq.Expressions;
+<g
+    style="cursor: pointer"
+    transform="@BaseTransform"
+    @onclick="Toggle">
+    <g
+        id="pump"
+        transform="translate(-0.39921942,-29.655628)">
+        <rect
+            style="opacity:1;fill:@(State?OnColorFill:OffColorFill);fill-opacity:@(State?1:0);stroke:#414141;stroke-width:0.267;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+            id="rect18915"
+            width="13.938106"
+            height="3.3107295"
+            x="342.92947"
+            y="108.51824" />
+        <circle
+            style="opacity:1;fill:@(State?OnColorFill:OffColorFill);fill-opacity:1;stroke:#414141;stroke-width:0.534663;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+            id="circle18917"
+            cx="361.71426"
+            cy="115.23937"
+            r="8.2181683" />
+        <circle
+            style="opacity:1;fill:@(State?OnColorFillInnerCircle:OffColorFill);fill-opacity:1;stroke:#414141;stroke-width:0.559534;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+            id="circle18919"
+            cx="361.71426"
+            cy="115.23937"
+            r="5.3427329" />
+    </g>
+    <path
+        style="opacity:1;fill:#4a4a4a;fill-opacity:1;stroke:#414141;stroke-width:0.266999;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+        d="m 356.60187,92.84491 -3.77233,2.712786 1.41626,1.969418 5.41428,-3.893563 z"
+        id="path18923" />
+    <path
+        style="opacity:1;fill:#4a4a4a;fill-opacity:1;stroke:#414141;stroke-width:0.266999;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+        d="m 366.08076,92.844912 3.77233,2.71278 -1.41626,1.96942 -5.41428,-3.89356 z"
+        id="path18925" />
+</g>
+
+
+@code{
+
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<bool> StateChanged { get; set; }
+    [Parameter]
+    public Expression<Func<bool>> StateExpression { get; set; }
+    public bool _State = false;
+    [Parameter]
+    public bool State
+    {
+        get => _State;
+        set
+        {
+            if (_State == value) return;
+            _State = value;
+            StateChanged.InvokeAsync(_State);
+            var fieldIdentifier = FieldIdentifier.Create(StateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    
+    [Parameter]
+    public string BaseTransform { get; set; } = "";
+
+    private string OnColorFill { get; set; } = "#10ff00";
+    private string OffColorFill { get; set; } = "#f9f9f9";
+    private string OnColorFillInnerCircle { get; set; } = "#3bb533";
+
+    public void Toggle()
+    {
+        State = !State;
+    }
+
+}

@@ -22,4 +22,4 @@ jobs:
         env:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
-            liara deploy --app="nidc" --api-token="$LIARA_TOKEN" --no-app-logs
+            liara deploy --app="sample-api" --api-token="$LIARA_TOKEN" --no-app-logs

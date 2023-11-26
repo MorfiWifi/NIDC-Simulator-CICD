@@ -1,0 +1,169 @@
+﻿@page "/login"
+@using Panel16.AbrTools
+@using Models.Identity
+@layout EmptyPage
+<link rel="stylesheet" href="assets/css/Login.css">
+
+@if (OtpLogin)
+{
+    <div class="wrapper">
+        <EditForm class="login-form" Model="@VerifyModelObject" OnValidSubmit="@VerifyMethod">
+            <DataAnnotationsValidator />
+            
+            <img class="nidc-logo" src="assets/img/nidc.png" alt="">
+            <label class="label" for="phone">@localizer[LocalizationKeys.Mobile]</label>
+            <input class="form-input" type="text" id="phone" name="phone" placeholder="09160000000" @bind="VerifyModelObject.Username">
+
+            <label class="label" for="password">@localizer[LocalizationKeys.Text_Password]</label>
+            <input class="form-input" type="password" id="password" name="password" placeholder="********" @bind="VerifyModelObject.Password">
+
+            <div class="validation-message w-100 mb-2">@Error</div>
+
+            <p>Don't have an account? <a href="" class="info-link" @onclick="ShowSignUp">@localizer[LocalizationKeys.Signup]</a></p>
+            <input class="button-login" type="submit" value="@localizer[LocalizationKeys.Login]">
+
+        </EditForm>
+    </div>
+    
+}else if (SignUp)
+{
+    <div class="wrapper">
+        <EditForm class="login-form" Model="@SignUpModel" OnValidSubmit="@SignUpMethod" >
+            <DataAnnotationsValidator />
+            <img class="nidc-logo" src="assets/img/nidc.png" alt="">
+            
+            <label class="label" for="phone">@localizer[LocalizationKeys.Mobile]</label>
+            <input class="form-input" type="text" id="phone" name="phone" placeholder="09160000000" @bind="SignUpModel.Mobile" >
+            <ValidationMessage For="@(() => SignUpModel.Mobile)" />
+            
+            <label class="label" for="firstname">@localizer[LocalizationKeys.FirstName]</label>
+            <input class="form-input" type="text" id="firstname" name="firstname" placeholder="firstname" @bind="SignUpModel.FirstName" >
+            <ValidationMessage For="@(() => SignUpModel.FirstName)" />
+            
+            <label class="label" for="lastname">@localizer[LocalizationKeys.LastName]</label>
+            <input class="form-input" type="text" id="lastname" name="lastname" placeholder="lastname" @bind="SignUpModel.LastName" >
+            <ValidationMessage For="@(() => SignUpModel.LastName)" />
+            
+            <label class="label" for="company">@localizer[LocalizationKeys.Company]</label>
+            <input class="form-input" type="text" id="company" name="company" placeholder="company" @bind="SignUpModel.Company" >
+            <ValidationMessage For="@(() => SignUpModel.Company)" />
+            
+            <div class="validation-message w-100 mb-2">@Error</div>
+            
+            <p>Have an account? <a href="" class="info-link" @onclick="ShowLogin">@localizer[LocalizationKeys.Login]</a></p>
+            <input class="button-login" type="submit" value="@localizer[LocalizationKeys.Signup]">
+        </EditForm>
+    </div>
+}
+
+@code
+{
+    protected bool Loading { get; set; }
+    protected bool OtpLogin { get; set; } = true;
+    protected bool Verify { get; set; }
+    protected bool SignUp { get; set; }
+    protected string Error { get; set; } = "";
+    // protected OTPLoginModel Model { set; get; } = new();
+    protected LoginModel VerifyModelObject { set; get; } = new();
+    protected SignUpModel SignUpModel { set; get; } = new();
+
+
+    protected override void OnInitialized()
+    {
+        Statics.OrganizationUrl = UriExtenssions.GetSubDomain(NavigationManager.Uri);
+
+        // Model.OrganizationUrl = VerifyModelObject.OrganizationUrl = SignUpModel.OrganizationUrl = Statics.OrganizationUrl;
+        VerifyModelObject.OrganizationUrl = VerifyModelObject.OrganizationUrl = SignUpModel.OrganizationUrl = Statics.OrganizationUrl;
+        base.OnInitialized();
+    }
+    
+    ///----------------------------------
+    protected async Task VerifyMethod()
+    {
+        try
+        {
+            Error = "";
+            Loading = true;
+            StateHasChanged();
+            VerifyModelObject.OrganizationUrl = VerifyModelObject.OrganizationUrl = SignUpModel.OrganizationUrl = Statics.OrganizationUrl;
+            var response = await HttpClientWithToken.HttpPost("/api/auth/VerifyAndLogin", VerifyModelObject);
+            if (response.IsSuccessStatusCode)
+            {
+                Error = "";
+                StateHasChanged();
+                var result = await response.Content.ReadFromJsonAsync<Models.Identity.PlainToken>();
+                try
+                {
+                    await LocalStorage.RemoveItemAsync(AbrBlazorTools.Statics.LoginTokenKey);
+                    await LocalStorage.RemoveItemAsync(AbrBlazorTools.Statics.RefreshTokenKey);
+                }
+                catch
+                {
+                    ;
+                }
+                await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.LoginTokenKey, result.AccessToken);
+                await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.RefreshTokenKey, result.RefreshToken);
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                Error = localizer[LocalizationKeys.InvalidCredential];
+            }
+        }
+        catch
+        {
+            Error = localizer[LocalizationKeys.UnexpectedError];
+        }
+        finally
+        {
+            Loading = false;
+            StateHasChanged();
+        }
+    }
+
+    ///----------------------------------
+    protected async Task SignUpMethod()
+    {
+        try
+        {
+            Error = "";
+            Loading = true;
+            StateHasChanged();
+            var response = await HttpClientWithToken.HttpPost("/api/auth/SignUp", SignUpModel);
+            if (response.IsSuccessStatusCode)
+            {
+                Error = "";
+                VerifyModelObject.Username = SignUpModel.Mobile;
+                Verify = true;
+                SignUp = false;
+                await Swal.ShowToast(localizer[LocalizationKeys.SuccessfulOtpMessage]);
+                StateHasChanged();
+            }
+            else
+            {
+                Error = localizer[LocalizationKeys.InvalidCredential];
+            }
+        }
+        catch
+        {
+            Error = localizer[LocalizationKeys.UnexpectedError];
+        }
+        finally
+        {
+            Loading = false;
+            StateHasChanged();
+        }
+    }
+    private void ShowSignUp()
+    {
+        SignUp = true;
+        OtpLogin = false;
+    }
+
+    private void ShowLogin()
+    {
+        SignUp = false;
+        OtpLogin = true;
+    }
+
+}

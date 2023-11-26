@@ -1,0 +1,206 @@
+﻿@page "/Users"
+@using System.Net.WebSockets
+@using Models.Identity
+@inject IUserApi _userApi
+
+<div class="container">
+    <h2 class="heading">
+        @localizer[LocalizationKeys.Users]
+    </h2>
+    <table class="table table-striped table-bordered border">
+        <thead>
+        <tr>
+            <th>
+                @localizer[LocalizationKeys.LastName] @localizer[LocalizationKeys.FirstName]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.Mobile]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.Roles]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.Active]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.ConfigsCount]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.SimulationLength]
+            </th>
+            <th>
+                @localizer[LocalizationKeys.AssignRole]
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in UsersList)
+        {
+            <tr>
+                <td>
+                    @($"{user.FirstName} {user.LastName}")
+                </td>
+                <td>
+                    @user.Mobile
+                </td>
+                <td>
+                    @foreach(var ar in user.AccountRoles )
+                    {
+                        <div class="userRole-row">
+                            <button @onclick="()=>RemoveRole(user,ar.Role.Name)" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <span>@ar.Role.Name</span>
+                        </div>
+                    }
+                </td>
+                <td>
+                    <MudSwitch  @onclick="() => ToggleUserActivation(user , !user.IsActive)" Checked="@user.IsActive"  
+                                Label="@(user.IsActive ? localizer[LocalizationKeys.Active] : localizer[LocalizationKeys.DeActive])"  
+                                Color="Color.Success" />
+                </td>
+                <td>
+                    <MudButton Icon="@Icons.Material.Filled.Edit" OnClick="() => ShowConfigCountDialogue(user)">
+                        @user.ConfigsCount <i class="fa fa-pen"></i>
+                    </MudButton>
+                </td>
+                <td>
+                    <MudButton Icon="@Icons.Material.Filled.Edit" OnClick="() => ShowSimulationLengthDialogue(user)">
+                        @user.SimulationLength hour <i class="fa fa-pen"></i>
+                    </MudButton>
+                </td>
+                <td>
+                    @if (!user.AccountRoles.Any(x => x.Role?.Name == Infrastructure.Consts.AdminRole))
+                    {                       
+                        <button @onclick="()=>ConvertToRole(user,Consts.AdminRole)" class="btn btn-block btn-primary w-100">
+                            @localizer[LocalizationKeys.ConvertToAdmin]
+                        </button>
+                    }
+                    @if (!user.AccountRoles.Any(x => x.Role?.Name == Infrastructure.Consts.CoordinatorRole))
+                    {                      
+                        <button @onclick="()=>ConvertToRole(user,Consts.CoordinatorRole)" class="btn btn-block btn-primary w-100">
+                            @localizer[LocalizationKeys.ConvertToCoordinator]
+                        </button>
+                    }
+                    @if (!user.AccountRoles.Any(x => x.Role?.Name == Infrastructure.Consts.AssessorRole))
+                    {
+                     
+                        <button @onclick="()=>ConvertToRole(user,Consts.AssessorRole)" class="btn btn-block btn-primary w-100">
+                            @localizer[LocalizationKeys.ConvertToAssessor]
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<MudDialog @bind-IsVisible="EditConfigCountDialogShown">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @SelectedAccount.ConfigsCount
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="SelectedAccount.ConfigsCount" Label="@localizer[LocalizationKeys.ConfigsCount]"></MudTextField><br />
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="() => SetUserConfigs(SelectedAccount ,SelectedAccount.ConfigsCount)">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Button_Save]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="EditSimulationLengthDialogShown">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @SelectedAccount.SimulationLength
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="SelectedAccount.SimulationLength" Label="@localizer[LocalizationKeys.SimulationLength]"></MudTextField><br />
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100" @onclick="() => SetUserSimulationLength(SelectedAccount , SelectedAccount.SimulationLength)">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Button_Save]
+        </button>
+    </DialogActions>
+</MudDialog>
+@code {
+    public string OrganizationId { set; get; }
+    public bool EditConfigCountDialogShown { get; set; }
+    public bool EditSimulationLengthDialogShown { get; set; }
+    public AccountModel SelectedAccount { get; set; }
+    
+    protected List<Models.Identity.AccountModel> UsersList { set; get; } = new();
+    protected override async void OnInitialized()
+    {
+        await GetData();
+        base.OnInitialized();
+    }
+    protected async Task GetData()
+    {
+        OrganizationId=UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "organizationId");        
+        UsersList = await _userApi.GetAll(OrganizationId);
+        StateHasChanged();
+    }
+    protected async Task ConvertToRole(Models.Identity.AccountModel user,string role)
+    {
+        var res = await _userApi.ConvertToRole(user.Id.Value,role);
+        if (res.IsSuccessStatusCode)
+            await GetData();
+        StateHasChanged();
+    }
+    protected async Task RemoveRole(Models.Identity.AccountModel user,string role)
+    {
+        var res = await _userApi.RemoveRole(user.Id.Value,role);
+        if (res.IsSuccessStatusCode)
+            await GetData();
+        StateHasChanged();
+    }
+
+
+    protected async Task ToggleUserActivation(Models.Identity.AccountModel user , bool state)
+    {
+        var res = await _userApi.SetUserActivation(user.Id.Value , state);
+        if (res.IsSuccessStatusCode)
+            await GetData();
+        StateHasChanged();
+    }
+    
+    protected async Task SetUserConfigs (Models.Identity.AccountModel user , int configsCount)
+    {
+        var res = await _userApi.SetUserConfigs(user.Id.Value , configsCount);
+        if (res.IsSuccessStatusCode)
+            await GetData();
+        StateHasChanged();
+    }
+    
+    protected async Task SetUserSimulationLength (Models.Identity.AccountModel user , int simulationLength)
+    {
+        var res = await _userApi.SetUserSimulationLength(user.Id.Value , simulationLength);
+        if (res.IsSuccessStatusCode)
+            await GetData();
+        StateHasChanged();
+    }
+
+    private void ShowConfigCountDialogue(AccountModel user)
+    {
+        SelectedAccount = user;
+        EditSimulationLengthDialogShown = false;
+        EditConfigCountDialogShown = true;
+        StateHasChanged();
+    }
+
+    private void ShowSimulationLengthDialogue(AccountModel user)
+    {
+        SelectedAccount = user;
+        EditConfigCountDialogShown = false;
+        EditSimulationLengthDialogShown = true;
+        StateHasChanged();
+    }
+
+}

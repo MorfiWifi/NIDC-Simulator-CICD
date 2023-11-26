@@ -1,0 +1,108 @@
+﻿@page "/SaveOrganization"
+@using Models.BaseData
+@using System.IO
+@inject ApiUtils.IUserApi _userApi
+@inject ApiUtils.IOrganizationApi _organizationApi
+
+<div class="container bordered-container">
+    <h5>
+        @localizer[LocalizationKeys.SaveOrganization]
+    </h5>
+    <EditForm Model="@OrganizationModel" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
+        <div class="row m-3">
+            <MudTextField @bind-Value="OrganizationModel.Title" Label="@localizer[LocalizationKeys.Title]"></MudTextField><br />
+            <ValidationMessage For="@(() => OrganizationModel.Title)" />
+        </div>
+        <div class="row m-3">
+            <MudTextField @bind-Value="OrganizationModel.UniqueUrl" Label="@localizer[LocalizationKeys.OrganizationUrl]"></MudTextField><br />
+            <ValidationMessage For="@(() => OrganizationModel.UniqueUrl)" />
+        </div>
+        <div class="row m-3">
+            <div class="mud-input-control mud-input-input-control">
+                <div class="mud-input-control-input-container">
+                    <div class="mud-input mud-input-text mud-input-underline py-2">
+                        @localizer[LocalizationKeys.Logo]
+                        <br />
+                        <br />
+                        <InputFile name="logo" id="logo" OnChange="@LoadFiles" />
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-block-center btn-primary w-100">@localizer[LocalizationKeys.Button_Save]</button>
+    </EditForm>
+</div>
+@code {
+    protected Models.BaseData.OrganizationModel OrganizationModel { set; get; } = new();
+    protected Models.Identity.AccountModel SelectedAdmin { set; get; }
+    protected override async void OnInitialized()
+    {
+        await GetData();
+        base.OnInitialized();
+    }
+    protected async Task GetData()
+    {
+        var id = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "organizationId");
+        if (!string.IsNullOrEmpty(id))
+            OrganizationModel = await _organizationApi.GetbyId(id);
+        StateHasChanged();
+    }
+    protected async Task Save()
+    {
+        var res = await _organizationApi.Save(OrganizationModel);
+        if (res.IsSuccessStatusCode)
+        {
+            await Swal.ShowSwal(title: "", message: localizer[LocalizationKeys.Text_SuccessfulSaveMessage], icon: SweetAlertIcon.Success);
+            NavigationManager.NavigateTo("/Organizations");
+        }
+    }
+    protected async Task<IEnumerable<Models.Identity.AccountModel>> SearchUser(string arg)
+    {
+        if (arg.Length < 6)
+            return new List<Models.Identity.AccountModel>();
+        var users = await _userApi.SearchUsers(arg);
+        return users;
+    }
+    protected async Task DeleteAdmin(Models.Identity.AccountModel user)
+    {
+        OrganizationModel.Admins.Remove(user);
+        StateHasChanged();
+    }
+    protected async Task AddAdmin()
+    {
+        if (SelectedAdmin == null)
+            return;
+        OrganizationModel.Admins.Add(SelectedAdmin);
+        StateHasChanged();
+    }
+
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+
+            Stream stream = file.OpenReadStream();
+            MemoryStream ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            stream.Close();
+
+            UploadedFile uploadedFile = new UploadedFile();
+            uploadedFile.FileName = file.Name;
+            uploadedFile.FileContent = ms.ToArray();
+
+            OrganizationModel.Logo = uploadedFile;
+        }
+        catch
+        {
+            OrganizationModel.Logo = null;
+            Console.WriteLine("error in load file");
+        }
+
+    }
+
+}

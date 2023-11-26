@@ -1,0 +1,214 @@
+﻿@page "/SaveConfig_15"
+@using Panel16.Pages.Components
+@using Models.Config
+@layout SaveConfigLayout
+@inject IConfigApi _configApi
+
+<div class="container-fluid">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Formation data
+        </span>
+        <span class="d-inline-flex justify-content-end">
+            <MudFab StartIcon="@Icons.Filled.Add" Label="Add" OnClick="ShowDialog" DisableElevation="true" />
+            <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+        </span>
+    </h1>
+    <table class="table table-striped table-bordered border">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>Formation Name</th>
+                <th>From Top </th>
+                <th>From FormationThickness</th>
+                <th>Drillability </th>
+                <th>Abrasiveness</th>
+                <th>Threshold Weight(klb/inch)</th>
+                <th>Pore Pressure Gradiant</th>
+                <th>Type </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var geologyData in ConfigDetails.Formations.OrderBy(x => x.Index))
+            {
+                <tr>
+                    <td>@geologyData.Index</td>
+                    <td>@geologyData.FormationName</td>
+                    <td>
+                        <DoubleUnitInput ReadOnly="true" unitCat="Enums.UnitCategory.Length" @bind-Value="geologyData.FormationTop" units="@ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        <DoubleUnitInput ReadOnly="true" unitCat="Enums.UnitCategory.Length" @bind-Value="geologyData.FormationThickness" units="@ConfigDetails.Units" />
+                    </td>
+                    <td>@geologyData.Drillability</td>
+                    <td>@geologyData.Abrasiveness</td>
+                    <td>@geologyData.ThresholdWeight</td>
+                    <td>
+                        <DoubleUnitInput ReadOnly="true" unitCat="Enums.UnitCategory.Gradient" @bind-Value="geologyData.PorePressureGradiant" units="@ConfigDetails.Units" />
+                    </td>
+                    <td>
+                        @(geologyData.Reservoir ? "Reservoir" : "")
+                        @(geologyData.Shoe ? "shoe" : "")
+                    </td>
+
+                    <td style="width:200px;">
+                        <button class="btn btn-danger w-100 mb-2" @onclick="()=>Delete(geologyData)">@localizer[LocalizationKeys.Delete]</button><br />
+                        <button class="btn btn-primary w-100 mb-2" @onclick="()=>SetAsReservoir(geologyData)">Set as Reservoir </button><br />
+                        <button class="btn btn-info w-100 mb-2" @onclick="()=>SetAsShoe(geologyData)">Set as Shoe </button><br />
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<MudDialog @bind-IsVisible="ShowAddDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Add Formation
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <form>
+            <div class="form-group">
+                <label>Formation Name</label>
+                <div class="input-group">
+                    <input @bind="GeologyData.FormationName" type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Index</label>
+                    <div class="row no-gutters">
+                        <div class="input-group">
+                            <input @bind="GeologyData.Index" type="number" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Abrasiveness</label>
+                    <div class="row no-gutters">
+                        <div class="input-group">
+                            <input @bind="GeologyData.Abrasiveness" type="number" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Formation Thickness</label>
+                    <DoubleUnitInput noGutters="true" @bind-Value="GeologyData.FormationThickness" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Formation Top</label>
+                    <DoubleUnitInput noGutters="true" @bind-Value="GeologyData.FormationTop" unitCat="Enums.UnitCategory.Length" units="ConfigDetails.Units" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Drillability</label>
+                    <div class="row no-gutters">
+                        <div class="input-group">
+                            <input @bind="GeologyData.Drillability" type="number" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label> Threshold Weight</label>
+                    <div class="row no-gutters">
+                        <div class="input-group">
+                            <DoubleUnitInput noGutters="true" @bind-Value="GeologyData.ThresholdWeight" unitCat="Enums.UnitCategory.ThresholdWeight" units="ConfigDetails.Units" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Pore Pressure Gradiant</label>
+                    <DoubleUnitInput noGutters="true" @bind-Value="GeologyData.PorePressureGradiant" unitCat="Enums.UnitCategory.Gradient" units="ConfigDetails.Units" class="form-control" />
+                </div>
+            </div>
+        </form>
+    </DialogContent>
+    <DialogActions>
+        <div class="mb-3">
+            <button class="btn btn-primary mr-3" @onclick="Add">
+                <i class="fa fa-save"></i>
+                @localizer[LocalizationKeys.Button_Save]
+            </button>
+        </div>
+    </DialogActions>
+</MudDialog>
+@code {
+    protected bool ShowAddDialog { set; get; }
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    protected FormationData GeologyData { get; set; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        ConfigDetails.Formations = ConfigDetails.Formations ?? new List<FormationData>();
+        GeologyData.Index = ConfigDetails.Formations.Any() ? ConfigDetails.Formations.Max(x => x.Index) + 1 : 0;
+        StateHasChanged();
+        base.OnInitialized();
+
+    }
+
+    protected async Task Delete(Models.Config.FormationData geologyData)
+    {
+        ConfigDetails.Formations.Remove(geologyData);
+        StateHasChanged();
+    }
+
+
+    protected async Task Add()
+    {
+        ConfigDetails.Formations.Add(GeologyData);
+        ShowAddDialog = false;
+        StateHasChanged();
+
+    }
+
+    protected async Task ShowDialog()
+    {
+        GeologyData = new FormationData();
+        GeologyData.FormationTop = ConfigDetails.Formations.Any() ? ConfigDetails.Formations.Last().FormationTop + ConfigDetails.Formations.Last().FormationThickness:0;
+        GeologyData.Index = ConfigDetails.Formations.Any() ? ConfigDetails.Formations.Max(x => x.Index) + 1 : 0;
+        ShowAddDialog = true;
+        StateHasChanged();
+
+    }
+    public async Task SaveAndContinue()
+    {
+        if (!ConfigDetails.Formations.Any(x => x.Shoe) || !ConfigDetails.Formations.Any(x => x.Reservoir))
+        {
+            Swal.ShowSwal("", "A Shoe and Reservoir should be selected", SweetAlertIcon.Error);
+            return;
+        }
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_16?Id={ConfigId}");
+    }
+    public async Task SetAsReservoir(Models.Config.FormationData geologyData)
+    {
+        foreach (var formation in ConfigDetails.Formations)
+            formation.Reservoir = false;
+        geologyData.Reservoir = true;
+    }
+    public async Task SetAsShoe(Models.Config.FormationData geologyData)
+    {
+        foreach (var formation in ConfigDetails.Formations)
+            formation.Shoe = false;
+        geologyData.Shoe = true;
+    }
+}

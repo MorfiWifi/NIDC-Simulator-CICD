@@ -1,0 +1,173 @@
+﻿@page "/SaveConfig_3"
+@using Models.Config
+@using Panel16.Shared
+@using Models.Config
+@using Panel16.Pages.Components
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails" OnValidSubmit="SaveAndContinue">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                BOP Control System
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-7">
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Delay To Operate
+                    </div>
+
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.DelayToOperate" unitCat="@Enums.UnitCategory.Time" units="@ConfigDetails.Units" />
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Number Of Bottels
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="input-group">
+                                <input class="form-control" @bind="ConfigDetails.BopControlSystemModel.NumberOfBottels" type="number"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Accumulator SystemSize
+                    </div>
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.AccumulatorSystemSize" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Oil Tank Volume
+                    </div>
+                    <div class="col-md-3">
+                        <IntUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.OilTankVolume" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Precharge Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.PrechargePressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Accumulator Minimum Operating Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.AccumulatorMinimumOperatingPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Electric PumpOutput
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.ElectricPumpOutput" unitCat="@Enums.UnitCategory.FlowRate" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Start Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.StartPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Stop Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.StopPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Air Plunger Pump Output
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.AirPlungerPumpOutput" unitCat="@Enums.UnitCategory.FlowRate" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Start Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.StartPressure2000Psi" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Stop Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <LongUnitInput class="form-control" @bind-Value="ConfigDetails.BopControlSystemModel.StopPressure2000Psi" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+
+            </div>
+            <div class="col-md-5">
+                <img src="/assets/img/BopControlSystem.jpg" class="w-100" />
+            </div>
+
+        </div>
+
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "BOP Control System";
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_3b?Id={ConfigId}");
+    }
+}

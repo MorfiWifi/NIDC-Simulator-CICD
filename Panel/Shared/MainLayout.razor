@@ -1,0 +1,176 @@
+﻿@using Panel16.AbrTools
+@using Models.Identity
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<aside class="@(IsMenuOpen?"open":"")">
+    <nav>
+        @*<h3 class="title">@Statics.OrganizationUrl - VSIM</h3>*@
+        <h3 class="title">VSIM</h3>
+
+        @if(!string.IsNullOrEmpty(Statics.CurrentLoginInfo?.ProfileImage))
+        {
+            <img src="@((Statics.BaseAddress)+(Statics.CurrentLoginInfo.ProfileImage))" style="width:60%;margin:0 auto;display:block;border-radius:5%;"/>
+        }
+        @*<MudTreeView Items="NavMenuItems">
+        <ItemTemplate>
+        <MudTreeViewItem @bind-Expanded="@context.IsExpanded" Items="@context.Items">
+        <Content>
+        <MudTreeViewItemToggleButton @bind-Expanded="@context.IsExpanded" Visible="@context.HasChild" />
+        <a href="@context.Link">
+        @if(context.HasIcon) { <i><MudIcon Icon="@Icons.Material.Filled.SupervisorAccount"></MudIcon></i> }
+        <span>@context.Title</span>
+        </a>
+        </Content>
+        </MudTreeViewItem>
+        </ItemTemplate>
+        </MudTreeView>*@
+        <ul>
+            <li>
+                <a href="/">
+                    <span>@localizer[LocalizationKeys.MainPage]</span>
+                </a>
+            </li>
+            <li>
+                <a href="/AccountUnits">
+                    <i class="fa fa-expand"></i>
+                    <span>@localizer[LocalizationKeys.Units]</span>
+                </a>
+            </li>
+            @if (Statics.CurrentLoginInfo != null && Statics.CurrentLoginInfo.IsDeveloper)
+            {
+                
+                <li>
+                    <a href="/Organizations">
+                        <i><MudIcon Icon="@Icons.Material.Filled.Construction"></MudIcon></i>
+                        <span>@localizer[LocalizationKeys.Organizations]</span>
+                    </a>
+                </li>
+            }
+            @if (Statics.CurrentLoginInfo != null)
+            {
+                <li><hr /></li>
+                <li>
+                    <a @onclick="SignOut">
+                        <i><MudIcon Icon="@Icons.Material.Filled.ExitToApp"></MudIcon></i>
+                        <span>@localizer[LocalizationKeys.Text_SignOut]</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</aside>
+<div class="dashboard-main @(IsMenuOpen?"menu-open":"")">
+    <header class="header">
+        <a class="menu" @onclick="ToggleMenu"><i class="fa fa-bars"></i></a>
+        <div class="logo d-inline-flex w-100 flex-row-reverse">
+            <CultureDropDown />
+        </div>
+    </header>
+    <main @onclick="HideMenu">
+    @Body
+    </main>
+</div>
+@code {
+
+
+
+    public MudTheme _theme = new MudTheme();
+
+    protected override async void OnInitialized()
+    {
+        if (NavigationManager.Uri.Split(":")[1].Contains("."))
+            Statics.OrganizationUrl = NavigationManager.Uri.Split(":")[1].Split(".")[0].Replace("/", "");
+        else
+            Statics.OrganizationUrl = Statics.DefaultOrganization; //"nidc";
+        //_theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
+        NavigationManager.LocationChanged += LocationChanged;
+        await CheckLogin();
+
+     
+        StateHasChanged();
+        base.OnInitialized();
+
+    }
+    bool IsMenuOpen { set; get; } = false;
+    protected void ToggleMenu()
+    {
+        IsMenuOpen = !IsMenuOpen;
+    }
+    protected void HideMenu()
+    {
+        IsMenuOpen = false;
+    }
+
+
+    async void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        IsMenuOpen = false;
+        await CheckLogin();
+        StateHasChanged();
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            await CheckLogin();
+        base.OnAfterRender(firstRender);
+    }
+
+    async Task CheckLogin()
+    {
+        Console.WriteLine("" + Statics.LastCheck);
+        if (Statics.LastCheck.HasValue && DateTime.Now.Subtract(Statics.LastCheck.Value).TotalMinutes < 5)
+        {
+            Console.WriteLine("less than 5 minutes login check");
+            base.OnInitialized();
+            return;
+        }
+        Console.WriteLine("checking login...");
+        Statics.LastCheck = DateTime.Now;
+        var hasToken = await LocalStorage.ContainKeyAsync(AbrBlazorTools.Statics.LoginTokenKey);
+        if (!hasToken)
+            NavigationManager.NavigateTo("/login");
+        else
+        {
+            var token = await LocalStorage.GetItemAsStringAsync(Statics.LoginTokenKey);
+            var res = await HttpClientWithToken.HttpGet("/api/Auth/CheckLogin");
+            var result =
+                JsonConvert.DeserializeObject<CheckLoginResponse>(
+                    await res.Content.ReadAsStringAsync());
+            if (res.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var refreshRes = await HttpClientWithToken.HttpPost("/api/Auth/refresh", new RefreshTokenModel
+                    {
+                        Token = token
+                    });
+                if (refreshRes.IsSuccessStatusCode)
+                {
+                    var newToken = JsonConvert.DeserializeObject<PlainToken>(await refreshRes.Content.ReadAsStringAsync());
+                    Statics.LoginTokenKey = newToken.AccessToken;
+                    Statics.RefreshTokenKey = newToken.RefreshToken;
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.LoginTokenKey, Statics.LoginTokenKey);
+                    await LocalStorage.SetItemAsync(AbrBlazorTools.Statics.RefreshTokenKey, Statics.RefreshTokenKey);
+                }
+            }
+            if (!res.IsSuccessStatusCode)
+            {
+                await LoadingSpinner.HideLoading();
+                await Swal.ShowSwal(title: "", message: localizer[LocalizationKeys.InvalidCredential], SweetAlertIcon.Error);
+                NavigationManager.NavigateTo("/login");
+            }
+            await LoadingSpinner.HideLoading();
+            Statics.CurrentLoginInfo = result;
+            StateHasChanged();
+        }
+    }
+
+    private async void SignOut()
+    {
+        await LocalStorage.RemoveItemAsync(Statics.LoginTokenKey);
+        await LocalStorage.RemoveItemAsync(Statics.RefreshTokenKey);
+        NavigationManager.NavigateTo("/login");
+    }
+
+    }

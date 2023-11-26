@@ -1,0 +1,210 @@
+﻿
+<svg
+
+   viewBox="0 0 5 4"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="3StateSwitch.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="32.413584"
+     inkscape:cx="7.1729185"
+     inkscape:cy="11.399542"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+        @if (LeftText!="")
+        {
+        <g
+       id="top_text_left"
+       transform="matrix(0.67624842,0,0,0.67624842,0.51835543,-0.80501252)">
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:0.593064px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';direction:rtl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.021014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         x="1.4579207"
+         y="2.4152005"
+         id="text1785"><tspan
+           sodipodi:role="line"
+           id="tspan1783"
+           style="font-size:0.593064px;fill:#000000;stroke:none;stroke-width:0.0210141"
+           x="1.4579207"
+           y="2.4152005">@LeftText</tspan></text>
+            </g>
+        }
+        <g
+       id="switch"
+       transform="rotate(33.115424,2.9738053,2.5467059)"
+       style="fill:#222222;fill-opacity:0">
+      <circle
+         style="fill:#222222;fill-opacity:0;stroke:#949494;stroke-width:0.12133;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="path184"
+         cx="2.9030814"
+         cy="2.1685822"
+         r="0.75269037"
+         transform="rotate(7.1503079)" />
+      <g
+         id="g7365"
+         transform="rotate(93.516963,2.6200768,2.5199084)"
+         style="fill:#222222;fill-opacity:0" />
+    </g>
+    <g
+       id="switch_handle"
+       transform=@SwitchHandlePosition
+        style="cursor:pointer;"
+    @onclick=ChangeSwitchState>
+     <path
+         style="fill:#4d4d4d;fill-opacity:1;stroke:#999999;stroke-width:0.0681896;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         d="M 2.3847548,2.9833111 3.1089391,2.5098227 Z"
+         id="path3340" />
+      <path
+         sodipodi:type="star"
+         style="fill:#a6a6a6;fill-opacity:1;stroke:#949494;stroke-width:0.05;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="path2879"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="1.3766034"
+         sodipodi:cy="3.2495918"
+         sodipodi:r1="0.15106563"
+         sodipodi:r2="0.075532824"
+         sodipodi:arg1="-0.11487661"
+         sodipodi:arg2="0.93232095"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 1.5266733,3.2322761 1.3165643,3.3882141 1.2865725,3.1282853 Z"
+         inkscape:transform-center-x="-0.037264689"
+         inkscape:transform-center-y="0.033389446"
+         transform="matrix(-0.07334275,1.8057837,-1.8057837,-0.07334275,9.086593,0.23313678)" />
+      <circle
+         style="fill:#f2f2f2;fill-opacity:0;stroke:none;stroke-width:0.161609;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="circle8608"
+         cx="0.5795998"
+         cy="3.7974434"
+         transform="rotate(-32.736945)"
+         inkscape:label="circle8608"
+         r="1.0025655" />
+    </g>
+    @if (RightText!="")
+    {
+        
+  <g
+       id="top_text_right"
+       transform="matrix(0.70459294,0,0,0.70459294,1.661666,-0.87351945)">
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:0.593064px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';direction:rtl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.021014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         x="4.7066875"
+         y="2.4152005"
+         id="text3398"><tspan
+           sodipodi:role="line"
+           id="tspan3396"
+           style="font-size:0.593064px;fill:#000000;stroke:none;stroke-width:0.0210141"
+           x="4.7066875"
+           y="2.4152005">@RightText</tspan></text>
+    </g>
+    }
+
+        @if (MiddleText != "")
+        {
+
+
+           <g
+       id="top_text_middle"
+       transform="matrix(0.72777381,0,0,0.72777381,0.9553274,-0.92820604)">
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:0.593064px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';direction:rtl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.021014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         x="3.082304"
+         y="2.4152005"
+         id="text3402"><tspan
+           sodipodi:role="line"
+           id="tspan3400"
+           style="font-size:0.593064px;fill:#000000;stroke:none;stroke-width:0.0210141"
+           x="3.082304"
+           y="2.4152005">@MiddleText</tspan></text>
+            </g>
+        }
+        @if (SideText != "")
+        {
+            <g
+       id="left_text"
+       transform="matrix(0.66896659,0,0,0.66896659,0.52473225,0.82974095)">
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:0.593064px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';direction:rtl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.021014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         x="1.4579207"
+         y="2.4152005"
+         id="text7168"><tspan
+           sodipodi:role="line"
+           id="tspan7166"
+           style="font-size:0.593064px;fill:#000000;stroke:none;stroke-width:0.0210141"
+           x="1.4579207"
+           y="2.4152005">@SideText</tspan></text>
+            </g>
+        }
+    </g>
+</svg>
+
+@code {
+    [Parameter]
+    public int SwitchState { get; set; } = 1;
+    [Parameter]
+    public string SideText { get; set; } = "";
+    [Parameter]
+    public string MiddleText { get; set; } = "";
+    [Parameter]
+    public string RightText { get; set; } = "";
+    [Parameter]
+    public string LeftText { get; set; } = "";
+
+    public string SwitchHandlePosition { get; set; } = "matrix(-0.20074777,-1.2975785,1.2975785,-0.20074777,-0.53100186,6.2027613)";
+    string LeftState { get; set; } = "matrix(-0.20074777,-1.2975785,1.2975785,-0.20074777,-0.53100186,6.2027613)";
+    string MiddleState { get; set; } = "matrix(0.71797444,-1.0993281,1.0993281,0.71797444,-2.2944688,3.0523004)";
+    string RightState { get; set; } = "matrix(1.2566587,-0.38055026,0.38055026,1.2566587,-1.5998454,-0.32867983)";
+    protected override async void OnInitialized()
+    {
+        ChangeSwitchState();
+    }
+    void ChangeSwitchState()
+    {
+
+        switch(SwitchState)
+        {
+            case 1:
+                SwitchState = 2;
+                SwitchHandlePosition = LeftState;
+                break;
+            case 2:
+                SwitchState = 3;
+                SwitchHandlePosition = MiddleState;
+                break;
+            case 3:
+                SwitchState = 1;
+                SwitchHandlePosition = RightState;
+                break;
+        }
+        StateHasChanged();
+    }
+}

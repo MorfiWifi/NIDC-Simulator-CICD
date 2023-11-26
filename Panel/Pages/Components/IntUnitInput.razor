@@ -1,0 +1,42 @@
+﻿@inherits UnitInput<int>
+
+<div class="row@(noGutters?" no-gutters":"")">
+    <div class="input-group">
+        <input value="@GetViewValue()" step="0.01" class="@CssClass" @oninput="HandleInput" type="number" />
+        <div class="input-group-append">
+            <span class="input-group-text"  id="basic-addon2">@System</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    protected override bool TryParseValueFromString(string value, out int result, out string validationErrorMessage)
+    {
+        validationErrorMessage = "Invalid input";
+        result = 0;
+        try
+        {
+            result = int.Parse(value);
+            validationErrorMessage = null;
+            return true;
+        }
+        catch (Exception e)
+        {
+        }
+
+        return false;
+    }
+
+    public override int GetViewValue()
+    {
+        return (int) (Value * Coefficient);
+    }
+
+    public override int GetSiValue(object value)
+    {
+        var parsed = int.Parse(value + "");
+        return (int) (parsed / Coefficient);
+    }
+
+}

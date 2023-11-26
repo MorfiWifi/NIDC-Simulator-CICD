@@ -1,0 +1,7 @@
+{
+  "app":"paanaakhealthcheck",
+  "netcore": {
+    "version": "5.0",
+    "finalDllName": "PanakHealtCheckService"	
+  }
+}

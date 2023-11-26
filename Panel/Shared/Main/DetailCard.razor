@@ -1,0 +1,67 @@
+@using System.Linq.Expressions;
+<div class="detail">
+    <div class="header">@HeaderText</div>
+    <div class="value">@Math.Round(Value , 1)</div>
+    <div class="footer">
+        @*<div class="min">@Min</div>*@
+        <div class="prefix">@Prefix</div>
+        @*<div class="max">@Max</div>*@
+    </div>
+</div>
+
+@code{
+
+    [Parameter]
+    public string HeaderText { get; set; } = "";
+
+    [Parameter]
+    public int Min { get; set; } = 0;
+    
+    [Parameter]
+    public int IntegerPoints { get; set; }
+
+    [Parameter]
+    public int DecimalPoints { get; set; } = 0;
+    [Parameter]
+    public string Prefix { get; set; }
+    
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    [Parameter]
+    public Expression<Func<double>> ValueExpression { get; set; }
+    public double _Value = 0;
+    [Parameter]
+    public double Value
+    {
+        get => _Value;
+        set
+        {
+            if (_Value == value) return;
+            _Value = value;
+            ValueChanged.InvokeAsync(_Value);
+            var fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public bool IsPercent { get; set; } = false;
+    public double Max { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        if (!IsPercent)
+        {
+            double maxIntegerPart = Math.Pow(10, IntegerPoints) - 1;
+            double maxDecimalPart = (Math.Pow(10, DecimalPoints) - 1) / Math.Pow(10, DecimalPoints);
+            Max = maxIntegerPart + maxDecimalPart;
+        }
+        else
+        {
+            Max = 100;
+        }
+        base.OnInitialized();
+    }
+
+}

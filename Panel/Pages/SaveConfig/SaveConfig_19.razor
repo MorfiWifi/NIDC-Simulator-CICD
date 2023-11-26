@@ -1,0 +1,238 @@
+﻿@page "/SaveConfig_19"
+@using Panel16.Pages.Components
+@using Models.Config
+@layout SaveConfigLayout
+@inject IConfigApi _configApi
+@inject IDialogService DialogService
+<div class="container-fluid">
+    <h1 class="page-title d-flex justify-content-between align-items-center">
+        <span>
+            Mud system
+        </span>
+        <span class="d-inline-flex justify-content-end">
+            <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+        </span>
+    </h1>
+    <EditForm Model="@ConfigDetails" OnValidSubmit="SaveAndContinue">
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="padding:15px 30px 15px 15px">
+                        <h5 class="card-title mb-3">Active Mud system</h5>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Mud Type
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="input-group">
+                                        <select @bind=ActiveMudSystem.MudType2 class=" form-control">
+                                            <option value="@((int)MudType.WaterBase)">@MudType.WaterBase</option>
+                                            <option value="@((int)MudType.OilBase)">@MudType.OilBase</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Density
+                            </div>
+                            <div class="col-md-4">
+                                <FloatUnitInput @bind-Value="ActiveMudSystem.Density1" unitCat="@Enums.UnitCategory.Density" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Active Mud Volume
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.ActiveMudVolume1" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Settled Contents
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.SettledContents1" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Plastic Viscosity
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.PlasticViscosity1" unitCat="@Enums.UnitCategory.PlasticVisc" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Yield Point
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.YieldPoint1" unitCat="@Enums.UnitCategory.WeightOfUnitLength" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Total Tank Capacity
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.ActiveTotalTankCapacity" unitCat="@Enums.UnitCategory.Volume"
+                                                 units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Initial Trip Tank Mud Volume
+                            </div>
+                            <div class="col-md-4">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.InitialTripTankMudVolume" unitCat="@Enums.UnitCategory.Volume"
+                                                 units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="padding:15px 30px 15px 15px">
+                        <h5 class="card-title mb-3">Reserve Mud system</h5>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Mud Type
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="input-group">
+                                        <select @bind=ActiveMudSystem.MudType1 class=" form-control">
+                                            <option selected>Choose...</option>
+                                            <option value="@((int)MudType.WaterBase)">@MudType.WaterBase</option>
+                                            <option value="@((int)MudType.OilBase)">@MudType.OilBase</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Density
+                            </div>
+                            <div class="col-md-3">
+                                <FloatUnitInput @bind-Value="ActiveMudSystem.Density2" unitCat="@Enums.UnitCategory.Density" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Active Mud Volume
+                            </div>
+                            <div class="col-md-3">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.ActiveMudVolume2" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Settled Contents
+                            </div>
+                            <div class="col-md-3">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.SettledContents2" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Plastic Viscosity
+                            </div>
+                            <div class="col-md-3">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.PlasticViscosity2" unitCat="@Enums.UnitCategory.PlasticVisc" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Yield Point
+                            </div>
+                            <div class="col-md-3">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.YieldPoint2" unitCat="@Enums.UnitCategory.WeightOfUnitLength" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                Mud Volume
+                            </div>
+                            <div class="col-md-3">
+                                <DoubleUnitInput @bind-Value="ActiveMudSystem.ReserveMudVolume" unitCat="@Enums.UnitCategory.Volume" units="@ConfigDetails.Units" class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row my-3">
+            <div class="col md-6">
+                <div class="card">
+                    <div class="card-body" style="padding:15px 30px 15px 15px">
+                        <h5 class="card-title mb-3">Reheology</h5>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                Rheology Type
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="input-group">
+                                        <select @bind=ActiveMudSystem.RheologyType class="custom-select form-control">
+                                            <option value="@((int)RheologyType.PowerLaw)">@RheologyType.PowerLaw</option>
+                                            <option value="@((int)RheologyType.Bingham_Plastic)">@RheologyType.Bingham_Plastic</option>
+                                            <option value="@((int)RheologyType.Newtonian)">@RheologyType.Newtonian</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row my-3">
+            <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+        </div>
+    </EditForm>
+</div>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    protected ActiveMudSystem ActiveMudSystem { get; set; } = new();
+    public string ConfigId { set; get; }
+
+    protected override async void OnInitialized()
+    {
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        ActiveMudSystem = ConfigDetails.ActiveMudSystem;
+        StateHasChanged();
+        base.OnInitialized();
+
+    }
+    public async Task SaveAndContinue()
+    {
+        ConfigDetails.ActiveMudSystem = ActiveMudSystem;
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_20?Id={ConfigId}");
+    }
+}

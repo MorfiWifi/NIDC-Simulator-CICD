@@ -1,0 +1,655 @@
+﻿:root {
+    --primary-blue: #0C134F;
+    --secondary-blue: #1D267D;
+    --light-blue: #5C469C;
+    --light-color: #D4ADFC;
+    --white-color: #F9FBE7;
+    --white-bg: #B9EDDD;
+    --primary-black: #393646;
+    --secondary-black: #4F4557;
+    --tertiary-black: #6D5D6E;
+    --primary-yellow: #FFD93D;
+    --red-color: #F45050;
+    --border-radius: 5px;
+    --bg-grey: #83bde4;
+    --little-shadow: 5px 5px 4px 1px rgba(117, 9, 9, 0.111), -5px -5px 4px 1px rgba(255,255,255,0.1);
+}
+
+
+.containerMain {
+    width: 100%;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-rows: repeat(2,1fr);
+    grid-gap: 0.5rem;
+}
+
+    .containerMain .threejs {
+        width: 100%;
+        grid-column: 1/5;
+    }
+
+        .containerMain .threejs img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--little-shadow);
+        }
+
+    .containerMain .right-controls {
+        height: 100%;
+        padding: 0 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        grid-column: 5/9;
+    }
+
+        .containerMain .right-controls .top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+            .containerMain .right-controls .top .buttons {
+                padding: 0.5rem 0.5rem;
+                background-color: var(--primary-black);
+                border-radius: var(--border-radius);
+            }
+
+            .containerMain .right-controls .top h3 {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: 80%;
+                font-weight: 500;
+                color: var(--white-color);
+                padding: 0 10%;
+            }
+
+            .containerMain .right-controls .top h3 {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: var(--white-color);
+                padding: 0 2rem;
+            }
+
+            .containerMain .right-controls .top .buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+                .containerMain .right-controls .top .buttons .button {
+                    padding: 0rem 0.2rem;
+                    background-color: var(--white-color);
+                    border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: start;
+                    cursor: pointer;
+                    transition: all .2s;
+                }
+
+                    .containerMain .right-controls .top .buttons .button:hover {
+                        background-color: var(--white-bg);
+                    }
+
+                    .containerMain .right-controls .top .buttons .button .light {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        background-color: var(--primary-black);
+                        margin: 3px 0;
+                        margin-right: 10px;
+                        border: 1px solid var(--white-bg);
+                        border-radius: var(--border-radius);
+                    }
+
+                    .containerMain .right-controls .top .buttons .button.active .light {
+                        background-color: var(--primary-yellow);
+                    }
+
+                    .containerMain .right-controls .top .buttons .button .text {
+                        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                        font-size: 0.75rem;
+                        font-weight: 500;
+                    }
+
+        .containerMain .right-controls .bottom {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+            .containerMain .right-controls .bottom .controls {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+    .containerMain .control {
+        background-color: var(--white-color);
+        border-radius: var(--border-radius);
+        padding: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+        .containerMain .control .handles {
+            background-color: var(--primary-black);
+            border-radius: var(--border-radius);
+            padding: 0.15rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+            .containerMain .control .handles .plus,
+            .containerMain .control .handles .minus {
+                width: 30px;
+                height: 30px;
+                background-color: var(--white-color);
+                color: var(--primary-black);
+                border-radius: var(--border-radius);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                font-size: 1rem;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                cursor: pointer;
+                transition: all .3s;
+            }
+
+                .containerMain .control .handles .plus:hover,
+                .containerMain .control .handles .minus:hover {
+                    background-color: var(--light-blue);
+                    color: var(--white-color);
+                }
+
+                    .containerMain .control .handles .plus:hover::before,
+                    .containerMain .control .handles .minus:hover::before {
+                        border-color: var(--white-color);
+                    }
+
+                .containerMain .control .handles .plus::before,
+                .containerMain .control .handles .minus::before {
+                    content: '';
+                    position: absolute;
+                    width: 80%;
+                    height: 80%;
+                    border-radius: var(--border-radius);
+                    border: 2px solid var(--primary-black);
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    transition: all .3s;
+                }
+
+        .containerMain .control .text {
+            border: 2px solid var(--primary-black);
+            padding: 0.2rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+        }
+
+        .containerMain .control p {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+    .containerMain .other-handles {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 0.5rem;
+        padding-bottom: 0.25rem;
+        grid-column: 9/13;
+    }
+
+        .containerMain .other-handles .handle {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-direction: column;
+            text-align: center;
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            padding: 0.25rem;
+            height: 100%;
+        }
+
+            .containerMain .other-handles .handle p {
+                font-size: 0.75rem;
+            }
+
+            .containerMain .other-handles .handle .plus,
+            .containerMain .other-handles .handle .minus {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                border-radius: var(--border-radius);
+                background-color: var(--primary-black);
+                padding: 4px 0;
+            }
+
+                .containerMain .other-handles .handle .plus .icon,
+                .containerMain .other-handles .handle .minus .icon,
+                .containerMain .other-handles .handle .plus .num,
+                .containerMain .other-handles .handle .minus .num {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: var(--border-radius);
+                    background-color: var(--white-color);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--primary-black);
+                    position: relative;
+                    cursor: pointer;
+                    transition: all .3s;
+                }
+
+                    .containerMain .other-handles .handle .plus .icon::before,
+                    .containerMain .other-handles .handle .minus .icon::before,
+                    .containerMain .other-handles .handle .plus .num::before,
+                    .containerMain .other-handles .handle .minus .num::before {
+                        content: '';
+                        height: 80%;
+                        width: 80%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                        border: 2px solid var(--primary-black);
+                        border-radius: var(--border-radius);
+                        transition: all .3s;
+                    }
+
+                    .containerMain .other-handles .handle .plus .icon:hover,
+                    .containerMain .other-handles .handle .minus .icon:hover {
+                        background-color: var(--light-blue);
+                        color: var(--white-color);
+                    }
+
+                        .containerMain .other-handles .handle .plus .icon:hover::before,
+                        .containerMain .other-handles .handle .minus .icon:hover::before {
+                            border-color: var(--white-color);
+                        }
+
+            .containerMain .other-handles .handle .total {
+                width: 100%;
+                border: 3px solid var(--primary-black);
+                padding: 5px;
+                border-radius: var(--border-radius);
+            }
+
+            .containerMain .other-handles .handle .horn {
+                width: 100%;
+                background-color: var(--white-bg);
+                border-radius: var(--border-radius);
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                color: var(--primary-black);
+                cursor: pointer;
+            }
+
+                .containerMain .other-handles .handle .horn .light {
+                    width: 20px;
+                    height: 20px;
+                    background-color: var(--primary-black);
+                    border-radius: var(--border-radius);
+                    border: 1px solid var(--primary-black);
+                    margin: 5px 0;
+                }
+.containerMain .other-handles .handle .horn .light.active{
+    background-color: var(--primary-yellow);
+}
+
+.containerMain .other-handles .handle .horn .text {
+                    font-size: 0.75rem;
+                }
+
+            .containerMain .other-handles .handle .alarm {
+                height: 50px;
+                width: 50px;
+                font-size: 0.75rem;
+                background-color: var(--red-color);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                color: var(--white-color);
+                justify-content: center;
+                border: 1px solid var(--primary-black);
+                font-weight: 500;
+                opacity: 0.4;
+            }
+.containerMain .other-handles .handle .alarm.active{
+    opacity: 1;
+}
+    .containerMain .controls {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 0.5rem;
+    }
+
+    .containerMain .content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+        gap: 0.5rem;
+        grid-column: 1/3;
+    }
+
+        .containerMain .content .bottom .total {
+            background-color: var(--white-color);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+            .containerMain .content .bottom .total p {
+                text-align: center;
+                font-weight: 500;
+                font-size: 0.75rem;
+            }
+
+            .containerMain .content .bottom .total .detail {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                gap: 0.5rem;
+            }
+
+                .containerMain .content .bottom .total .detail .reset {
+                    font-size: 0.75rem;
+                    width: 40px;
+                    height: 40px;
+                    background-color: var(--red-color);
+                    border-radius: 50%;
+                    border: 1px solid var(--primary-black);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--white-color);
+                    transition: all .3s;
+                }
+.containerMain .content .bottom .total .detail .reset:hover{
+    box-shadow: 0 0 5px rgb(0,0,0,0.4);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+                .containerMain .content .bottom .total .detail .num {
+                    height: 30px;
+                    width: 50px;
+                    font-size: 0.75rem;
+                    background-color: var(--primary-black);
+                    color: var(--white-color);
+                    padding: 3px 5px;
+                    border-radius: 5px;
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+    .containerMain .logo img {
+        width: 50%;
+        height: auto;
+    }
+
+
+    .containerMain .detailing {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(8,1fr);
+        grid-gap: 0.5rem;
+        grid-column: 3/13;
+    }
+
+        .containerMain .detailing .detail {
+            background-color: var(--bg-grey);
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-direction: column;
+        }
+
+            .containerMain .detailing .detail .header {
+                font-weight: 700;
+                font-size: 0.85rem;
+                text-transform: capitalize;
+            }
+
+            .containerMain .detailing .detail .value {
+                width: 100%;
+                background-color: var(--primary-black);
+                color: var(--primary-yellow);
+                font-weight: 600;
+                margin: 0.4rem 0;
+            }
+
+            .containerMain .detailing .detail .footer {
+                width: 100%;
+                display: flex;
+                align-items: end;
+                justify-content: space-around;
+            }
+
+                .containerMain .detailing .detail .footer .min,
+                .containerMain .detailing .detail .footer .max {
+                    font-size: 0.65rem;
+                }
+
+                .containerMain .detailing .detail .footer .prefix {
+                    font-weight: 500;
+                }
+
+@media screen and (max-width: 1000px) {
+    .containerMain {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .containerMain .threejs {
+        grid-column: 1/2;
+    }
+
+    .containerMain .right-controls {
+        grid-column: 2/3;
+    }
+
+    .containerMain .other-handles {
+        grid-column: 1/2;
+    }
+
+    .containerMain .content {
+        grid-column: 2/3;
+    }
+
+    .containerMain .detailing {
+        grid-column: 1/3;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .containerMain {
+        grid-template-columns: 1fr;
+    }
+
+    .containerMain .threejs {
+        grid-column: 1/2;
+    }
+
+    .containerMain .right-controls {
+        grid-column: 1/2;
+    }
+
+    .containerMain .other-handles {
+        grid-column: 1/2;
+    }
+
+    .containerMain .content {
+        grid-column: 1/2;
+    }
+
+    .containerMain .detailing {
+        grid-column: 1/2;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .containerMain .detailing {
+        grid-template-columns: repeat(6,1fr);
+    }
+}
+
+
+#rotaryKbThree {
+    position: relative;
+}
+
+#rotaryKbThree .preloader {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#rotaryKbThree .preloader .preloader__main {
+    pointer-events: none;
+    position: absolute;
+    display: inline-block;
+    height: auto;
+    width: 50%;
+    box-shadow: none;
+}
+
+.preloader__main.rotator {
+    animation: rotate 1.5s linear infinite;
+    filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.7));
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    50% {
+        transform: rotateZ(180deg);
+    }
+
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+#three {
+    position: absolute;
+    z-index: 99999;
+    width: 30%;
+    height: 30%;
+    bottom: 0;
+    right: 0;
+}
+
+    #three #drill,
+    #three #rotary {
+        position: absolute;
+        right: 2rem;
+        bottom: 1rem;
+        display: flex;
+        
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #three #rotary {
+        right: 6rem;
+    }
+
+        #three #drill .start,
+        #three #rotary .start {
+            width: 32px;
+            height: 32px;
+            background-color: red;
+            display: flex;
+            border-radius: 15px;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.6rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            user-select: none;
+            cursor: pointer;
+        }
+
+        #three #drill .up,
+        #three #rotary .up {
+            width: 30px;
+            height: 20px;
+            background-color: rgb(180, 29, 203);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.75rem;
+            user-select: none;
+            cursor: pointer;
+            clip-path: polygon(0% 40%, 50% 0%, 100% 40%, 70% 30%,70% 100%,30% 100%,30% 30%);
+        }
+
+        #three #drill .down,
+        #three #rotary .down {
+            width: 30px;
+            height: 20px;
+            background-color: rgb(180, 29, 203);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.75rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            user-select: none;
+            cursor: pointer;
+            clip-path: polygon(0% 40%, 50% 0%, 100% 40%, 70% 30%,70% 100%,30% 100%,30% 30%);
+            transform: rotate(180deg);
+        }
+
+
+#threeContainer {
+    width: 100%;
+    height: 100%;
+}

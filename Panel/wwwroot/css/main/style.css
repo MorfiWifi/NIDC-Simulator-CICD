@@ -1,0 +1,330 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  height: auto;
+  padding: 0px;
+}
+
+.container > .top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(150, 85, 85, 0.4392156863);
+  border-left: 0;
+  border-right: 0;
+}
+.container > .top ion-icon {
+  font-size: 1.5rem;
+  color: rgba(103, 60, 60, 0.937254902);
+}
+.container > .top > div {
+  height: 3rem;
+  justify-self: stretch;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container > .top > div:not(:last-child) {
+  border-right: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .top .menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container > .top .menu ion-icon {
+  padding: 5px;
+}
+.container > .top .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.container > .top .controls ion-icon {
+  cursor: pointer;
+}
+.container > .top select {
+  border: 0;
+  background-color: #d4d4d4;
+  border-radius: 0.25rem;
+  padding: 0.4rem;
+  margin: 0.5rem;
+}
+.container > .top .timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.container > .top .timer .start, .container > .top .timer .end {
+  width: 75px;
+  font-size: 0.85rem;
+}
+.container > .top .timer .start {
+  border-bottom: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .top .warning ion-icon {
+  color: rgb(117, 117, 87);
+}
+.container > .top .volume ion-icon {
+  color: #191919;
+}
+.container > .top .user ion-icon {
+  color: #191919;
+}
+.container > .top .chat ion-icon {
+  color: #191919;
+}
+.container > .top .internet.connect ion-icon {
+  color: #ffdd03;
+}
+.container > .top .internet.disconnect ion-icon {
+  color: #ff0000;
+}
+
+.container > .content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.container > .content .top, .container > .content .top-info, .container > .content .threeContainer, .container > .content .more-info, .container > .content .info-and-handle {
+  width: 100%;
+}
+.container > .content .top {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.container > .content .top .mic {
+  width: 50px;
+}
+.container > .content .top .mic ion-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: rgba(103, 60, 60, 0.937254902);
+}
+.container > .content .top .line-chart {
+  width: 100%;
+}
+.container > .content .top .line-chart canvas {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100px !important;
+  box-sizing: border-box;
+  width: calc(100% - 50px - 2rem);
+}
+.container > .content .top-info .items {
+  border-top: 1px solid rgba(150, 85, 85, 0.4392156863);
+  border-bottom: 1px solid rgba(150, 85, 85, 0.4392156863);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container > .content .top-info .items .item {
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.container > .content .top-info .items .item:not(:last-child) {
+  border-right: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .content .threeContainer {
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+.container > .content .threeContainer .hole-info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 75px;
+  height: 90%;
+  z-index: 100;
+  padding: 5px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(226, 169, 169, 0.5333333333);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+.container > .content .threeContainer .hole-info ion-icon {
+  font-size: 2rem;
+}
+.container > .content .threeContainer .hole-info img {
+  width: auto;
+  height: 85%;
+}
+.container > .content .threeContainer #threeContainer {
+  width: 100%;
+  height: 100%;
+}
+.container > .content .threeContainer #threeContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.container > .content .more-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .content .more-info .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 80px;
+  gap: 0.25rem;
+}
+.container > .content .more-info .item:not(:last-child) {
+  border-right: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .content .more-info .item .title {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.container > .content .more-info .item.item-2 .title {
+  text-align: center;
+  font-size: 1.5rem;
+}
+.container > .content .more-info .item button {
+  background-color: rgba(150, 85, 85, 0.4392156863);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  text-transform: capitalize;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.container > .content .more-info .item ion-icon {
+  font-size: 2rem;
+}
+.container > .content .more-info .item .value {
+  background-color: #dad8d8;
+  font-size: 0.75rem;
+  padding: 4px;
+  border-radius: 5px;
+}
+.container > .content .info-and-handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .content .info-and-handle .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 150px;
+  gap: 0.25rem;
+}
+.container > .content .info-and-handle .item:not(:last-child) {
+  border-right: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+.container > .content .info-and-handle .item .name, .container > .content .info-and-handle .item .detail {
+  padding: 5px;
+  border-top: 1px solid rgba(150, 85, 85, 0.4392156863);
+  width: 100%;
+  text-align: center;
+}
+.container > .content .info-and-handle .item .handle {
+  padding: 5px;
+}
+.container > .content .info-and-handle .item .handle ion-icon {
+  color: rgba(103, 60, 60, 0.937254902);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.container > .content .info-and-handle .item.item-6 .handler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+  width: 100%;
+}
+.container > .content .info-and-handle .item.item-6 .track {
+  justify-self: center;
+  background-color: rgba(150, 85, 85, 0.4392156863);
+  height: 100%;
+  width: 40%;
+  border-radius: 1rem;
+  position: relative;
+}
+.container > .content .info-and-handle .item.item-6 .track > .handle {
+  position: absolute;
+  width: 130%;
+  height: 10px;
+  top: 50%;
+  left: 50%;
+  background-color: #191919;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  cursor: grab;
+}
+.container > .content .info-and-handle .item.item-6 .track > .handle:active {
+  cursor: grabbing;
+}
+.container > .content .info-and-handle .item .degree {
+  padding-top: 5px;
+}
+.container > .content .info-and-handle .item .degree .degrees {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.container > .content .info-and-handle .item .degree .degrees .deg {
+  height: 1px;
+  width: 50%;
+  background-color: #191919;
+}
+.container > .content .info-and-handle .item .degree .degrees .deg.deg-05, .container > .content .info-and-handle .item .degree .degrees .deg.deg-10 {
+  width: 100%;
+}
+.container > .content .info-and-handle .item .degree .degrees .arrow {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+}
+
+/*# sourceMappingURL=style.css.map */

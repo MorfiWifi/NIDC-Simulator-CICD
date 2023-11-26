@@ -1,0 +1,941 @@
+@font-face {
+  font-family: "SevenSegment";
+  src: url("/assets/fonts/seven_segment/Seven Segment.ttf") format("truetype");
+  /* Add more src declarations for other font formats if needed */
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.segment {
+  font-family: "SevenSegment";
+  font-weight: 700;
+  color: #f78282 !important;
+  text-shadow: 0 0 5px red;
+}
+
+#chock-v2 {
+  width: 100%;
+  height: calc(100vh - 60px);
+  padding: 0px;
+}
+
+#chock-v2 > .top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(150, 85, 85, 0.4392156863);
+  border-left: 0;
+  border-right: 0;
+  height: 2rem;
+}
+
+#chock-v2 > .top i {
+  font-size: 100%;
+  color: rgba(103, 60, 60, 0.937254902);
+}
+
+#chock-v2 > .top > div {
+  height: 100%;
+  justify-self: stretch;
+  width: 100%;
+  padding: 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#chock-v2 > .top > div:not(:last-child) {
+  border-right: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+
+#chock-v2 > .top .menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#chock-v2 > .top .menu i {
+  padding: 1px;
+}
+
+#chock-v2 > .top .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#chock-v2 > .top .controls i {
+  cursor: pointer;
+}
+
+#chock-v2 > .top select {
+  border: 0;
+  background-color: #d4d4d4;
+  border-radius: 0.25rem;
+  padding: 0.4rem;
+  margin: 0.5rem;
+}
+
+#chock-v2 > .top .timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#chock-v2 > .top .timer .start,
+#chock-v2 > .top .timer .end {
+  width: 55px;
+  font-size: 0.85rem;
+}
+
+#chock-v2 > .top .timer .start {
+  border-bottom: 1px solid rgba(150, 85, 85, 0.4392156863);
+}
+
+#chock-v2 > .top .warning i {
+  color: rgb(117, 117, 87);
+}
+
+#chock-v2 > .top .volume i {
+  color: #191919;
+}
+
+#chock-v2 > .top .user i {
+  color: #191919;
+}
+
+#chock-v2 > .top .chat i {
+  color: #191919;
+}
+
+#chock-v2 > .top .internet.connect i {
+  color: #16bb19;
+}
+
+#chock-v2 > .top .internet.disconnect i {
+  color: #ff0000;
+}
+
+#chock {
+  height: calc(100vh - 60px);
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+}
+#chock .charts {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+}
+#chock .charts .chart-content {
+  margin: 3px 0 0 2px;
+  padding: 10px;
+  background-color: #333333;
+  border-radius: 10px;
+  height: 140px;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .charts .chart-content {
+    height: 140px;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .charts .chart-content {
+    height: 140px;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .charts .chart-content {
+    height: 140px;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .charts .chart-content {
+    height: 145px;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .charts .chart-content {
+    height: 145px;
+  }
+}
+#chock .charts .chart-content ul {
+  height: 100%;
+  list-style: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 3px;
+}
+#chock .charts .chart-content ul li {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+#chock .charts .chart-content ul li.chart-item {
+  padding: 2px;
+  border-radius: 5px;
+  font-size: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 150px;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .charts .chart-content ul li.chart-item {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .charts .chart-content ul li.chart-item {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .charts .chart-content ul li.chart-item {
+    font-size: 0.5rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .charts .chart-content ul li.chart-item {
+    font-size: 0.5rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .charts .chart-content ul li.chart-item {
+    font-size: 0.65rem;
+  }
+}
+#chock .charts .chart-content ul li.chart-item:not(.show) {
+  background-color: transparent;
+  color: white;
+}
+#chock .charts .chart-content ul li.chart-item:not(.show) .value {
+  background-color: #333;
+  color: yellow;
+}
+#chock .charts .chart-content ul li.item-1 {
+  background-color: rgb(108, 108, 245);
+}
+#chock .charts .chart-content ul li.item-2 {
+  background-color: rgb(255, 55, 0);
+}
+#chock .charts .chart-content ul li.item-3 {
+  background-color: rgb(85, 232, 87);
+}
+#chock .charts .chart-content ul li.item-4 {
+  background-color: rgb(244, 219, 1);
+  flex-direction: column;
+}
+#chock .charts .chart-content ul li.item-4 .name {
+  font-size: 0.5rem;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .charts .chart-content ul li.item-4 .name {
+    font-size: 0.5rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .charts .chart-content ul li.item-4 .name {
+    font-size: 0.5rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .charts .chart-content ul li.item-4 .name {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .charts .chart-content ul li.item-4 .name {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .charts .chart-content ul li.item-4 .name {
+    font-size: 0.8rem;
+  }
+}
+#chock .charts .chart-content ul li.item-4 .unit {
+  font-size: 0.5rem;
+  margin: 2px 0;
+}
+#chock .charts .chart-content ul li.item-4 .value {
+  padding: 5px;
+  background-color: #333;
+  color: yellow;
+  font-size: 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 3px;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .charts .chart-content ul li.item-4 .value {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .charts .chart-content ul li.item-4 .value {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .charts .chart-content ul li.item-4 .value {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .charts .chart-content ul li.item-4 .value {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .charts .chart-content ul li.item-4 .value {
+    font-size: 0.6rem;
+  }
+}
+#chock .charts .charts-preview {
+  margin: 2px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 97%;
+  max-height: 100%;
+  background-color: #333333;
+  height: 140px;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .charts .charts-preview {
+    height: 140px;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .charts .charts-preview {
+    height: 140px;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .charts .charts-preview {
+    height: 140px;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .charts .charts-preview {
+    height: 145px;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .charts .charts-preview {
+    height: 145px;
+  }
+}
+#chock .gages {
+  margin: 3px;
+  margin-top: 1px;
+  border-radius: 10px;
+  padding: 2px;
+  height: 100%;
+  background: radial-gradient(circle at 10% 20%, rgb(255, 200, 124) 0%, rgb(252, 251, 121) 90%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  max-height: 100%;
+}
+#chock .gages .top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+#chock .gages .top .gage {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#chock .gages .top .gage .system {
+  width: 90px;
+  height: 90px;
+  background: url(/assets/img/gage.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .top .gage .system {
+    width: 90px;
+    height: 90px;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .top .gage .system {
+    width: 90px;
+    height: 90px;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .top .gage .system {
+    width: 90px;
+    height: 90px;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .top .gage .system {
+    width: 100px;
+    height: 100px;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .top .gage .system {
+    width: 115px;
+    height: 115px;
+  }
+}
+#chock .gages .top .gage .system .ceret {
+  width: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+#chock .gages .top .gage .system .value {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%;
+  padding: 2px 6px;
+  font-size: 0.55rem;
+  background-color: #333;
+  color: #f52b2b;
+  border-radius: 5px;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .top .gage .system .value {
+    font-size: 0.55rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .top .gage .system .value {
+    font-size: 0.65rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .top .gage .system .value {
+    font-size: 0.75rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .top .gage .system .value {
+    font-size: 0.85rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .top .gage .system .value {
+    font-size: 0.9rem;
+  }
+}
+#chock .gages .top .gage .system .value::before {
+  content: "psi";
+  font-family: sans-serif;
+  text-shadow: none;
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  font-size: 0.55rem;
+  transform: translateX(-50%);
+  color: #333;
+}
+#chock .gages .top .gage-1 .ceret {
+  animation: rotate 5s infinite ease-out;
+}
+#chock .gages .top .gage-2 .ceret {
+  animation: rotate 5s infinite ease-out;
+  animation-delay: 1s;
+}
+#chock .gages .top .display {
+  background-image: url(/assets/img/panel.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  position: absolute;
+  transform: translateY(70px);
+}
+#chock .gages .top .display .name {
+  font-size: 0.5rem;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .top .display .name {
+    font-size: 1rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .top .display .name {
+    font-size: 1rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .top .display .name {
+    font-size: 1rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .top .display .name {
+    font-size: 1rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .top .display .name {
+    font-size: 1rem;
+  }
+}
+#chock .gages .top .display .value {
+  padding: 2px 15px;
+  width: 100%;
+  text-align: center;
+  background-color: #333;
+  color: #ff0000;
+  position: relative;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .top .display .value {
+    font-size: 0.9rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .top .display .value {
+    font-size: 0.9rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .top .display .value {
+    font-size: 0.9rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .top .display .value {
+    font-size: 0.9rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .top .display .value {
+    font-size: 1rem;
+  }
+}
+#chock .gages .top .display button {
+  padding: 3px;
+  margin-top: 5px;
+  background: #ff0000;
+  border: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .top .display button {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .top .display button {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .top .display button {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .top .display button {
+    font-size: 0.6rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .top .display button {
+    font-size: 0.6rem;
+  }
+}
+#chock .gages .middle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  margin-top: 10px;
+}
+#chock .gages .middle .buttons {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px;
+  background-color: #341010;
+  border: 1px solid rgba(25, 25, 25, 0.4745098039);
+  border-radius: 5px;
+  transform: translate(40px, 50px);
+}
+#chock .gages .middle .buttons .btn {
+  padding: 6px 5px;
+  font-size: 0.55rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: #6a1313;
+  background-color: #e6e3e3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.329);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+#chock .gages .middle .buttons .btn:hover {
+  background-color: rgb(81, 224, 83);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+#chock .gages .middle .buttons .btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#chock .gages .middle .buttons .btn.active {
+  background-color: #24e327;
+}
+#chock .gages .middle .gage-detail {
+  transform: translate(8px, -8px);
+}
+#chock .gages .middle .gage-detail ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 5px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px;
+  background-color: #341010;
+  border: 1px solid rgba(25, 25, 25, 0.4745098039);
+  border-radius: 5px;
+}
+#chock .gages .middle .gage-detail ul li {
+  padding: 5px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: #6a1313;
+  background-color: #e6e3e3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.329);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+#chock .gages .middle .gage-detail ul li:hover {
+  background-color: rgba(36, 227, 39, 0.4549019608);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+#chock .gages .middle .gage-detail ul li:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#chock .gages .middle .gage-detail ul li.active {
+  background-color: #24e328;
+}
+#chock .gages .middle .half-gage {
+  position: relative;
+  margin-left: 70px;
+  transform: translate(-60px, 20px);
+}
+#chock .gages .middle .half-gage img {
+  width: 75px;
+  object-fit: contain;
+  margin-bottom: 0;
+}
+#chock .gages .middle .half-gage .ceret {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 36%;
+  left: 10%;
+  transform: rotate(20deg);
+  animation: rotate-2 5s infinite ease-out;
+}
+#chock .gages .middle .half-gage svg {
+  position: absolute;
+  width: 170%;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#chock .gages .middle .half-gage .open-close {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  transform: translateX(-50%);
+  width: 45%;
+}
+#chock .gages .middle .half-gage .open-close p {
+  font-size: 0.19rem;
+}
+#chock .gages .middle .half-gage .data {
+  width: 200px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#chock .gages .middle .half-gage .data .half-gage-label {
+  font-size: 0.5rem;
+}
+#chock .gages .middle .half-gage .data .fast,
+#chock .gages .middle .half-gage .data .slow {
+  font-size: 0.4rem;
+  font-weight: 300;
+}
+#chock .gages .bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  position: relative;
+}
+#chock .gages .bottom .choke-handle {
+  width: 20px;
+  height: 120px;
+  background-color: #3498db;
+  cursor: grab;
+  transition: transform 0.3s ease-in-out;
+  transform-origin: bottom;
+}
+#chock .gages .bottom .choke-handle:active {
+  cursor: grabbing;
+}
+#chock .gages .bottom .power {
+  position: absolute;
+  padding: 6px 6px;
+  left: 10%;
+  top: 20%;
+  font-size: 0.65rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: #6a1313;
+  background-color: #e6e3e3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.329);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+#chock .gages .bottom .power:hover {
+  background-color: rgb(81, 224, 83);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+#chock .gages .bottom .power:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#chock .gages .bottom .power.active {
+  background-color: #24e327;
+}
+#chock .gages .bottom .handle {
+  margin-top: 2rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  transform: translateY(-50px);
+}
+#chock .gages .bottom .handle .btn {
+  padding: 6px 5px;
+  font-size: 0.65rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid green;
+  border-radius: 5px;
+  color: #6a1313;
+  background-color: #e6e3e3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.329);
+  transition: transform 0.2s, box-shadow 0.2s;
+  transform: translateY(45px);
+  cursor: pointer;
+}
+#chock .gages .bottom .handle .btn:hover {
+  background-color: rgb(81, 224, 83);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+#chock .gages .bottom .handle .btn:active {
+  transform: translateY(47px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#chock .gages .bottom .handle .btn.active {
+  background-color: #24e327;
+}
+#chock .gages .bottom .handle .base {
+  width: 30px;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .bottom .handle .base {
+    width: 30px;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .bottom .handle .base {
+    width: 40px;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .bottom .handle .base {
+    width: 45px;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .bottom .handle .base {
+    width: 50px;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .bottom .handle .base {
+    width: 70px;
+  }
+}
+#chock .gages .bottom .handle #chokeHandle {
+  width: 25px;
+  height: auto;
+  position: absolute;
+  cursor: grab;
+  transition: transform 0.3s ease-in-out;
+  transform-origin: 50% 87%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  #chock .gages .bottom .handle #chokeHandle {
+    width: 13px;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  #chock .gages .bottom .handle #chokeHandle {
+    width: 14px;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  #chock .gages .bottom .handle #chokeHandle {
+    width: 15px;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  #chock .gages .bottom .handle #chokeHandle {
+    width: 20px;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  #chock .gages .bottom .handle #chokeHandle {
+    width: 40px;
+  }
+}
+#chock .gages .bottom .handle #chokeHandle:active {
+  cursor: grabbing;
+}
+
+.drilling-label {
+  padding: 5px 15px;
+  margin-top: 2px;
+  width: 100px;
+  text-align: center;
+  background-image: url(/assets/img/label.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: rgba(0, 0, 0, 0.74);
+  font-weight: 600;
+  font-size: 0.3rem;
+}
+@media (min-height: 300px) and (max-height: 400px) {
+  .drilling-label {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 400px) and (max-height: 500px) {
+  .drilling-label {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 500px) and (max-height: 600px) {
+  .drilling-label {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 600px) and (max-height: 700px) {
+  .drilling-label {
+    font-size: 0.4rem;
+  }
+}
+@media (min-height: 700px) and (max-height: 800px) {
+  .drilling-label {
+    font-size: 0.9rem;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(260deg);
+  }
+}
+@keyframes rotate-2 {
+  0% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(230deg);
+  }
+}
+/*# sourceMappingURL=chock.css.map */

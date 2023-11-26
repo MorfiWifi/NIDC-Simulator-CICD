@@ -1,0 +1,112 @@
+﻿@page "/SaveConfig_17"
+@using Models.Config
+@using Panel16.Shared
+@using Panel16.Pages.Components
+@inject IConfigApi _configApi
+@layout SaveConfigLayout
+<EditForm Model="@ConfigDetails">
+
+    <div class="container-fluid">
+        <h1 class="page-title d-flex justify-content-between align-items-center">
+            <span>
+                Last zone Data
+            </span>
+            <span class="d-inline-flex justify-content-end">
+                <MudFab Label="@localizer[LocalizationKeys.SaveAndContinue]" @onclick="SaveAndContinue" DisableElevation="true" />
+            </span>
+        </h1>
+        <div class="row">
+            <div class="col-md-6">
+
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Formation No
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="input-group">
+                                <input @bind="ConfigDetails.LastZoneLeakOffModel.FormationNo" type="number" class="form-control"></input>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Fraction Prpagation Pressure
+                    </div>
+
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastZoneLeakOffModel.FractionPrpagationPressure" unitCat="@Enums.UnitCategory.Length" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Leak off Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastZoneLeakOffModel.LeakoffPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Breakdown Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastZoneLeakOffModel.BreakdownPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Fraction Prpagation Pressure
+                    </div>
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastZoneLeakOffModel.FractionPrpagationPressure" unitCat="@Enums.UnitCategory.Pressure" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        Permeability
+                    </div>
+                    <div class="col-md-3">
+                        <DoubleUnitInput class="form-control" @bind-Value="ConfigDetails.LastZoneLeakOffModel.Permeability" unitCat="@Enums.UnitCategory.Permeability" units="@ConfigDetails.Units" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-3">
+                    <button @onclick="SaveAndContinue" class="ml-2 btn btn-primary">@(localizer[LocalizationKeys.SaveAndContinue])</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+
+        </div>
+    </div>
+</EditForm>
+@code {
+    public ConfigDetails ConfigDetails { set; get; } = new();
+    public string ConfigId { set; get; }
+    protected override async void OnInitialized()
+    {
+        Statics.PageTitle = "Last Zone";
+
+        ConfigId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "Id");
+        ConfigDetails = await _configApi.GetConfigDetails(ConfigId);
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+    public async Task SaveAndContinue()
+    {
+        await _configApi.SaveConfigDetails(ConfigId, ConfigDetails);
+        NavigationManager.NavigateTo($"/SaveConfig_18?Id={ConfigId}");
+
+    }
+}

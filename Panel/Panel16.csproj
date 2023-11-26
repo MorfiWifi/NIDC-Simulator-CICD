@@ -1,0 +1,182 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+		<BlazorCacheBootResources>false</BlazorCacheBootResources>
+		<PackageId>$(AssemblyName)</PackageId>
+		<Authors>$(AssemblyName)</Authors>
+		<Company>$(Authors)</Company>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData> 
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="LocalizationKeys.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizationKeys.tt</DependentUpon>
+		</None>
+		<None Include="Pages\HubTest.razor" />
+		<None Include="Pages\SaveConfig\SaveConfig_02.razor" />
+		<None Include="Pages\SaveConfig\SaveConfig_19.razor" />
+		<None Include="Pages\SaveConfig\SaveConfig_20.razor" />
+		<None Include="Pages\Simulator\ChockPanel.razor" />
+		<None Include="Pages\Simulator\SimulationUsers.razor" />
+		<None Include="Pages\Simulator\Main.razor" />
+		<None Include="Pages\Simulator\StandPipe.razor" />
+		<None Include="Pages\Simulator\BopPanel.razor" />
+		<None Include="Pages\Simulator\Simulator_1.razor" />
+		<None Include="Pages\Simulator\Simulator_2.razor" />
+		<None Include="Pages\Simulator\TanksLinup.razor" />
+		<None Include="Pages\ThreeJs\ThreeJs.razor" />
+		<None Include="Shared\BopParts\AnnularBox.razor" />
+		<None Include="Shared\BopParts\LeftChock.razor" />
+		<None Include="Shared\BopParts\Part1.razor" />
+		<None Include="Shared\BopParts\Part2.razor" />
+		<None Include="Shared\BopParts\Part3.razor" />
+		<None Include="Shared\BopParts\RightChock.razor" />
+		<None Include="Shared\ChockMonifold\ManualvaluePlusMinus.razor" />
+		<None Include="Shared\Drawing SVGs\Casing Pressure.razor" />
+		<None Include="Shared\Drawing SVGs\Choke_And_Selector_Lights.razor" />
+		<None Include="Shared\Drawing SVGs\Choke_Position.razor" />
+		<None Include="Shared\Drawing SVGs\Choke_Rate.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\12Selector.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\3StateSwitch.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\6Selector.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\EmergencyButton.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\HalfDegreeGage.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\Lever.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\Light.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\Shifter.razor" />
+		<None Include="Shared\Drawing SVGs\Drill_Pipe_Pressure.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\Switch.razor" />
+		<None Include="Shared\Drawing SVGs\Dynamic SVGs\Volume.razor" />
+		<None Include="Shared\Drawing SVGs\OpenCloseHandle.razor" />
+		<None Include="Shared\Drawing SVGs\PumpAndResetButtons.razor" />
+		<None Include="Shared\Drawing SVGs\Rig_Air.razor" />
+		<None Include="Shared\Drawing SVGs\ShakerLineFullPart.razor" />
+		<None Include="Shared\Drawing SVGs\Spm_Box.razor" />
+		<None Include="Shared\Drawing SVGs\Strokes_Count_Box.razor" />
+		<None Include="Shared\ShearRams SVGs\Accumelator Pressure.razor" />
+		<None Include="Shared\ShearRams SVGs\BottomShearRamsBox.razor" />
+		<None Include="Shared\ShearRams SVGs\Choke Rate.razor" />
+		<None Include="Shared\ShearRams SVGs\Manifold Pressure.razor" />
+		<None Include="Shared\ShearRams SVGs\Open Close Handle.razor" />
+		<None Include="Shared\ShearRams SVGs\PipeRamsBox.razor" />
+		<None Include="Shared\ShearRams SVGs\ShearRamsBox.razor" />
+		<None Include="wwwroot\assets\js\lil-gui.module.min.js" />
+		<None Include="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+		<None Include="wwwroot\css\open-iconic\FONT-LICENSE" />
+		<None Include="wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
+		<None Include="wwwroot\css\open-iconic\ICON-LICENSE" />
+		<None Include="wwwroot\css\open-iconic\README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="ChartJs.Blazor.Fork" Version="2.0.2" />
+		<PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.5.0" />
+		<PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.14" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="MudBlazor" Version="6.0.14" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
+		<PackageReference Include="Websocket.Client" Version="4.4.43" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
+	<ItemGroup>
+		<Watch Include="..\**\*.razor" />
+		<Watch Include="..\**\*.scss" />
+		<Watch Include="..\**\*.cs" />
+		<Watch Include="..\**\*.cs" />
+		<Watch Include="..\**\*.glb" />
+	</ItemGroup>
+	<ItemGroup>
+	  
+	 
+	  
+	  
+	 
+
+	  
+	 
+	  
+	  
+	 
+	  
+	  
+	 
+
+	  
+	 
+	  
+	  <Content Remove="wwwroot\assets\js\lil-gui.module.min.js" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Watch Remove="Pages\SaveConfig\SaveConfig_00.razor" />
+	  <Watch Remove="Pages\SaveConfig\SaveConfig_03_b.razor" />
+	  <Watch Remove="Shared\Drawing SVGs\Dynamic SVGs\BoolButtonySwitch.razor" />
+	</ItemGroup>
+	
+
+	
+	
+	
+	
+	
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\js\lil-gui.module.min.js" />
+	</ItemGroup>
+	
+	
+	<ItemGroup>
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\Models\Models.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="LocalizationKeys.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizationKeys.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Shared\ResourceFiles\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Shared\ResourceFiles\Resource.fa-IR.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Shared\ResourceFiles\Resource.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="LocalizationKeys.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>LocalizationKeys.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\assets\js\ThreeJS\" />
+	  <Folder Include="wwwroot\fonts\" />
+	</ItemGroup>
+</Project>

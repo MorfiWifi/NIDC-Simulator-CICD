@@ -1,0 +1,297 @@
+﻿@using System.Linq.Expressions;
+
+<g
+       id="g1767">
+      <g
+         id="pipe_rams_whole_box"
+         inkscape:label=""
+         transform="translate(2.6458334,0.52916667)">
+        <rect
+           style="fill:#ff8080;stroke:#000000;stroke-width:0.672867;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect12769"
+           width="106.19723"
+           height="20.207434"
+           x="344.78641"
+           y="117.16372" />
+        <rect
+           style="fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:1.24946;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect12771"
+           width="117.00367"
+           height="6.1213903"
+           x="339.84161"
+           y="110.61034" />
+        <rect
+           style="fill:#ff8080;stroke:#000000;stroke-width:0.534723;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect13499"
+           width="106.33537"
+           height="12.74519"
+           x="-451.96954"
+           y="-200.67131"
+           transform="scale(-1)" />
+        <rect
+           style="fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:1.24946;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect13501"
+           width="117.00367"
+           height="6.1213903"
+           x="-456.84528"
+           y="-207.15561"
+           transform="scale(-1)" />
+        <rect
+           style="fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:0.985174;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           id="rect7435"
+           width="212.09822"
+           height="49.661953"
+           x="291.83591"
+           y="137.37115" />
+        <g
+            @onclick=SwitchPipeRamsState
+            style="cursor:pointer;"
+           id="pipe_rams_handle"
+           transform=@(PipeRamsState==1?PipeRamsHandleRight:PipeRamsHandleLeft)
+           inkscape:label="shear_rams_handle">
+          <path
+             style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             d="m 178.67045,237.32887 4.6874,-37.61587 z"
+             id="path1387" />
+          <path
+             style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:0.706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             d="M 194.31183,237.32887 189.62443,199.713 Z"
+             id="path1389" />
+          <g
+             id="g1395"
+             style="stroke:none"
+             transform="matrix(0.84855953,0.57664223,-0.76997131,0.65523043,60.595709,-95.025632)">
+            <circle
+               style="fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:0.967048;stroke-linecap:square;stroke-opacity:1;paint-order:stroke fill markers"
+               id="circle1391"
+               cx="-393.0795"
+               cy="90.963303"
+               r="44.516476"
+               transform="rotate(-135)" />
+            <circle
+               style="fill:#f9f9f9;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="circle1393"
+               cx="-393.0795"
+               cy="90.963295"
+               r="9.321229"
+               transform="rotate(-135)" />
+          </g>
+          <circle
+             style="fill:#1a1a1a;fill-opacity:1;stroke:#808080;stroke-width:1.306;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             id="circle1397"
+             cx="186.54437"
+             cy="196.16248"
+             r="4.770761"
+             inkscape:label="circle1397" />
+        </g>
+        <g
+           id="Pipe_And_Rams_Box"
+           transform="translate(-3.8770419,0.8901337)">
+          <text
+             xml:space="preserve"
+             style="font-size:14.1111px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             x="334.63953"
+             y="154.6722"
+             id="text8911"><tspan
+               sodipodi:role="line"
+               id="tspan8909"
+               style="font-size:14.1111px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+               x="334.63953"
+               y="154.6722">PIPE</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-size:14.1111px;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:1.048;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+             x="468.07782"
+             y="154.6722"
+             id="text8915"><tspan
+               sodipodi:role="line"
+               id="tspan8913"
+               style="font-size:14.1111px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.048"
+               x="468.07782"
+               y="154.6722">RAMS</tspan></text>
+          <g
+             id="g12588"
+             transform="translate(-11.364247,8.4666671)">
+            <circle
+               style=@(OpenLed==1?LightOn:LightOff)
+               id="right_light_rams_box"
+               cx="459.53314"
+               cy="170.43945"
+               r="4.9532042" />
+            <text
+               xml:space="preserve"
+               style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               x="477.53079"
+               y="172.84927"
+               id="right_rams_text"><tspan
+                 sodipodi:role="line"
+                 id="tspan12576"
+                 style="fill:#000000;stroke-width:0.664639"
+                 x="477.53079"
+                 y="172.84927">@(OpenText)</tspan></text>
+          </g>
+          <g
+             id="g12596"
+             transform="rotate(180,405.96423,174.67273)">
+            <circle style=@(CloseLed==1?LightOn:LightOff)
+               id="left_light_pipe_box"
+               cx="459.53314"
+               cy="170.43945"
+               r="4.9532042" />
+            <text
+               xml:space="preserve"
+               style="font-size:6.73764px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.664643;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               x="-477.29062"
+               y="-168.02962"
+               id="left_pipe_text"
+               transform="scale(-1)"><tspan
+                 sodipodi:role="line"
+                 id="tspan12592"
+                 style="fill:#000000;stroke-width:0.664639"
+                 x="-477.29062"
+                 y="-168.02962">@(CloseText)</tspan></text>
+          </g>
+          <g
+             id="g7089"
+             transform="matrix(-0.01306482,-0.99991465,-0.97514137,0.01274114,796.33488,820.98727)">
+            <rect
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="rect7085"
+               width="6.1515517"
+               height="17.636511"
+               x="639.41064"
+               y="287.31256"
+               transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+            <path
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+               id="path7087" />
+          </g>
+          <g
+             id="g7097"
+             transform="matrix(0.01306482,-0.99991465,0.97514137,0.01274114,8.0847412,820.98727)">
+            <rect
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="rect7093"
+               width="6.1515517"
+               height="17.636511"
+               x="639.41064"
+               y="287.31256"
+               transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+            <path
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+               id="path7095" />
+            <rect
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="rect7109"
+               width="6.1515517"
+               height="17.636511"
+               x="639.41064"
+               y="287.31256"
+               transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+          </g>
+          <g
+             id="g7117"
+             transform="matrix(0.01306482,-0.99991465,0.97514137,0.01274114,8.0847412,820.98727)">
+            <rect
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="rect7111"
+               width="6.1515517"
+               height="17.636511"
+               x="639.41064"
+               y="287.31256"
+               transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+            <path
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38651;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               d="m 642.82609,295.42902 2.97832,-6.42437 3.17952,6.50128 z"
+               id="path7113" />
+            <rect
+               style="fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.38432;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+               id="rect7115"
+               width="6.1515517"
+               height="17.636511"
+               x="639.41064"
+               y="287.31256"
+               transform="matrix(0.99991903,0.01272537,0.01207956,0.99992704,0,0)" />
+          </g>
+        </g>
+      </g>
+      </g>
+
+
+@code{
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<double> PipeRamsStateChanged { get; set; }
+    [Parameter] public Expression<Func<double>> PipeRamsStateExpression { get; set; }
+    public double _pipeRamsState = 0;
+    [Parameter]
+    public double PipeRamsState
+    {
+        get => _pipeRamsState;
+        set
+        {
+            if (_pipeRamsState == value) return;
+            _pipeRamsState = value;
+            PipeRamsStateChanged.InvokeAsync(_pipeRamsState);
+            var fieldIdentifier = FieldIdentifier.Create(PipeRamsStateExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> OpenLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> OpenLedExpression { get; set; }
+    public int _OpenLed = 0;
+    [Parameter]
+    public int OpenLed
+    {
+        get => _OpenLed;
+        set
+        {
+            if (_OpenLed == value) return;
+            _OpenLed = value;
+            OpenLedChanged.InvokeAsync(_OpenLed);
+            var fieldIdentifier = FieldIdentifier.Create(OpenLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<int> CloseLedChanged { get; set; }
+    [Parameter] public Expression<Func<int>> CloseLedExpression { get; set; }
+    public int _CloseLed = 0;
+    [Parameter]
+    public int CloseLed
+    {
+        get => _CloseLed;
+        set
+        {
+            if (_CloseLed == value) return;
+            _CloseLed = value;
+            CloseLedChanged.InvokeAsync(_CloseLed);
+            var fieldIdentifier = FieldIdentifier.Create(CloseLedExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+
+    protected string PipeRamsHandleRight { get; set; } = "matrix(0.3272771,0.17626786,-0.20204622,0.37513985,382.2441,56.088917)";
+    protected string PipeRamsHandleLeft { get; set; } = "matrix(0.30983255,-0.20538854,0.23542565,0.35514412,280.61648,131.45599)";
+    protected string OpenText { get; set; } = "Open";
+    protected string CloseText { get; set; } = "Close";
+    protected string LightOn { get; set; } = "fill:#00ff00;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+    protected string LightOff { get; set; } = "fill:#333333;fill-opacity:1;stroke:#262626;stroke-width:0.660987;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers";
+        protected void SwitchPipeRamsState()
+    {
+        if(PipeRamsState==1)
+            PipeRamsState=0;
+        else
+            PipeRamsState=1;
+            StateHasChanged();
+
+    }
+
+}

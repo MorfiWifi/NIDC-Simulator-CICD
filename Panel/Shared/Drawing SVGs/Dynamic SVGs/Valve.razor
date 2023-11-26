@@ -1,0 +1,132 @@
+@using System.Linq.Expressions;
+<!--@ValveName-->
+<g  @onclick="ToggleValve" style="cursor: pointer">
+<g
+    id="@ID"
+    valvename="@ValveName"
+    style="transform:@(ValveBaseTransform.Replace(';',' '));">
+    <g style="@(IsBlack?"fill:#ffffff;":"")"
+        id="@ID"
+        class="valve rotate@(ID)"
+        >
+        <g
+            id="g5005">
+            <circle
+                style="@(IsOpen?OpenStateStyle:CloseStateStyle)stroke:#808080;stroke-width:0.56125;stroke-dasharray:none;stroke-opacity:1"
+                id="circle4995"
+                cx="248.51366"
+                cy="177.78354"
+                r="15" />
+ <text x="248" y="177" class="small">@ExcelId</text>
+
+            <path
+                style="@(IsOpen?OpenStateStyle:CloseStateStyle)stroke:#808080;stroke-width:0.774;stroke-dasharray:none;stroke-opacity:1"
+                d="m 248.51365,177.78354 -10.6066,-10.6066 z"
+                id="path4997" />
+            <path
+                style="@(IsOpen?OpenStateStyle:CloseStateStyle)stroke:#808080;stroke-width:0.773999;stroke-dasharray:none;stroke-opacity:1"
+                d="m 259.12025,188.39014 -10.6066,-10.6066 v 0 z"
+                id="path4999" />
+            <path
+                style="@(IsOpen?OpenStateStyle:CloseStateStyle)stroke:#808080;stroke-width:0.773999;stroke-dasharray:none;stroke-opacity:1"
+                d="m 248.51365,177.78354 10.6066,-10.6066 z"
+                id="path5001" />
+            <path
+                style="@(IsOpen?OpenStateStyle:CloseStateStyle)stroke:#808080;stroke-width:0.773999;stroke-dasharray:none;stroke-opacity:1"
+                d="m 237.90705,188.39014 10.6066,-10.6066 v 0 z"
+                id="path5003" />
+        </g>
+    </g>
+    <circle
+        style="opacity:1;fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.773999;stroke-dasharray:none;stroke-opacity:1"
+        id="circle5009"
+        cx="248.51366"
+        cy="177.78354"
+        r="1.0417968" />
+</g>
+
+</g>
+<!--@ValveName-->
+
+<style>
+   .valve {
+   transform-box:fill-box;
+   transform-origin:center center;
+   transition: all .6s;
+
+   }
+   .rotate@(ID){
+      transform: rotate(@($"{RotateDegree}deg"));
+      -webkit-transform: rotate(@($"{RotateDegree}deg"));
+      -ms-transform: rotate(@($"{RotateDegree}deg"));
+   }
+</style>
+
+
+
+@code {
+    [Parameter]
+    public bool IsBlack{ set; get; }
+    [Parameter]
+    public string ExcelId { get;set; }
+
+    private string ID = new Random().Next(1000, 9999).ToString();
+    [Parameter]
+    public RenderFragment ChildContent { get;set; }
+
+    [Parameter]
+    public string ValveName { get; set; } = "";
+    
+    [CascadingParameter] EditContext EditContext { get; set; } = default!;
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] 
+    public Expression<Func<bool>> IsOpenExpression { get; set; }
+    public bool _IsOpen = false;
+    [Parameter]
+    public bool IsOpen
+    {
+        get => _IsOpen;
+        set
+        {
+            if (_IsOpen == value) return;
+            _IsOpen = value;
+            IsOpenChanged.InvokeAsync(_IsOpen);
+            var fieldIdentifier = FieldIdentifier.Create(IsOpenExpression);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+
+    [Parameter]
+    public string ValveBaseTransform { get; set; } = "";
+    private int RotateDegree { get; set; }
+    private string CloseStateStyle => IsBlack?"fill:#ffffff;":"fill:#ff3535;fill-opacity:0.546809;";
+    private string OpenStateStyle =>IsBlack?"fill:#ffffff;":"fill:#3bfb00;fill-opacity:0.546809;";
+    private async void ToggleValve()
+    {
+        IsOpen = !IsOpen;
+        await Rotate();
+        StateHasChanged();
+      
+    }
+
+    private async Task Rotate()
+    {
+        if (IsOpen)
+        {
+            for (int i = 0; i <120; i++)
+            {
+                RotateDegree -=1;
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 120; i++)
+            {
+                RotateDegree += 1;
+                StateHasChanged();
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+<MudThemeProvider Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<main class="login-page">
+    <header>
+        <CultureDropDown />
+    </header>
+    @Body
+</main>
+@code
+{
+    public MudTheme _theme = new MudTheme();
+    protected override async void OnInitialized()
+    {
+        _theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
+        base.OnInitialized();
+    }
+}
