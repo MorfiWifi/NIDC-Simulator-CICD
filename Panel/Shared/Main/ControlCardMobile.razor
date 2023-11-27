@@ -1,10 +1,20 @@
 @using System.Linq.Expressions;
 <div class="item item-2 non-selectable">
     <div class="handle">
-        <div class="non-selectabl up click-scale-down" @onclick="PlusClicked" @ontouchstart="StartIncrement" @ontouchend="StopIncrement" @onmousedown="@StartIncrement" @onmouseup="@StopIncrement" >
+        <div class="non-selectabl up click-scale-down" 
+             @onclick="PlusClicked" 
+             @ontouchstart="StartIncrement" 
+             @ontouchend="StopIncrement" 
+             @onmousedown="@StartIncrement" 
+             @onmouseup="@StopIncrement" >
             <i class="bi bi-plus-circle" style="font-size: 150%"></i>
         </div>
-        <div class="non-selectabl down click-scale-down" @onclick="MinusClicked" @ontouchstart="StartDecrement" @ontouchend="StopDecrement" @onmousedown="@StartDecrement" @onmouseup="@StopDecrement">
+        <div class="non-selectabl down click-scale-down" 
+             @onclick="MinusClicked" 
+             @ontouchstart="StartDecrement" 
+             @ontouchend="StopDecrement" 
+             @onmousedown="@StartDecrement" 
+             @onmouseup="@StopDecrement">
            <i class="bi bi-dash-circle" style="font-size: 150%"></i>
         </div>
     </div>

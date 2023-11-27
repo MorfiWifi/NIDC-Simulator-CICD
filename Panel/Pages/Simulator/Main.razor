@@ -429,42 +429,28 @@
     </TitleContent>
     <DialogContent>
         
-         <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
-             <span>
-                 @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}")
-             </span>
-         </div>
-
         <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
-            <label>High</label>
-            <label>@($"{PitGainLossUb:0}")</label>
-
-            <div class="flex-column">
-                <button @onclick="() => { PitGainLossUb += 1; PitGainLossUb = Math.Min(PitGainLossUb , 50); }">
-                    <i class="bi bi-caret-up-fill"></i>
-                </button>
-                <button @onclick="() => { PitGainLossUb -= 1; PitGainLossUb = Math.Max(PitGainLossUb , 0);}">
-                   <i class="bi bi-caret-down-fill"></i>
-                </button>
-            </div>
-
+            <span>
+                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}")
+            </span>
         </div>
+        
+        <AlarmLimitCard
+            EditContext="@EditContext"
+            @bind-Value="PitGainLossUb"
+            Name="High"
+            Max="50"
+            Min="0"
+        />
 
-        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
-            <label>Low</label>
-            <label>@($"{PitGainLossLb:0}") </label>
-
-            <div class="flex-column">
-                <button @onclick="() => { PitGainLossLb += 1; PitGainLossLb = Math.Min(PitGainLossLb , 0); }">
-                    <i class="bi bi-caret-up-fill"></i>
-                </button>
-                <button @onclick="() => { PitGainLossLb -= 1; PitGainLossLb = Math.Max(PitGainLossLb , -50); }">
-                    <i class="bi bi-caret-down-fill"></i>
-                </button>
-            </div>
-        </div>
-
-
+        <AlarmLimitCard
+            EditContext="@EditContext"
+            @bind-Value="PitGainLossLb"
+            Name="Low"
+            Max="0"
+            Min="-50"
+        />
+        
     </DialogContent>
     <DialogActions>
         <button class="btn  btn-primary w-100" @onclick="() => PitGainLossSave()">
@@ -487,37 +473,23 @@
                 @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow:0}")
             </span>
         </div>
+        
+        <AlarmLimitCard
+            EditContext="@EditContext"
+            @bind-Value="FlowPercentUb"
+            Name="High"
+            Max="100"
+            Min="0"
+        />
 
-        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
-            <label>High</label>
-            <label>@($"{FlowPercentUb:0}")</label>
-
-            <div class="flex-column">
-                <button @onclick="() => { FlowPercentUb += 1; FlowPercentUb = Math.Min(FlowPercentUb , 100); }">
-                    <i class="bi bi-caret-up-fill"></i>
-                </button>
-                <button @onclick="() => { FlowPercentUb -= 1; FlowPercentUb = Math.Max(FlowPercentUb , 0); }">
-                   <i class="bi bi-caret-down-fill"></i>
-                </button>
-            </div>
-
-        </div>
-
-        <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
-            <label>Low</label>
-            <label>@($"{FlowPercentLb:0}") </label>
-
-            <div class="flex-column">
-                <button @onclick="() => { FlowPercentLb += 1; FlowPercentLb = Math.Min(100 , FlowPercentLb); FlowPercentLb = Math.Min(FlowPercentUb , FlowPercentLb); }">
-                    <i class="bi bi-caret-up-fill"></i>
-                </button>
-                <button @onclick="() => { FlowPercentLb -= 1; FlowPercentLb = Math.Max(0 , FlowPercentLb); FlowPercentLb = Math.Min(FlowPercentUb , FlowPercentLb); }">
-                    <i class="bi bi-caret-down-fill"></i>
-                </button>
-            </div>
-        </div>
-
-
+        <AlarmLimitCard
+            EditContext="@EditContext"
+            @bind-Value="FlowPercentLb"
+            Name="Low"
+            Max="@FlowPercentUb"
+            Min="0"
+        />
+        
     </DialogContent>
     <DialogActions>
         <button class="btn  btn-primary w-100" @onclick="() => FlowPercentSave()">
@@ -528,13 +500,7 @@
 </MudDialog>
 
 <MudDialog @bind-IsVisible="@(FlowCheckDialogueVisibility)" Class="relative-dialog" >
-    @* <TitleContent> *@
-    @*     <MudText Typo="Typo.h6"> *@
-    @*         PercentFlow *@
-    @*     </MudText> *@
-    @* </TitleContent> *@
     <DialogContent>
-        
         
         <div class="flex-row">
             <button class="btn btn-primary" @onclick="() => WellMudFlowClicked()">
@@ -546,12 +512,6 @@
         </div>
 
     </DialogContent>
-    @* <DialogActions> *@
-    @*     <button class="btn  btn-primary w-100" @onclick="() => FlowPercentSave()"> *@
-    @*         <i class="fa fa-save"></i> *@
-    @*         @localizer[LocalizationKeys.Set] *@
-    @*     </button> *@
-    @* </DialogActions> *@
 </MudDialog>
 
 
@@ -733,11 +693,11 @@
 
     public static Func<double, Task>? UpdateDrawWorkFunc; 
     
-    private DateTime lasDwUpdate = DateTime.Now;
+    
     [JSInvokable]
     public static void SetDrawWorkHandlerStatus(double ps)
     {
-        DeBounce.CallAction("DrawWorkHadler" ,() => UpdateDrawWorkFunc?.Invoke(ps) );
+        DeBounce.CallAction("DrawWorkHandler" ,() => UpdateDrawWorkFunc?.Invoke(ps) );
     }
 
     protected override async void OnInitialized()
@@ -746,25 +706,14 @@
         // func called from JS
         UpdateDrawWorkFunc = async ps =>
         {
-            var dwRpm = ((ps - 50) / 50) * 900;
+            var base_value = (ps - 50) / 50;
+            
+            var dwRpm = base_value >= 0 ? base_value * DrawWorksMaxRPM : base_value * DrawWorksBreakMax;
             Console.WriteLine($"drawork at {dwRpm}");
                 
             Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle = dwRpm;
             var fId = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle);
             EditContext.NotifyFieldChanged(fId);
-            
-            
-            // if (DateTime.Now - lasDwUpdate > TimeSpan.FromMilliseconds(200))
-            // {
-            //     var dwRpm = ((ps - 50) / 50) * 900;
-            //     Console.WriteLine($"drawork at {dwRpm}");
-            //     
-            //     Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle = dwRpm;
-            //     var fId = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.Drilling.DWThrottle);
-            //     EditContext.NotifyFieldChanged(fId);
-            //
-            //     lasDwUpdate = DateTime.Now;
-            // }
         };
         
         
@@ -901,6 +850,10 @@
 
         base.OnInitialized();
     }
+
+    private static int DrawWorksBreakMax => 100;
+
+    private static int DrawWorksMaxRPM => 965;
 
     public bool rendered = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)

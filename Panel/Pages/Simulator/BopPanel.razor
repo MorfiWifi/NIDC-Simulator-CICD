@@ -24,7 +24,9 @@
                 <div class="gage-label">Rig Air Press</div>
             </div>
             <div class="item">
-                <div class="button" @onclick="MasterAirControllClicked">
+                <div class="button 
+@GetBtnClass((int)Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve)" 
+                     @onclick="MasterAirControllClicked">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 28.34 28.34">
                         <defs>
@@ -119,7 +121,8 @@
                 <div class="gage-label">Annular Press</div>
             </div>
             <div class="item">
-                <div class="button" @onclick="BypassControlClicked">
+                <div class="button @GetBtnClass(0)" 
+                     @onclick="BypassControlClicked">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 28.34 28.34">
                         <defs>
@@ -1233,7 +1236,28 @@
 
     private string GetBtnClass(int condition)
         => condition == 1 ? "show" : string.Empty;
-    
-    private void MasterAirControllClicked(){}
-    private void BypassControlClicked(){}
+
+    private void MasterAirControllClicked()
+    {
+        //todo use output fields for BOP 
+        if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
+        else
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
+
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+
+    private void BypassControlClicked()
+    {
+        //todo use output fields for BOP
+        if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
+        else
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
+
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
 }

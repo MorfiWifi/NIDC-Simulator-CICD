@@ -1,0 +1,102 @@
+﻿@using System.Linq.Expressions
+<div class="d-flex align-items-center justify-content-center gap-2 flex-row">
+    <label>@Name</label>
+    <label>@($"{Value:0}")</label>
+
+    <div class="flex-column">
+        <button @onclick="OnIncreaseClicked"
+                @ontouchstart="StartIncrement" 
+                @ontouchend="StopIncrement" 
+                @onmousedown="@StartIncrement" 
+                @onmouseup="@StopIncrement"
+                >
+            <i class="bi bi-caret-up-fill"></i>
+        </button>
+        <button @onclick="OnDecreaseClicked"
+                @ontouchstart="StartDecrement"
+                @ontouchend="StopDecrement" 
+                @onmousedown="@StartDecrement" 
+                @onmouseup="@StopDecrement">
+            <i class="bi bi-caret-down-fill"></i>
+        </button>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+    
+    private double _value = 0;
+    [Parameter]
+    public double Value {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+            ValueChanged.InvokeAsync(value);
+            var fieldIdentifier = FieldIdentifier.Create(() => value);
+            EditContext.NotifyFieldChanged(fieldIdentifier);
+        }
+    }
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+    // [Parameter]
+    // public Expression<Func<double>> ValueExpression { get; set; }
+    
+    [Parameter]
+    public double Max { get; set; }
+    
+    [Parameter]
+    public double Min { get; set; }
+
+    [Parameter]
+    public double Step { get; set; } = 1;
+    
+    void OnIncreaseClicked(){Value = Math.Min(Max, Value + Step);}
+    void OnDecreaseClicked(){Value = Math.Max(Min, Value - Step);}
+    
+    private const int IncrementIntervalMilliseconds = 100;
+    
+    private bool  incrementing = false;
+    private bool  decrementing = false;
+    private async Task StartIncrement()
+    {
+        incrementing = true;
+        while (incrementing)
+        {
+            await Task.Delay(IncrementIntervalMilliseconds);
+            if (!incrementing) return;;
+            OnIncreaseClicked(); // just click it fast!
+            StateHasChanged(); // Notify Blazor to update the UI
+        }
+    }
+
+    private void StopIncrement()
+    {
+        incrementing = false;
+    }
+    
+    private async Task StartDecrement()
+    {
+        decrementing = true;
+        while (decrementing)
+        {
+            await Task.Delay(IncrementIntervalMilliseconds);
+            if (!decrementing) return;;
+            OnDecreaseClicked(); // just click it fast!
+            StateHasChanged(); // Notify Blazor to update the UI
+        }
+    }
+
+    private void StopDecrement()
+    {
+        decrementing = false;
+    }
+    
+    
+}

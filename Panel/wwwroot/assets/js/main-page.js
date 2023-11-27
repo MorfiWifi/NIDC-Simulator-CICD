@@ -359,7 +359,7 @@ function InitBop(){
             setTimeout(()=>{
                 this.style.transform = 'scale(1)';
             },300)
-            this.classList.toggle('show')
+            // this.classList.toggle('show')
         });
     });
 }

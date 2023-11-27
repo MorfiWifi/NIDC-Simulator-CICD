@@ -39,6 +39,8 @@ namespace Infrastructure
         //public static string RedisAddress = "aberama.iran.liara.ir:32815";
         //public static string RedisPassword = "4YKFnubfFFjfh4yTK7b0Rg9X";
 
-        public static int SimulationStep = 1000; //
+        public static int SimulationStep = 500; //
+        // public static int SimulationStep = 1000; //
+        // public static int SimulationStep = 2000; //
     }
 }
