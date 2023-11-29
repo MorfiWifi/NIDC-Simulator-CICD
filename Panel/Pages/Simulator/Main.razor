@@ -437,7 +437,7 @@
         
         <AlarmLimitCard
             EditContext="@EditContext"
-            @bind-Value="PitGainLossUb"
+            @bind-Value="PitGainLossUb_temp"
             Name="High"
             Max="50"
             Min="0"
@@ -445,7 +445,7 @@
 
         <AlarmLimitCard
             EditContext="@EditContext"
-            @bind-Value="PitGainLossLb"
+            @bind-Value="PitGainLossLb_temp"
             Name="Low"
             Max="0"
             Min="-50"
@@ -476,7 +476,7 @@
         
         <AlarmLimitCard
             EditContext="@EditContext"
-            @bind-Value="FlowPercentUb"
+            @bind-Value="FlowPercentUb_temp"
             Name="High"
             Max="100"
             Min="0"
@@ -484,7 +484,7 @@
 
         <AlarmLimitCard
             EditContext="@EditContext"
-            @bind-Value="FlowPercentLb"
+            @bind-Value="FlowPercentLb_temp"
             Name="Low"
             Max="@FlowPercentUb"
             Min="0"
@@ -631,6 +631,9 @@
     public bool FlowPercentModalVisibility { get; set; } = false;
     public double FlowPercentUb { get; set; } = 0;
     public double FlowPercentLb { get; set; } = 0;
+    
+    public double FlowPercentUb_temp { get; set; } = 0;
+    public double FlowPercentLb_temp { get; set; } = 0;
 
     public async Task FlowPercentClick()
     {
@@ -639,6 +642,8 @@
 
     public async Task FlowPercentSave()
     {
+        FlowPercentUb = FlowPercentUb_temp;
+        FlowPercentLb = FlowPercentLb_temp;
         Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh = FlowPercentUb;
         Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow = FlowPercentLb;
         EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh));FlowPercentModalVisibility = false;
@@ -649,6 +654,9 @@
     public bool GainLossModalVisibility { get; set; } = false;
     public double PitGainLossUb { get; set; } = 0;
     public double PitGainLossLb { get; set; } = 0;
+    
+    public double PitGainLossUb_temp { get; set; } = 0;
+    public double PitGainLossLb_temp { get; set; } = 0;
 
     private async Task PitGainLossClick()
     {
@@ -657,6 +665,8 @@
 
     private async Task PitGainLossSave()
     {
+        PitGainLossUb = PitGainLossUb_temp;
+        PitGainLossLb = PitGainLossLb_temp;
         Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh = PitGainLossUb;
         Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow = PitGainLossLb;
         EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow));
@@ -702,6 +712,10 @@
 
     protected override async void OnInitialized()
     {
+        PitGainLossUb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh;
+        PitGainLossLb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow;
+        FlowPercentUb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh;
+        FlowPercentLb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow;
 
         // func called from JS
         UpdateDrawWorkFunc = async ps =>
