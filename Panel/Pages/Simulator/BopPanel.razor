@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using Models.Config;
 @using Microsoft.Extensions.Logging;
+@using System.Timers;
 @layout SimulationLayout
 @inject ISimulationApi SimulationApi
 
@@ -571,8 +572,8 @@
                         </g>
                     <g id="a100a488-4d17-40e4-a78a-d7c6cab25f25" 
                        class="bopbutton 
-@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsOpenLED))" 
-                       @onclick="()=>SetMiddleRams(-1)"
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED))" 
+                       @onclick="()=>SetLowerRams(-1)"
                        data-name="piperamsbottomopen">
                             <circle cx="211.34" cy="376.66" r="14.17"
                                 transform="translate(-132.89 -72.01) rotate(-3.62)"
@@ -807,8 +808,8 @@
                         </g>
                     <g id="b574ab2b-91a4-44d2-9103-53a7b504dc8e" 
                        class="bopbutton 
-@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED))" 
-                       @onclick="() => SetLowerRams(-1)"
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsOpenLED))" 
+                       @onclick="() => SetMiddleRams(-1)"
                        data-name="blindramsopen">
                         <circle cx="210.96" cy="255" r="14.17" transform="translate(-125.21 -72.28) rotate(-3.62)"
                                 style="fill:url(#ec9d4d23-f83b-49db-a001-1e2c7a844366)" />
@@ -1311,14 +1312,14 @@
     private void SetUpperRam(int condition)
     {
         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.UpperRamsValve = condition;
-        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.UpperRamsValve);
         EditContext.NotifyFieldChanged(identifier);
     }
     
     private void SetLowerRams(int condition)
     {
         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.LowerRamsValve = condition;
-        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.LowerRamsValve);
         EditContext.NotifyFieldChanged(identifier);
     }
     
@@ -1339,13 +1340,13 @@
     private void SetMiddleRams(int condition)
     {
         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.MiddleRamsValve = condition;
-        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.MiddleRamsValve);
         EditContext.NotifyFieldChanged(identifier);
     }
 
     private void ToggleBypassValve()
     {
-        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ByePassValve > 0)
+        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ByePassValve >= 0)
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ByePassValve = -1;
         else
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ByePassValve = 1;
@@ -1356,10 +1357,23 @@
 
     private void ToggleAirMasterValve()
     {
-        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve > 0)
+        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve >= 0)
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = -1;
+            // Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
         else
+            // Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
+
+        var timer = new  Timer(20_000);
+        timer.Elapsed += (_, _) =>
+        {
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = -1;
+            var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+            EditContext.NotifyFieldChanged(identifier);
+        };
+
+        timer.Start();
+
 
         var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
         EditContext.NotifyFieldChanged(identifier);

@@ -528,11 +528,11 @@ const tick = () => {
     if (tong_mixer) {
         tong_mixer.update(deltaTime)
     }
-    controls.update()
+    // controls.update()
     ProcessActions()
     raycaster.setFromCamera(mousePosition, camera)
-    // ApplySilipsCollision(raycaster)
-    // ApplyTongCollision(raycaster)
+    ApplySilipsCollision(raycaster)
+    ApplyTongCollision(raycaster)
     isMouseClicked = false
     renderer.render(scene, camera)
     window.requestAnimationFrame(tick)
@@ -754,11 +754,11 @@ function initRotary3D() {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement);
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.minDistance = 0;
-    controls.maxDistance = 300;
-    controls.target.set(0, 4, 0);
-    controls.update();
+    // controls = new OrbitControls(camera, renderer.domElement);
+    // controls.minDistance = 0;
+    // controls.maxDistance = 300;
+    // controls.target.set(0, 4, 0);
+    // controls.update();
     document.querySelector('canvas').addEventListener("mousemove", (e) => {
         const mouseX = e.clientX;
         const mouseY = e.clientY;
