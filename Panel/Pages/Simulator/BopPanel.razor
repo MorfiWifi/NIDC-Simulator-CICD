@@ -11,7 +11,7 @@
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
                     <img src="assets/img/ceret.png" alt="" class="ceret">
-                    <div class="value segment">@Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AccumulatorPressureGauge</div>
+                    <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AccumulatorPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Accumulator Press</div>
             </div>
@@ -19,14 +19,12 @@
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
                     <img src="assets/img/ceret.png" alt="" class="ceret">
-                    <div class="value segment">@Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirSupplyPressureGauge</div>
+                    <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirSupplyPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Rig Air Press</div>
             </div>
             <div class="item">
-                <div class="button 
-@GetBtnClass((int)Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve)" 
-                     @onclick="MasterAirControllClicked">
+                <div class="button" >
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 28.34 28.34">
                         <defs>
@@ -74,7 +72,11 @@
                             </linearGradient>
                         </defs>
                         <g style="isolation:isolate">
-                            <g id="f34f756e-d9bd-410c-bb63-ef321aaa3a0a" class="bopbutton" data-name="Layer 1">
+                            <g id="f34f756e-d9bd-410c-bb63-ef321aaa3a0a" 
+                               class="bopbutton 
+@GetBtnClass((int)Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve)"
+                               @onclick="ToggleAirMasterValve"
+                               data-name="Layer 1">
                                 <g id="ba5330c0-b329-4102-ac01-72f9ed43af39" data-name="blindramsopen">
                                     <circle cx="255.96" cy="256.18" r="14.17"
                                         transform="translate(-257.45 -225.35) rotate(-3.62)"
@@ -108,7 +110,7 @@
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
                     <img src="assets/img/ceret.png" alt="" class="ceret">
-                    <div class="value segment">@Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ManifoldPressureGauge</div>
+                    <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ManifoldPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Manifold Press</div>
             </div>
@@ -116,13 +118,13 @@
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
                     <img src="assets/img/ceret.png" alt="" class="ceret">
-                    <div class="value segment">@Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularPressureGauge</div>
+                    <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Annular Press</div>
             </div>
             <div class="item">
-                <div class="button @GetBtnClass(0)" 
-                     @onclick="BypassControlClicked">
+                <div class="button " 
+                     >
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 28.34 28.34">
                         <defs>
@@ -170,7 +172,10 @@
                             </linearGradient>
                         </defs>
                         <g style="isolation:isolate">
-                            <g id="f34f756e-d9bd-410c-bb63-ef321aaa3a0a" class="bopbutton" data-name="Layer 1">
+                            <g id="f34f756e-d9bd-410c-bb63-ef321aaa3a0a"
+                               class="bopbutton @GetBtnClass((int)Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ByePassValve)"
+                               @onclick="ToggleBypassValve"
+                               data-name="Layer 1">
                                 <g id="ba5330c0-b329-4102-ac01-72f9ed43af39" data-name="blindramsopen">
                                     <circle cx="255.96" cy="256.18" r="14.17"
                                         transform="translate(-257.45 -225.35) rotate(-3.62)"
@@ -468,7 +473,10 @@
                             d="M292.66,348.47l-58.66.15a.38.38,0,0,1-.38-.39v-2a.39.39,0,0,1,.38-.39l58.66-.15a.39.39,0,0,1,.38.39v2A.38.38,0,0,1,292.66,348.47Z"
                             transform="translate(-109.54 -86.1)" style="fill:none;stroke:#fff;stroke-miterlimit:10" />
                         <g id="a64c932f-7806-4844-a9ea-fab7817d81fd" 
-                            class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsOpenLED) )" data-name="piperamsupopen">
+                           class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsOpenLED) )" 
+                           @onclick="() => SetUpperRam(-1)"
+                           data-name="piperamsupopen">
                             <circle cx="210.83" cy="199.47" r="14.17" transform="translate(-121.71 -72.4) rotate(-3.62)"
                                 style="fill:url(#b6e5079d-69a8-4d32-aa1a-21eab27cc84c)" />
                             <circle cx="210.83" cy="199.47" r="13.17" transform="translate(-121.7 -72.4) rotate(-3.62)"
@@ -496,7 +504,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="f8a689dc-6146-4d96-a0aa-492dcc89b850" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularOpenLED))" data-name="annularopen">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularOpenLED))" 
+                       @onclick="()=>SetAnnular(-1)"
+                       data-name="annularopen">
                             <circle cx="224.36" cy="126.19" r="14.17"
                                 transform="translate(-117.06 -71.69) rotate(-3.62)"
                                 style="fill:url(#b97fb1a5-dad7-4e79-8874-254396941288)" />
@@ -526,7 +537,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="a9e73d1d-5b4f-4bf4-b95c-2d0ea4103e48" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineOpenLED))" data-name="chocklineopen">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineOpenLED))" 
+                       @onclick="() => SetChokeLine(-1)"
+                       data-name="chocklineopen">
                             <circle cx="334.92" cy="316.15" r="14.17"
                                 transform="translate(-128.82 -64.34) rotate(-3.62)"
                                 style="fill:url(#e6857c51-c9ac-44a8-af59-026ea8ba79ee)" />
@@ -556,7 +570,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="a100a488-4d17-40e4-a78a-d7c6cab25f25" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsOpenLED))" data-name="piperamsbottomopen">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsOpenLED))" 
+                       @onclick="()=>SetMiddleRams(-1)"
+                       data-name="piperamsbottomopen">
                             <circle cx="211.34" cy="376.66" r="14.17"
                                 transform="translate(-132.89 -72.01) rotate(-3.62)"
                                 style="fill:url(#a0de4241-1d25-4b1b-b928-b52a6bc04b30)" />
@@ -586,7 +603,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="a0d72715-b844-46ca-a41b-1a8b264900b6" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsCloseLED))" data-name="pipramsbottomclose">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsCloseLED))" 
+                       @onclick="() => SetLowerRams(1)"
+                       data-name="pipramsbottomclose">
                             <circle cx="308.36" cy="376.91" r="14.17"
                                 transform="translate(-132.71 -65.89) rotate(-3.62)"
                                 style="fill:url(#af0ffe28-c33e-4ed2-90e7-43624579af0d)" />
@@ -617,7 +637,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="b1b9d215-d76d-45e3-944d-6e02bce33f6e" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineCloseLED))" data-name="chokelineclose">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineCloseLED))" 
+                       @onclick="() => SetChokeLine(1)"
+                       data-name="chokelineclose">
                             <circle cx="395.51" cy="316.66" r="14.17"
                                 transform="translate(-128.73 -60.51) rotate(-3.62)"
                                 style="fill:url(#f4bd1879-d020-4b4e-acd1-366c02bf7b21)" />
@@ -649,7 +672,9 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="a423743b-114e-468a-b580-9a3cc01430be" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineCloseLED))"
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineCloseLED))"
+                       @onclick="() => SetKillLine(1)"
                        data-name="killlineclose">
                             <circle cx="190.24" cy="315.3" r="14.17" transform="translate(-129.06 -73.47) rotate(-3.62)"
                                 style="fill:url(#a375ea0d-b0bb-4fa9-9149-6ff1c5caeaa2)" />
@@ -680,7 +705,9 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="be716a8b-f4b8-45d3-a374-caedd14b9e0f" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsCloseLED))"
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsCloseLED))"
+                       @onclick="() => SetMiddleRams(1)"
                        data-name="blindramsclose">
                             <circle cx="314.15" cy="255.38" r="14.17"
                                 transform="translate(-125.03 -65.77) rotate(-3.62)"
@@ -713,7 +740,10 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="f28b3a08-b53d-4fdb-a58a-7466191a6138" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsCloseLED))" data-name="piperamsupclose">
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsCloseLED))" 
+                       @onclick="() => SetUpperRam(1)"
+                       data-name="piperamsupclose">
                             <circle cx="315.17" cy="199.55" r="14.17" transform="translate(-121.5 -65.81) rotate(-3.62)"
                                 style="fill:url(#e7b07be7-84be-4051-8ade-8a245ddf96b6)" />
                             <circle cx="315.17" cy="199.55" r="13.17" transform="translate(-121.5 -65.82) rotate(-3.62)"
@@ -743,7 +773,9 @@
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
                     <g id="f6695c4b-57bc-43a6-a5a1-57c2ca3d2dc2" 
-                       class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularCloseLED))"
+                       class="bopbutton
+ @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularCloseLED))"
+                       @onclick="() => SetAnnular(1)"
                        data-name="annularclose">
                             <circle cx="300.19" cy="126.7" r="14.17" transform="translate(-116.94 -66.91) rotate(-3.62)"
                                 style="fill:url(#a0d25cb5-20a4-43ce-9b75-95e77a52a9a8)" />
@@ -773,8 +805,12 @@
                                 d="M311.21,127.37h-3.37a1.26,1.26,0,0,0,.39.85,1.28,1.28,0,0,0,.87.32,1.08,1.08,0,0,0,1-.62h1a2,2,0,0,1-.72,1,2.11,2.11,0,0,1-1.3.39A2.24,2.24,0,0,1,308,129a2,2,0,0,1-.79-.8,2.41,2.41,0,0,1-.28-1.19,2.59,2.59,0,0,1,.27-1.2A2,2,0,0,1,308,125a2.46,2.46,0,0,1,2.26,0,1.85,1.85,0,0,1,.76.76,2.33,2.33,0,0,1,.27,1.13A3,3,0,0,1,311.21,127.37Zm-.92-.73a1.06,1.06,0,0,0-.36-.81,1.3,1.3,0,0,0-.87-.31,1.16,1.16,0,0,0-.81.3,1.26,1.26,0,0,0-.4.82Z"
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
-                        <g id="b574ab2b-91a4-44d2-9103-53a7b504dc8e" class="bopbutton @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED))" data-name="blindramsopen">
-                            <circle cx="210.96" cy="255" r="14.17" transform="translate(-125.21 -72.28) rotate(-3.62)"
+                    <g id="b574ab2b-91a4-44d2-9103-53a7b504dc8e" 
+                       class="bopbutton 
+@(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED))" 
+                       @onclick="() => SetLowerRams(-1)"
+                       data-name="blindramsopen">
+                        <circle cx="210.96" cy="255" r="14.17" transform="translate(-125.21 -72.28) rotate(-3.62)"
                                 style="fill:url(#ec9d4d23-f83b-49db-a001-1e2c7a844366)" />
                             <circle cx="210.96" cy="255" r="13.17" transform="translate(-125.21 -72.28) rotate(-3.62)"
                                 style="opacity:0.8;mix-blend-mode:multiply;fill:url(#aa6aec1a-1b71-4f35-9cec-7f17aed33964)" />
@@ -800,7 +836,10 @@
                                 d="M220.48,253.27a1.58,1.58,0,0,1,.64.64,2.13,2.13,0,0,1,.23,1v2.6h-.9v-2.46a1.28,1.28,0,0,0-.3-.91,1,1,0,0,0-.81-.31,1.06,1.06,0,0,0-.81.31,1.28,1.28,0,0,0-.3.91v2.46h-.91v-4.4h.91v.5a1.51,1.51,0,0,1,.57-.42,1.73,1.73,0,0,1,.74-.16A2.07,2.07,0,0,1,220.48,253.27Z"
                                 transform="translate(-109.54 -86.1)" style="fill:#fff" />
                         </g>
-                    <g id="affdc8ec-f915-4f18-b481-9f2f31850e94" class="bopbutton" 
+                    <g id="affdc8ec-f915-4f18-b481-9f2f31850e94" 
+                       class="bopbutton 
+@GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineOpenLED)" 
+                       @onclick="() => SetKillLine(-1)"
                        data-name="killlineopen">
                             <circle cx="127.98" cy="316.28" r="14.17"
                                 transform="translate(-129.24 -77.39) rotate(-3.62)"
@@ -1237,11 +1276,88 @@
     private string GetBtnClass(int condition)
         => condition == 1 ? "show" : string.Empty;
 
-    private void MasterAirControllClicked()
+    // private void MasterAirControllClicked()
+    // {
+    //     //todo use output fields for BOP 
+    //     if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
+    //         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
+    //     else
+    //         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
+    //
+    //     var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+    //     EditContext.NotifyFieldChanged(identifier);
+    // }
+
+    // private void BypassControlClicked()
+    // {
+    //     //todo use output fields for BOP
+    //     if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
+    //         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
+    //     else
+    //         Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
+    //
+    //     var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+    //     EditContext.NotifyFieldChanged(identifier);
+    // }
+
+
+    private void SetAnnular(int condition)
     {
-        //todo use output fields for BOP 
-        if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
-            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AnnularValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+    
+    private void SetUpperRam(int condition)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.UpperRamsValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+    
+    private void SetLowerRams(int condition)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.LowerRamsValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+    
+    private void SetChokeLine(int condition)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ChokeLineValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+    
+    private void SetKillLine(int condition)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.KillLineValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+    
+    private void SetMiddleRams(int condition)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.BopControl.MiddleRamsValve = condition;
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+
+    private void ToggleBypassValve()
+    {
+        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ByePassValve > 0)
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ByePassValve = -1;
+        else
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ByePassValve = 1;
+
+        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.ByePassValve);
+        EditContext.NotifyFieldChanged(identifier);
+    }
+
+    private void ToggleAirMasterValve()
+    {
+        if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve > 0)
+            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = -1;
         else
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
 
@@ -1249,15 +1365,5 @@
         EditContext.NotifyFieldChanged(identifier);
     }
 
-    private void BypassControlClicked()
-    {
-        //todo use output fields for BOP
-        if (Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve == 1)
-            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
-        else
-            Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
 
-        var identifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve);
-        EditContext.NotifyFieldChanged(identifier);
-    }
 }

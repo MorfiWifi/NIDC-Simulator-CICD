@@ -130,6 +130,9 @@ public class TempValues
 namespace SimulationInputValues
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    /// <summary>
+    /// Outpuy
+    /// </summary>
     public class BopControl
     {
         public double ManifoldPressureGauge { get; set; } = new();
@@ -152,6 +155,9 @@ namespace SimulationInputValues
         public double UpperRamsStatus { get; set; } = new();
         public double MiddleRamsStatus { get; set; } = new();
         public double LowerRamsStatus { get; set; } = new();
+        
+        public double AirMasterValve { set; get; } = new();
+        public double ByePassValve { get; set; } = new();
     }
 
     public class ChokeControl
@@ -179,6 +185,9 @@ namespace SimulationInputValues
         public bool RightManChokeOnProblem { get; set; } = new();
     }
 
+    /// <summary>
+    /// outouts
+    /// </summary>
     public class DataDisplay
     {
         public double WOBPointer { get; set; } = new();
@@ -475,6 +484,9 @@ namespace SimulationOutPutValues
         public int PlugJetsCount { get; set; } = new();
     }
 
+    /// <summary>
+    /// inputs
+    /// </summary>
     public class BopControl
     {
         public double ManifoldPressureGauge { get; set; } = new();
@@ -504,6 +516,8 @@ namespace SimulationOutPutValues
         public double LowerRamsValve { set; get; } = 0;
         public double AnnularValve { set; get; } = 0;
 
+        public double ByePassValve { get; set; } = new();
+        public double MiddleRamsValve { set; get; } = 0;
     }
 
     public class BopProblems
@@ -715,6 +729,9 @@ namespace SimulationOutPutValues
         public Mud Mud { get; set; } = new();
     }
 
+    /// <summary>
+    /// inputs 
+    /// </summary>
     public class DataDisplay
     {
         public double WOBPointer { get; set; } = new();
