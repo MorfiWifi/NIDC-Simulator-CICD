@@ -10,6 +10,7 @@
   width: 100%;
   height: calc(100vh - 60px);
   padding: 0px;
+  background-color: #000;
 }
 
 #new-desgin>.top {
@@ -21,6 +22,7 @@
   border-left: 0;
   border-right: 0;
   height: 6%;
+  background-color: #fffe;
 }
 
 #new-desgin>.top i {
@@ -123,6 +125,7 @@
   justify-content: center;
   padding-top: 0 !important;
   height: calc(100vh - 60px - 8%);
+  background-color: #FF7F50;
 }
 
 #new-desgin>.content .top,
@@ -139,7 +142,7 @@
   justify-content: center;
   align-items: center;
   justify-content: space-between;
-  height: 25%;
+  height: auto;
 }
 
 #new-desgin>.content .top .mic {
@@ -300,11 +303,11 @@
   gap: 5px;
   margin-bottom: 5px;
   margin-top: 5px;
-  height: calc(100% - 200px - 40%);
+  max-height: 80px;
 }
 
 #new-desgin>.content .more-info .item {
-  background-color: rgba(238, 198, 198, 0.4392156863);
+  background-color: rgba(238, 198, 198,1);
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -357,7 +360,7 @@
 }
 
 #new-desgin>.content .info-and-handle .item {
-  background-color: rgba(238, 198, 198, 0.4392156863);
+  background-color: rgba(238, 198, 198, 1);
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -468,6 +471,7 @@
 
 .chart-item.active {
   background-color: rgba(0, 0, 255, 0.54) !important;
+  color: white;
 }
 
 .chart-item {
