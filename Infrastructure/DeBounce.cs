@@ -6,8 +6,8 @@ using System.Timers;
 namespace Infrastructure;
 
 /// <summary>
-/// Deboumd event (function) call to its last value and prevent 
-/// fludding in short period 
+/// Debounced event (function) call to its last value and prevent 
+/// flooding in short period 
 /// </summary>
 public static class DeBounce
 {
@@ -17,40 +17,38 @@ public static class DeBounce
 
 
     /// <summary>
-    /// Invoke only the last Action witin given time period
+    /// Invoke only the last Action within given time period
     /// </summary>
     /// <param name="Identifier">actions Id (override last one in this group)</param>
     /// <param name="ac">action body</param>
-    /// <param name="delay">default 100ms (rec for client sied)</param>
+    /// <param name="delay">default 100ms (rec for client side)</param>
     public static void CallAction(string Identifier, Action ac, int delay = 100)
     {
         dictActions[Identifier] = ac;
-        if (!dictTimers.ContainsKey(Identifier))
+        if (dictTimers.ContainsKey(Identifier)) return;
+        var timer = new Timer(delay);
+
+        timer.Elapsed += (_, _) =>
         {
-            var timer = new Timer(delay);
+            Action action = null;
+            if (dictActions.TryGetValue(Identifier, out var dictAction))
+                action = dictAction;
 
-            timer.Elapsed += (_, _) =>
-            {
-                Action action = null;
-                if (dictActions.ContainsKey(Identifier))
-                    action = dictActions[Identifier];
+            action?.Invoke();
+            // destroy timer
+            timer.Dispose();
+            timer = null;
 
-                action?.Invoke();
-                // detroy timer
-                timer.Dispose();
-                timer = null;
+            if (dictTimers.ContainsKey(Identifier))
+                dictTimers.Remove(Identifier);
 
-                if (dictTimers.ContainsKey(Identifier))
-                    dictTimers.Remove(Identifier);
+            //race condition! cautious
+            if (dictActions.ContainsKey(Identifier))
+                dictActions.Remove(Identifier);
+        };
 
-                //rece condition! cousion
-                if (dictActions.ContainsKey(Identifier))
-                    dictActions.Remove(Identifier);
-            };
-
-            timer.Start();
-            dictTimers[Identifier] = timer;
-        }
+        timer.Start();
+        dictTimers[Identifier] = timer;
     }
 
 }
