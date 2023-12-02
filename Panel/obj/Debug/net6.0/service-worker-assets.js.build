@@ -17,7 +17,7 @@
       "url": "assets\/css\/bootstrap-icons.css"
     },
     {
-      "hash": "sha256-dHy+UNj1RpqOQgmBz4vgwibLug2dFCGQUF1L\/PjrVio=",
+      "hash": "sha256-C\/11Kpjp46PAjy1y7X8v9JR5nskp\/4Z4TAzRvuMxYgU=",
       "url": "assets\/css\/bop.css"
     },
     {
@@ -49,11 +49,11 @@
       "url": "assets\/css\/Login.css"
     },
     {
-      "hash": "sha256-GD8WXxZPr7SC+AcKeudlBKhDpvSOSAGlm6PrrHElGQU=",
+      "hash": "sha256-xOP4ANu+kO\/In\/EsmX2fJU4MZfbf6bM1lKBh3NRJQB0=",
       "url": "assets\/css\/main-page.css"
     },
     {
-      "hash": "sha256-n\/bRjGKzZAHiKDRxyec0uTk8dtWReLOHIyjalLaP3+s=",
+      "hash": "sha256-F8Hu1HnexF46iZAitYVpfP5b06RLR2Pxgg0Cnzo3Vug=",
       "url": "assets\/css\/main.css"
     },
     {
@@ -2385,5 +2385,5 @@
       "url": "_content\/ChartJs.Blazor.Fork\/ChartJsBlazorInterop.js"
     }
   ],
-  "version": "1G7wOIW0"
+  "version": "Uv+ZZx0J"
 };

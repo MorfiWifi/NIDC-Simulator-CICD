@@ -132,6 +132,8 @@
   height: calc(100vh - 60px);
   display: grid;
   grid-template-rows: 1fr 4fr;
+  background-image: radial-gradient(circle at 10% 20%, rgb(255, 200, 124) 0%, rgb(252, 251, 121) 90%);
+
 }
 #chock .charts {
   width: 100%;

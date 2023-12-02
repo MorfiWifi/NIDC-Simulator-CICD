@@ -743,6 +743,7 @@ function initRotary3D() {
     const d = 50;
     renderer = new THREE.WebGLRenderer({
         antialias: true,
+        alpha: true,
     })
     renderer.physicallyCorrectLights = true
     renderer.outputEncoding = THREE.sRGBEncoding
@@ -750,7 +751,7 @@ function initRotary3D() {
     renderer.toneMappingExposure = 1.75
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    renderer.setClearColor('#211d20')
+    renderer.setClearColor( 0x000000, 0 )
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement);
