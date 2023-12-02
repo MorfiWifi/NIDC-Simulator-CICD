@@ -94,184 +94,213 @@ function initPreData() {
 }
 
 
+let ch1 = null; // Global variable to store the chart instance
+
 const initRopChart = (arr) => {
-    initPreData();
-    var data = {
-        labels: Array.from({length: 31}, (_, i) => i.toString()), // Labels from 0 to 100
-        datasets: [{
-            label: 'Rop',
-            data: (arr) ? arr : randomData,
-            borderColor: 'blue',
-            backgroundColor: 'transparent',
-            borderWidth: 1,
-        }]
-    };
-    // Define chart options
-    var options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        pointLabels: false,
-        plugins: {
-            legend: {
-                display: false // Hide the legends
-            }
-        },
-        scales: {
-            x: {
-                min: 0, // Minimum value on the x-axis
-                max: 100, // Maximum value on the x-axis
-                stepSize: 1 // Step size for the x-axis
+    // Check if chart instance exists
+    if (!ch1) {
+        initPreData();
+
+        var data = {
+            labels: Array.from({ length: 31 }, (_, i) => i.toString()), // Labels from 0 to 100
+            datasets: [{
+                label: 'Rop',
+                data: (arr) ? arr : randomData,
+                borderColor: 'blue',
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+            }]
+        };
+
+        // Define chart options
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            pointLabels: false,
+            plugins: {
+                legend: {
+                    display: false // Hide the legends
+                }
             },
-            y: {
-                min: 0, // Minimum value on the y-axis
-                max: 20, // Maximum value on the y-axis
-                stepSize: 1 // Step size for the y-axis
+            scales: {
+                x: {
+                    min: 0, // Minimum value on the x-axis
+                    max: 100, // Maximum value on the x-axis
+                    stepSize: 1 // Step size for the x-axis
+                },
+                y: {
+                    
+                }
             }
-        }
-    };
+        };
 
-    // Create a new line chart instance
-    var myLineChart = new Chart(ropChart, {
-        type: 'line',
-        data: data,
-        options: options
-    });
-
+        // Create a new line chart instance
+        ch1 = new Chart(ropChart, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    } else {
+        // Update existing chart with new data
+        ch1.data.datasets[0].data = arr || randomData;
+        ch1.update(); // Update the chart
+    }
 }
 
+let ch2 = null; // Global variable to store the chart instance
 const initWobChart = (arr) => {
-    initPreData();
-    var data = {
-        labels: Array.from({length: 31}, (_, i) => i.toString()), // Labels from 0 to 100
-        datasets: [{
-            label: 'WOB',
-            data: (arr) ? arr : randomData,
-            borderColor: 'blue',
-            backgroundColor: 'transparent',
-            borderWidth: 1,
-        }]
-    };
-    // Define chart options
-    var options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        pointLabels: false,
-        plugins: {
-            legend: {
-                display: false // Hide the legends
-            }
-        },
-        scales: {
-            x: {
-                min: 0, // Minimum value on the x-axis
-                max: 100, // Maximum value on the x-axis
-                stepSize: 1 // Step size for the x-axis
+    // Check if chart instance exists
+    if (!ch2) {
+        initPreData();
+
+        var data = {
+            labels: Array.from({ length: 31 }, (_, i) => i.toString()), // Labels from 0 to 100
+            datasets: [{
+                label: 'Wob',
+                data: (arr) ? arr : randomData,
+                borderColor: 'blue',
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+            }]
+        };
+
+        // Define chart options
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            pointLabels: false,
+            plugins: {
+                legend: {
+                    display: false // Hide the legends
+                }
             },
-            y: {
-                min: 0, // Minimum value on the y-axis
-                max: 20, // Maximum value on the y-axis
-                stepSize: 1 // Step size for the y-axis
+            scales: {
+                x: {
+                    min: 0, // Minimum value on the x-axis
+                    max: 100, // Maximum value on the x-axis
+                    stepSize: 1 // Step size for the x-axis
+                },
+                y: {
+                    
+                }
             }
-        }
-    };
+        };
 
-    // Create a new line chart instance
-    var myLineChart = new Chart(pressChart, {
-        type: 'line',
-        data: data,
-        options: options
-    });
-
+        // Create a new line chart instance
+        ch2 = new Chart(wobChart, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    } else {
+        // Update existing chart with new data
+        ch2.data.datasets[0].data = arr || randomData;
+        ch2.update(); // Update the chart
+    }
 }
 
+let ch3 = null; // Global variable to store the chart instance
 const initTorChart = (arr) => {
-    initPreData();
-    var data = {
-        labels: Array.from({length: 31}, (_, i) => i.toString()), // Labels from 0 to 100
-        datasets: [{
-            label: 'Torque',
-            data: (arr) ? arr : randomData,
-            borderColor: 'blue',
-            backgroundColor: 'transparent',
-            borderWidth: 1,
-        }]
-    };
-    // Define chart options
-    var options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        pointLabels: false,
-        plugins: {
-            legend: {
-                display: false // Hide the legends
-            }
-        },
-        scales: {
-            x: {
-                min: 0, // Minimum value on the x-axis
-                max: 100, // Maximum value on the x-axis
-                stepSize: 1 // Step size for the x-axis
+    // Check if chart instance exists
+    if (!ch3) {
+        initPreData();
+
+        var data = {
+            labels: Array.from({ length: 31 }, (_, i) => i.toString()), // Labels from 0 to 100
+            datasets: [{
+                label: 'Tor',
+                data: (arr) ? arr : randomData,
+                borderColor: 'blue',
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+            }]
+        };
+
+        // Define chart options
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            pointLabels: false,
+            plugins: {
+                legend: {
+                    display: false // Hide the legends
+                }
             },
-            y: {
-                min: 0, // Minimum value on the y-axis
-                max: 20, // Maximum value on the y-axis
-                stepSize: 1 // Step size for the y-axis
+            scales: {
+                x: {
+                    min: 0, // Minimum value on the x-axis
+                    max: 100, // Maximum value on the x-axis
+                    stepSize: 1 // Step size for the x-axis
+                },
+                y: {
+                    
+                }
             }
-        }
-    };
+        };
 
-    // Create a new line chart instance
-    var myLineChart = new Chart(torChart, {
-        type: 'line',
-        data: data,
-        options: options
-    });
-
+        // Create a new line chart instance
+        ch3 = new Chart(torChart, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    } else {
+        // Update existing chart with new data
+        ch3.data.datasets[0].data = arr || randomData;
+        ch3.update(); // Update the chart
+    }
 }
 
+let ch4 = null; // Global variable to store the chart instance
 const initPressChart = (arr) => {
-    initPreData();
-    var data = {
-        labels: Array.from({length: 31}, (_, i) => i.toString()), // Labels from 0 to 100
-        datasets: [{
-            label: 'Press',
-            data: (arr) ? arr : randomData,
-            borderColor: 'blue',
-            backgroundColor: 'transparent',
-            borderWidth: 1,
-        }]
-    };
-    // Define chart options
-    var options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        pointLabels: false,
-        plugins: {
-            legend: {
-                display: false // Hide the legends
-            }
-        },
-        scales: {
-            x: {
-                min: 0, // Minimum value on the x-axis
-                max: 100, // Maximum value on the x-axis
-                stepSize: 1 // Step size for the x-axis
+    // Check if chart instance exists
+    if (!ch4) {
+        initPreData();
+
+        var data = {
+            labels: Array.from({ length: 31 }, (_, i) => i.toString()), // Labels from 0 to 100
+            datasets: [{
+                label: 'Press',
+                data: (arr) ? arr : randomData,
+                borderColor: 'blue',
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+            }]
+        };
+
+        // Define chart options
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            pointLabels: false,
+            plugins: {
+                legend: {
+                    display: false // Hide the legends
+                }
             },
-            y: {
-                min: 0, // Minimum value on the y-axis
-                max: 20, // Maximum value on the y-axis
-                stepSize: 1 // Step size for the y-axis
+            scales: {
+                x: {
+                    min: 0, // Minimum value on the x-axis
+                    max: 100, // Maximum value on the x-axis
+                    stepSize: 1 // Step size for the x-axis
+                },
+                y: {
+                    
+                }
             }
-        }
-    };
+        };
 
-    // Create a new line chart instance
-    var myLineChart = new Chart(wobChart, {
-        type: 'line',
-        data: data,
-        options: options
-    });
-
+        // Create a new line chart instance
+        ch4 = new Chart(pressChart, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    } else {
+        // Update existing chart with new data
+        ch4.data.datasets[0].data = arr || randomData;
+        ch4.update(); // Update the chart
+    }
 }
 
 function preset() {
