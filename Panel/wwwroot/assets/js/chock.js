@@ -1,6 +1,23 @@
+var chart;
+var datasetsVisibility = [true, true, true, true];
+
+function toggleDataset(datasetIndex) {
+    datasetsVisibility[datasetIndex] = !datasetsVisibility[datasetIndex];
+
+    updateChartVisibility();
+}
+
+function updateChartVisibility() {
+    if (chart) {
+        chart.data.datasets.forEach((dataset, index) => {
+            dataset.hidden = !datasetsVisibility[index];
+        });
+        chart.update();
+    }
+}
+
 function initialize_chockjs(){
-    var chart;
-    var datasetsVisibility = [true, true, true, true];
+
 
     const pump = document.querySelector('.chart-item.item-1');
     const csco = document.querySelector('.chart-item.item-2');
@@ -22,23 +39,7 @@ function initialize_chockjs(){
         console.log('hello')
         gain.classList.toggle('show')
     })
-
-
-
-    function toggleDataset(datasetIndex) {
-        datasetsVisibility[datasetIndex] = !datasetsVisibility[datasetIndex];
-
-        updateChartVisibility();
-    }
-
-    function updateChartVisibility() {
-        if (chart) {
-            chart.data.datasets.forEach((dataset, index) => {
-                dataset.hidden = !datasetsVisibility[index];
-            });
-            chart.update();
-        }
-    }
+    
 
 // Function to generate random data
     function generateRandomData() {
@@ -164,3 +165,4 @@ function initialize_chockjs(){
 }
 
 window.InitilaizeChockJs = initialize_chockjs;
+window.ToggleBopPanelDataset = toggleDataset;

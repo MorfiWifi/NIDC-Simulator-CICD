@@ -68,10 +68,10 @@
             <div class="charts">
                 <div class="chart-content">
                     <ul>
-                        <li class="chart-item item-1 show" onclick="toggleDataset(0)">Pump Press.</li>
-                        <li class="chart-item item-2 show" onclick="toggleDataset(1)">CSG Press.</li>
-                        <li class="chart-item item-3 show" onclick="toggleDataset(2)">SPM</li>
-                        <li class="chart-item item-4 show" onclick="toggleDataset(3)">
+                        <li class="chart-item item-1 show" onclick="window.ToggleBopPanelDataset(0)">Pump Press.</li>
+                        <li class="chart-item item-2 show" onclick="window.ToggleBopPanelDataset(1)">CSG Press.</li>
+                        <li class="chart-item item-3 show" onclick="window.ToggleBopPanelDataset(2)">SPM</li>
+                        <li class="chart-item item-4 show" onclick="window.ToggleBopPanelDataset(3)">
                             <div class="name">Pit Gain</div>
                             <div class="unit">bbl</div>
                             <div class="value">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.PitGainLossGauge:0}")</div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="display">
                         <div class="name">SPM</div>
-                        <div class="value segment">30</div>
+                        <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelSPMCounter}")</div>
                         <div class="name">Tot. Stk</div>
                         <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelTotalStrokeCounter:0}")</div>
                         <button class="button">Reset</button>
@@ -115,9 +115,15 @@
                     
                     <div class="gage-detail">
                         <ul>
-                            <li class="active">MP1</li>
-                            <li>Both</li>
-                            <li>MP2</li>
+                            <li 
+                                @onclick="() => PumpSwitchChanged(1)"
+                                class="@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch , 1)"> MP1</li>
+                            <li 
+                                @onclick="() => PumpSwitchChanged(3)"
+                                class="@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch , 3)"> Both</li>
+                            <li 
+                                @onclick="() => PumpSwitchChanged(2)"
+                                class="@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch , 2)"> MP2</li>
                         </ul>
                     </div>
                     <div class="half-gage">
@@ -241,6 +247,18 @@
     private void onValueChange()
     {
         StateHasChanged();
+    }
+
+    private string GetClass(double input , params double[] validArray)
+    {
+       return validArray.Any(x=> x == input) ? "active" : string.Empty;
+    }
+
+    private void PumpSwitchChanged(double input)
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch = input;
+        var fieldIdentifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokePanelPumpSelectorSwitch);
+        EditContext.NotifyFieldChanged(fieldIdentifier);
     }
 
 }
