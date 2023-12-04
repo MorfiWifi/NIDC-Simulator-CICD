@@ -172,7 +172,9 @@ namespace SimulationInputValues
         public int Choke2LED { get; set; } = new();
         public double ChokePanelPumpSelectorSwitch { set; get; }
         public double ChokeRateControlKnob { set; get; }
-        public bool ChokePanelStrokeResetSwitch { set; get; }        
+        public bool ChokePanelStrokeResetSwitch { set; get; }   
+        public bool ChokePanelRigAirSwitch { set; get; }
+        public bool ChokeSelectorSwitch { set; get; }
     }
 
     public class ChokeManifold
@@ -631,6 +633,7 @@ namespace SimulationOutPutValues
         public bool ChokePanelStrokeResetSwitch { set; get; }
         public double ChokeControlLever { set; get; }    
         public double ChokePanelPumpSelectorSwitch { set; get; }
+        public bool ChokeSelectorSwitch { set; get; }
     }
 
     public class ChokeManifold

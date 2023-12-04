@@ -2,6 +2,7 @@ var chart;
 var datasetsVisibility = [true, true, true, true];
 
 function toggleDataset(datasetIndex) {
+    chart =  chartDict['chokeChart'];
     datasetsVisibility[datasetIndex] = !datasetsVisibility[datasetIndex];
 
     updateChartVisibility();
@@ -39,82 +40,6 @@ function initialize_chockjs(){
         console.log('hello')
         gain.classList.toggle('show')
     })
-    
-
-// Function to generate random data
-    function generateRandomData() {
-        return Array.from({ length: 20 }, () => Math.floor(Math.random() * 100));
-    }
-
-// Get the canvas element
-    var ctx = document.getElementById('myChart').getContext('2d');
-
-// Create a chart with dark theme
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            datasets: [
-                {
-                    label: 'Pump Press.',
-                    data: generateRandomData(),
-                    borderColor: 'rgb(108, 108, 245)',
-                    backgroundColor: 'rgb(108, 108, 245)',
-                    borderWidth: 2
-                },
-                {
-                    label: 'CSG Press.',
-                    data: generateRandomData(),
-                    borderColor: 'rgb(255, 55, 0)',
-                    backgroundColor: 'rgb(255, 55, 0)',
-                    borderWidth: 2
-                },
-                {
-                    label: 'SPM',
-                    data: generateRandomData(),
-                    borderColor: 'rgb(85, 232, 87)',
-                    backgroundColor: 'rgb(85, 232, 87)',
-                    borderWidth: 2
-                },
-                {
-                    label: 'Pit Gain',
-                    data: generateRandomData(),
-                    borderColor: 'rgb(244, 219, 1)',
-                    backgroundColor: 'rgb(244, 219, 1)',
-                    borderWidth: 2
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.3)'
-                    },
-                    ticks: {
-                        color: 'rgb(255,255,255,0.5)'
-                    }
-                },
-                y: {
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.3)'
-                    },
-                    ticks: {
-                        color: 'rgb(255,255,255,0.5)'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-
-
 
     let isDragging = false;
     let initialMouseX;
@@ -151,7 +76,12 @@ function initialize_chockjs(){
         if (nearestRotation == -90)
             nearestRotation = -45;
         chokeHandle.style.transform = `translate(-50%,-50%) rotate(${nearestRotation}deg)`;
+        
+        
         // todo for morteza
+        let num = nearestRotation < 0 ? -1 : (nearestRotation == 0 ? 0 : 1);
+        DotNet.invokeMethodAsync('Panel16', 'SetChockHandlerStatus', num);
+        
         chokeHandle.style.transition = 'transform 0.3s ease-in-out';
     });
 
@@ -164,5 +94,117 @@ function initialize_chockjs(){
 
 }
 
+
+
+let chartDict = {}
+let chartCanvasDict = {}
+
+function initChart(identity , type) {
+    chartCanvasDict[identity] = document.getElementById(identity).getContext(type);
+}
+
+
+// arr = [0,1,2,3] of [] , labels = []
+const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
+
+    // console.log("updateChokeChart called from dotnet ");
+    
+    let ch =  chartDict[identity];
+    
+    // Check if chart instance exists
+    if (!ch) {
+        initChart(identity , contextType);
+        let canvas = chartCanvasDict[identity];
+
+        const data = {
+            labels: labels, // Labels from 0 to 100
+            datasets: [
+                {
+                    label: 'Pump Press.',
+                    data: arr[0],
+                    borderColor: 'rgb(108, 108, 245)',
+                    backgroundColor: 'rgb(108, 108, 245)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'CSG Press.',
+                    data: arr[1],
+                    borderColor: 'rgb(255, 55, 0)',
+                    backgroundColor: 'rgb(255, 55, 0)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'SPM',
+                    data: arr[2],
+                    borderColor: 'rgb(85, 232, 87)',
+                    backgroundColor: 'rgb(85, 232, 87)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Pit Gain',
+                    data: arr[3],
+                    borderColor: 'rgb(244, 219, 1)',
+                    backgroundColor: 'rgb(244, 219, 1)',
+                    borderWidth: 2
+                }]
+        };
+
+        // Define chart options
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    ticks: {
+                        color: 'rgb(255,255,255,0.5)'
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    ticks: {
+                        color: 'rgb(255,255,255,0.5)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        };
+
+        // Create a new line chart instance
+        ch = new Chart(canvas, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+        
+        chartDict[identity] = ch;
+    } else {
+        // console.log("updateChokeChart called updating dataset from dotnet ");
+        
+        // Update existing chart with new data
+        ch.data.datasets[0].data = arr[0];
+        ch.data.datasets[1].data = arr[1];
+        ch.data.datasets[2].data = arr[2];
+        ch.data.datasets[3].data = arr[3];
+        
+        ch.data.labels = labels;
+
+        console.log(ch.data);
+        
+        ch.update(); // Update the chart
+    }
+}
+
+
+
 window.InitilaizeChockJs = initialize_chockjs;
 window.ToggleBopPanelDataset = toggleDataset;
+window.UpdateChokeChart = updateChokeChart;

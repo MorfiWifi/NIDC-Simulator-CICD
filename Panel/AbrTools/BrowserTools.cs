@@ -87,6 +87,11 @@ namespace AbrBlazorTools
            await _js.InvokeVoidAsync("window.iniBop"); 
         }
 
+        public async Task UpdateChokeChart(string id, double[][] arr, string[] labels, string contextType = "2d")
+        {
+            await _js.InvokeVoidAsync("window.UpdateChokeChart" , id , arr , labels , contextType);
+        }
+
         public async Task InitChockJs()
         {
             await _js.InvokeVoidAsync("window.InitilaizeChockJs");
@@ -114,6 +119,7 @@ namespace AbrBlazorTools
         Task SetSlider(double value);
         Task InitChockJs();
         Task InitBop();
+        Task UpdateChokeChart(string id , double[][] arr , string[] labels , string contextType = "2d");
 
         Task Prepare3dTest();
     }
