@@ -174,7 +174,7 @@
                     </svg>
                     <div class="open-close">
                         <p class="@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, 1)">open</p>
-                        <p class="@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, -1)">close</p>
+                        <p>close</p>
                     </div>
                     <div class="data drilling-label">
                         <div class="slow">Slow</div>
@@ -190,10 +190,10 @@
                 </div>
                 <!-- <div class="drilling-label">Rig Air</div> -->
                 <div class="handle">
-                    <div class="btn">Open</div>
+                    <div class="btn @GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, -1)">Open</div>
                     <img class="base" src="assets/img/chockbase.png" alt="">
                     <img id="chokeHandle" src="assets/img/chockhandle.png" alt="">
-                    <div class="btn">Close</div>
+                    <div class="btn @GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, 1)">Close</div>
                 </div>
             </div>
         </div>
@@ -349,7 +349,7 @@
 
     private string GetClass(double input, params double[] validArray)
     {
-        return validArray.Any(x => x == input) ? "active" : string.Empty;
+        return validArray.Any(x => Math.Abs(x - input) < 0.1 ) ? "active" : string.Empty;
     }
 
     private void PumpSwitchChanged(double input)

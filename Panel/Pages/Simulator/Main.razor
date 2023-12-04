@@ -5,6 +5,7 @@
 @using SimulationOutPutValues
 @using System.Linq.Expressions
 @using Infrastructure;
+@using Panel16.Util
 @layout SimulationLayout
 @inject ISimulationApi SimulationApi
 @inject IThreeJsClient ThreeJs
@@ -611,6 +612,10 @@
     }
     
         private const int ChartLen = 30;
+
+
+    ChartValueContainer RopChart = new ChartValueContainer(ChartLen, "rop");
+    
     private LinkedList<double> RopList = new(new double[ChartLen]);
     private LinkedList<double> WopList = new(new double[ChartLen]);
     private LinkedList<double> PressList = new(new double[ChartLen]);
@@ -712,12 +717,7 @@
 
     protected override async void OnInitialized()
     {
-        PitGainLossUb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmHigh;
-        PitGainLossLb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MVTAlarmLow;
-        FlowPercentUb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmHigh;
-        FlowPercentLb_temp = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow;
-
-        // func called from JS
+    // func called from JS
         UpdateDrawWorkFunc = async ps =>
         {
             var base_value = (ps - 50) / 50;
@@ -738,6 +738,18 @@
         //Read();
         EditContext.OnFieldChanged += OnFieldChanged;
 
+        
+        PitGainLossUb_temp = Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmHigh;
+        PitGainLossLb_temp = Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MVTAlarmLow;
+        FlowPercentUb_temp = Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmHigh;
+        FlowPercentLb_temp = Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmLow;
+        
+        PitGainLossUb = PitGainLossUb_temp ;
+        PitGainLossLb = PitGainLossLb_temp ;
+        FlowPercentUb = FlowPercentUb_temp ;
+        FlowPercentLb = FlowPercentLb_temp ;
+        
+        
         #region hub comment
         hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
 
