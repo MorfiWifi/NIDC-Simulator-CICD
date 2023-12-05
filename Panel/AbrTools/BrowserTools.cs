@@ -47,24 +47,9 @@ namespace AbrBlazorTools
             await _js.InvokeVoidAsync("window.InitThree");
         }
 
-        public async Task SetRopChart(double[] array)
+        public async Task SetMainChart(string identity  , double[] array , string[] labels , int chartId)
         {
-            await _js.InvokeVoidAsync("window.Charts.rop", array);
-        }
-
-        public async Task SetTorChart(double[] array)
-        {
-            await _js.InvokeVoidAsync("window.Charts.tor", array);
-        }
-
-        public async Task SetWobChart(double[] array)
-        {
-            await _js.InvokeVoidAsync("window.Charts.wob", array);
-        }
-
-        public async Task SetPressChart(double[] array)
-        {
-            await _js.InvokeVoidAsync("window.Charts.press", array);
+            await _js.InvokeVoidAsync("window.Charts.main", identity , array , labels , chartId);
         }
 
         public async Task SetVerticalGaugeValue(string id, double value, double ub, double lb)
@@ -110,10 +95,7 @@ namespace AbrBlazorTools
         Task CopyText(string text, string title = "", bool toast = false);
         Task PrepareResponsiveTable();
         Task Prepare3d();
-        Task SetRopChart(double[] array);
-        Task SetTorChart(double[] array);
-        Task SetWobChart(double[] array);
-        Task SetPressChart(double[] array);
+        Task SetMainChart(string identity  ,double[] array , string[] labels , int chartId);
         Task SetVerticalGaugeValue(string id, double value, double ub, double lb);
         Task InitSliderHandler(string id);
         Task SetSlider(double value);

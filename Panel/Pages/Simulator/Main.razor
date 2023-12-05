@@ -612,26 +612,12 @@
     }
     
         private const int ChartLen = 30;
-
-
-    ChartValueContainer RopChart = new ChartValueContainer(ChartLen, "rop");
     
-    private LinkedList<double> RopList = new(new double[ChartLen]);
-    private LinkedList<double> WopList = new(new double[ChartLen]);
-    private LinkedList<double> PressList = new(new double[ChartLen]);
-    private LinkedList<double> TorList = new(new double[ChartLen]);
-
-    public async Task AddReplace(LinkedList<double> list, double item)
-    {
-    // Add the new number to the end of the linked list
-        list.AddLast(item);
-
-    // If the linked list is full, remove the first number
-        if (list.Count > ChartLen)
-        {
-            list.RemoveFirst();
-        }
-    }
+    private ChartValueContainer RopChart    = new ChartValueContainer(ChartLen, "rop");
+    private ChartValueContainer WobChart    = new ChartValueContainer(ChartLen, "wob");
+    private ChartValueContainer PressChart  = new ChartValueContainer(ChartLen, "press");
+    private ChartValueContainer TorqueChart = new ChartValueContainer(ChartLen, "torque");
+    
     
     public bool FlowPercentModalVisibility { get; set; } = false;
     public double FlowPercentUb { get; set; } = 0;
@@ -837,10 +823,11 @@
             var wob = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit;
             var trq = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.Torque;
             var press = Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PumpPressure;
-            await AddReplace( RopList , rop);
-            await AddReplace( WopList , wob);
-            await AddReplace( TorList , trq);
-            await AddReplace( PressList , press);
+
+            RopChart   .AddPoint(rop);
+            WobChart   .AddPoint(wob);
+            PressChart .AddPoint(press);
+            TorqueChart.AddPoint(trq);
             
             if (rendered)
             {
@@ -854,10 +841,10 @@
                     100 - Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmHigh , 
                     100 - Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.MFFIAlarmLow);
                 
-               await BrowserTools.SetRopChart(RopList.ToArray());
-               await BrowserTools.SetWobChart(WopList.ToArray());
-               await BrowserTools.SetTorChart(TorList.ToArray());
-               await BrowserTools.SetPressChart(PressList.ToArray());
+               await BrowserTools.SetMainChart("lineChartRop"   ,RopChart.Values       , RopChart.Indexes      , 0);
+               await BrowserTools.SetMainChart("lineChartPress" ,PressChart.Values     , PressChart.Indexes    , 1);
+               await BrowserTools.SetMainChart("lineChartTor"   ,TorqueChart.Values    , TorqueChart.Indexes   , 2);
+               await BrowserTools.SetMainChart("lineChartWob"   ,WobChart.Values       , WobChart.Indexes      , 3);
 
                 await ThreeJs.Drill();
                 await ThreeJs.DrillRotary(Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.RTRPM);
