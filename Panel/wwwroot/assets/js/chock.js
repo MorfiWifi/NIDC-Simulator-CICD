@@ -197,7 +197,7 @@ const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
         
         ch.data.labels = labels;
 
-        console.log(ch.data);
+        // console.log(ch.data);
         
         ch.update(); // Update the chart
     }

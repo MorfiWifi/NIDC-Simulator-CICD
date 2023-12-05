@@ -190,10 +190,16 @@
                 </div>
                 <!-- <div class="drilling-label">Rig Air</div> -->
                 <div class="handle">
-                    <div class="btn @GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, -1)">Open</div>
+                    <div 
+                        @onclick="OpenAirRigClicked"
+                        class="btn 
+@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, -1)">Open</div>
                     <img class="base" src="assets/img/chockbase.png" alt="">
                     <img id="chokeHandle" src="assets/img/chockhandle.png" alt="">
-                    <div class="btn @GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, 1)">Close</div>
+                    <div 
+                        @onclick="CloseAirRigClicked"
+                        class="btn 
+@GetClass(Simulation.SimulationFeilds.OutputVals.Equipments.ChokeControl.ChokeControlLever, 1)">Close</div>
                 </div>
             </div>
         </div>
@@ -387,6 +393,21 @@
         Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeSelectorSwitch = false;
 
         var fieldIdentifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeSelectorSwitch);
+        EditContext.NotifyFieldChanged(fieldIdentifier);
+    }
+
+
+    private void CloseAirRigClicked()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeControlLever = +1;
+        var fieldIdentifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeControlLever);
+        EditContext.NotifyFieldChanged(fieldIdentifier);
+    }
+
+    private void OpenAirRigClicked()
+    {
+        Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeControlLever = -1;
+        var fieldIdentifier = FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.ChokeControl.ChokeControlLever);
         EditContext.NotifyFieldChanged(fieldIdentifier);
     }
 

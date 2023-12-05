@@ -31,8 +31,8 @@ public class ChartValueContainer
     {
         _maxLength = maxLength;
         _defaultValue = defaultValue;
-        _values = new(new double[_maxLength + 1]);
-        _indexes = new(new string[_maxLength + 1]);
+        _values = new ();
+        _indexes = new ();
         
         Name = name;
     }
