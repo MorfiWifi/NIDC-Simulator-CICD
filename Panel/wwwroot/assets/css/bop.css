@@ -159,7 +159,7 @@
 }
 
 .bopbutton {
-  transition: all 0.3s;
+  transition: all 0.1s;
   transform-origin: center center;
   cursor: pointer;
   opacity: 0.4;

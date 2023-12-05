@@ -1373,6 +1373,7 @@
         EditContext.NotifyFieldChanged(identifier);
     }
 
+    Timer? timer = null;
     private void ToggleAirMasterValve()
     {
         if (Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve >= 0)
@@ -1382,7 +1383,13 @@
             // Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 0;
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = 1;
 
-        var timer = new  Timer(20_000);
+        if (timer != null)
+        {
+            timer.Stop();
+            timer = null;
+        }
+
+        timer = new  Timer(20_000);
         timer.Elapsed += (_, _) =>
         {
             Simulation.SimulationFeilds.InputValues.Equipments.BopControl.AirMasterValve = -1;
