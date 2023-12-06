@@ -2,7 +2,7 @@ var chart;
 var datasetsVisibility = [true, true, true, true];
 
 function toggleDataset(datasetIndex) {
-    chart =  chokeChartDict['chokeChart'];
+    chart =  chartDict['chokeChart'];
     datasetsVisibility[datasetIndex] = !datasetsVisibility[datasetIndex];
 
     updateChartVisibility();
@@ -94,11 +94,11 @@ function initialize_chockjs(){
 
 }
 
-let chokeChartDict = {}
-let chokeChartCanvasDict = {}
+let chartDict = {}
+let chartCanvasDict = {}
 
 function initChart(identity , type) {
-    chokeChartCanvasDict[identity] = document.getElementById(identity).getContext(type);
+    chartCanvasDict[identity] = document.getElementById(identity).getContext(type);
 }
 
 
@@ -107,12 +107,12 @@ const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
 
     // console.log("updateChokeChart called from dotnet ");
     
-    let ch =  chokeChartDict[identity];
+    let ch =  chartDict[identity];
     
     // Check if chart instance exists
     if (!ch) {
         initChart(identity , contextType);
-        let canvas = chokeChartCanvasDict[identity];
+        let canvas = chartCanvasDict[identity];
 
         const data = {
             labels: labels, // Labels from 0 to 100
@@ -183,7 +183,7 @@ const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
             options: options
         });
         
-        chokeChartDict[identity] = ch;
+        chartDict[identity] = ch;
     } else {
         // console.log("updateChokeChart called updating dataset from dotnet ");
         
