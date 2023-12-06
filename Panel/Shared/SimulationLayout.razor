@@ -79,7 +79,12 @@
                 <li><a href="/main?simulationId=@(SimulationId)">Main</a></li>
                 <li><a href="/BopPanel?simulationId=@(SimulationId)">Bop Panel</a></li>
                 <li><a href="/ChockPanel?simulationId=@(SimulationId)">Chock Panel</a></li>
+                
+                <li><a href="/Pipes?simulationId=@(SimulationId)">Pipes Panel</a></li>
+                
+                @*remove this page*@
                 <li><a href="/StandPipe?simulationId=@(SimulationId)">Stand pipe </a></li>
+                
                 <li><a href="/TanksLineup?simulationId=@(SimulationId)">Tanks line-up</a></li>
                 <li><a href="/ChokeMonifold?simulationId=@(SimulationId)">Choke Monifold</a></li>
                 @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))

@@ -1,0 +1,111 @@
+﻿@page "/Pipes"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Models.Config;
+@using Panel16.Shared.Main
+@using SimulationOutPutValues
+@using System.Linq.Expressions
+@using Infrastructure;
+@using Panel16.Util
+@layout SimulationLayout
+@inject ISimulationApi SimulationApi
+@inject IThreeJsClient ThreeJs
+
+
+
+
+
+<button @onclick="() => modal1isVisible = true" class="btn btn-primary">
+    MODAL 1
+</button>
+
+<button @onclick="() => modal2isVisible = true" class="btn btn-primary">
+    MODAL 2
+</button>
+
+<button @onclick="() => modal3isVisible = true" class="btn btn-primary">
+    MODAL 3
+</button>
+
+
+
+@*
+--------------------------
+MODAL --------------------
+-------------------------
+*@
+
+<MudDialog @bind-IsVisible="@(modal1isVisible)" Class="relative-dialog" >
+    <TitleContent>
+        <h6>
+            MODAL 1 TITLE
+        </h6>
+    </TitleContent>
+    <DialogContent>
+        
+        <p>
+            MODAL CONTENT
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid architecto assumenda, beatae culpa debitis deleniti deserunt dignissimos eius eum eveniet fugiat ipsum numquam optio quaerat quas qui quidem quo recusandae repudiandae, sapiente totam, ut velit voluptates voluptatum. Facilis hic itaque maiores necessitatibus quae quasi quia quos sed sequi voluptatum.
+        </p>
+        
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Set]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="@(modal2isVisible)" Class="relative-dialog" >
+    <TitleContent>
+        <h6>
+            MODAL 2 TITLE
+        </h6>
+    </TitleContent>
+    <DialogContent>
+        
+        <p>
+            MODAL CONTENT
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid architecto assumenda, beatae culpa debitis deleniti deserunt dignissimos eius eum eveniet fugiat ipsum numquam optio quaerat quas qui quidem quo recusandae repudiandae, sapiente totam, ut velit voluptates voluptatum. Facilis hic itaque maiores necessitatibus quae quasi quia quos sed sequi voluptatum.
+        </p>
+        
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Set]
+        </button>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="@(modal3isVisible)" Class="relative-dialog" >
+    <TitleContent>
+        <h6>
+            MODAL 3 TITLE
+        </h6>
+    </TitleContent>
+    <DialogContent>
+        
+        <p>
+            MODAL CONTENT
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid architecto assumenda, beatae culpa debitis deleniti deserunt dignissimos eius eum eveniet fugiat ipsum numquam optio quaerat quas qui quidem quo recusandae repudiandae, sapiente totam, ut velit voluptates voluptatum. Facilis hic itaque maiores necessitatibus quae quasi quia quos sed sequi voluptatum.
+        </p>
+        
+    </DialogContent>
+    <DialogActions>
+        <button class="btn  btn-primary w-100">
+            <i class="fa fa-save"></i>
+            @localizer[LocalizationKeys.Set]
+        </button>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    private bool modal1isVisible = false;
+    private bool modal2isVisible = false;
+    private bool modal3isVisible = false;
+
+
+
+
+}
