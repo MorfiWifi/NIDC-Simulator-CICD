@@ -783,13 +783,13 @@
                 FlowPercentLb = Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.MFFIAlarmLow;
             
             
-            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob == -1 && Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit == 0)
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob == 1 && Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.WeightOnBit == 0)
             {
                 Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob = 0;
                 EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob));
             }
             
-            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch == -1 && Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.TotalStrokeCounter == 0)
+            if (Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch == 1 && Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.TotalStrokeCounter == 0)
             {
                 Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch = 0;
                 EditContext?.NotifyFieldChanged( FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch));
@@ -936,13 +936,13 @@
 
     private async Task ZeroWob()
     {
-        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob = -1;
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob = 1;
         EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.ResetWob));
     }
     
     private async Task ZeroStrokes()
     {
-        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch = -1;
+        Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch = 1;
         EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.Equipments.DataDisplay.TotalStrokeCounterResetSwitch));
     }
 
