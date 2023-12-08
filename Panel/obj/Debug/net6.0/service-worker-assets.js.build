@@ -17,11 +17,11 @@
       "url": "assets\/css\/bootstrap-icons.css"
     },
     {
-      "hash": "sha256-C\/11Kpjp46PAjy1y7X8v9JR5nskp\/4Z4TAzRvuMxYgU=",
+      "hash": "sha256-hBM9WvU9lyN3KkMN1qP68BQsJpNL9LVv90ft9u2dn+4=",
       "url": "assets\/css\/bop.css"
     },
     {
-      "hash": "sha256-zjO+8KClYW\/X6YysHwKcCxuYotCOzUc4wRPYx6L9h9Y=",
+      "hash": "sha256-b9bvHxPsjqVqCFcH\/ZlunsnzR4f\/rtBpOtN\/6Tystq8=",
       "url": "assets\/css\/chock.css"
     },
     {
@@ -49,7 +49,7 @@
       "url": "assets\/css\/Login.css"
     },
     {
-      "hash": "sha256-xOP4ANu+kO\/In\/EsmX2fJU4MZfbf6bM1lKBh3NRJQB0=",
+      "hash": "sha256-8JRGGbbX3wUHRRq37b5VTojeXMDHeithvLue94\/UPTQ=",
       "url": "assets\/css\/main-page.css"
     },
     {
@@ -453,8 +453,12 @@
       "url": "assets\/img\/chockhandle.png"
     },
     {
-      "hash": "sha256-UYprKZrwwzdev1n+w4W52D7PATK++l7yLZCHz4QWHh0=",
+      "hash": "sha256-qDoJlzsd53qibhCPGJDoAv\/sFdZE7siGOEkOowugwXA=",
       "url": "assets\/img\/drilling.png"
+    },
+    {
+      "hash": "sha256-SAbpgXqV06XSwBptflxhXkvINDb0vzDXa\/459D7N+T8=",
+      "url": "assets\/img\/fire.gif"
     },
     {
       "hash": "sha256-w5YsoEnETsKen+Bl1tcJD4gjd9kpXFl2nRFJaQiOKdY=",
@@ -491,6 +495,10 @@
     {
       "hash": "sha256-ce8lKOUw8z78xKdAyL1o8IAA8EU5JsvWs4ar+G6UtvE=",
       "url": "assets\/img\/panel.png"
+    },
+    {
+      "hash": "sha256-SYnHcTcbcxRdr5+AVI+BAl5A\/f7kuEB467F9a6tcAwQ=",
+      "url": "assets\/img\/pipeline.svg"
     },
     {
       "hash": "sha256-obO1QHU\/yZoR7t+L+ZW1nSERbXSG9RE7VU056xChGLE=",
@@ -541,7 +549,7 @@
       "url": "assets\/js\/chart_4_4.js"
     },
     {
-      "hash": "sha256-sG9HmS2UtUqu5xC3Ub91xOFaM8aiMenwVC4wULXGL9Q=",
+      "hash": "sha256-zSHAtCejLhzgrxfeYOYqsOBp2x6gfaQBfS2ZHZA3HLk=",
       "url": "assets\/js\/chock.js"
     },
     {
@@ -605,7 +613,7 @@
       "url": "assets\/js\/jquery-2.2.4.js"
     },
     {
-      "hash": "sha256-c\/ufHJvV6din9LTJOdl60Wuqm9YWzdvce5jLzy+IReU=",
+      "hash": "sha256-AK5B4FUUXqe1lF7hP\/TvHVGqUaON+TJCrPNFINPsm6k=",
       "url": "assets\/js\/main-page.js"
     },
     {
@@ -629,7 +637,7 @@
       "url": "assets\/js\/RGBMLoader.js"
     },
     {
-      "hash": "sha256-XsNKf9\/k\/+C2dnoxVW1vJ\/bYIjk2gLGQ5NMxQQrbIms=",
+      "hash": "sha256-YJzNrcV\/Ikd7EvCpaeMo3LnNgyXW2CNvAFy+S\/A2fcQ=",
       "url": "assets\/js\/rotaryKbThree.js"
     },
     {
@@ -2193,11 +2201,11 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-6eN4ohPNxeooQKh2rL6G+HBkwOJRYjuoU48eptYyG+I=",
+      "hash": "sha256-1hwZT+wpjRMj3DW\/xtOCPASCXiGk2ILBci7N8uGEPBE=",
       "url": "_framework\/Infrastructure.dll"
     },
     {
-      "hash": "sha256-lQJvo1K6mA+mu5FaR5qdcoDV1nL6tOr5Luiie8BTDDU=",
+      "hash": "sha256-15XcbpCRF01pn9PY9Q2UfiQMoImF6yPQEVKz7X9dJQU=",
       "url": "_framework\/Models.dll"
     },
     {
@@ -2205,11 +2213,11 @@
       "url": "_framework\/System.Reactive.dll"
     },
     {
-      "hash": "sha256-2aDt33dbsXYu41cZa9GcrZOEHXCcU0IVbLgzgIHjHQg=",
+      "hash": "sha256-bZ3D0Em1fJxsmTwncOUzzFUzbffTfFop6QsanOGWaGY=",
       "url": "_framework\/Infrastructure.pdb"
     },
     {
-      "hash": "sha256-2U\/VyyzoqrYF5JPZ5BedJPWbbNVwfEN+inJ3sTDGzhk=",
+      "hash": "sha256-Nfq+3eJVBOk\/RhyRs40on+8hV+e+TDwXuz40LxUyY2Q=",
       "url": "_framework\/Models.pdb"
     },
     {
@@ -2217,11 +2225,11 @@
       "url": "_framework\/fa-IR\/Models.resources.dll"
     },
     {
-      "hash": "sha256-BcydK1C+zPqYuCOXhVcyvshSXyO+gvgJQh53GIDKSdQ=",
+      "hash": "sha256-gU8WsitX3as9itvzzAVxXzns4cyIbj9oS4oZqIn7u2U=",
       "url": "_framework\/Panel16.dll"
     },
     {
-      "hash": "sha256-oSxQAVfyh0e7kokW5FeHG+yCPoDM+NV3Q7I1joW83+w=",
+      "hash": "sha256-3t\/jnGjba10bK7gALAc9wdnJojerOESy6dgZ55uTSQM=",
       "url": "_framework\/Panel16.pdb"
     },
     {
@@ -2233,7 +2241,7 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-ZQocYSFkzXJTNiKdrCSfXcRVDb3HvKbN56Pvas0tXAo=",
+      "hash": "sha256-ilR\/bb6bMzhIZqL69qm\/9uO5lPBGJbnywPidfhEdjqM=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -2385,5 +2393,5 @@
       "url": "_content\/ChartJs.Blazor.Fork\/ChartJsBlazorInterop.js"
     }
   ],
-  "version": "Uv+ZZx0J"
+  "version": "lft0pz55"
 };

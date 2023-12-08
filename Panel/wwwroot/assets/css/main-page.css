@@ -156,6 +156,7 @@
 
 #new-desgin>.content .top .line-chart {
   width: 100%;
+  background: #eee;
 }
 
 #new-desgin>.content .top .line-chart canvas {
@@ -183,7 +184,7 @@
 }
 
 #new-desgin>.content .top-info .items .item {
-  background-color: rgba(238, 198, 198, 0.4392156863);
+  background-color: rgba(238, 198, 198,1);
   width: 100%;
   padding: 5px;
   display: flex;
@@ -276,12 +277,14 @@
 }
 
 #new-desgin>.content .threeContainer .hole-info i {
-  font-size: 2rem;
+  font-size: 1rem;
 }
 
 #new-desgin>.content .threeContainer .hole-info img {
   width: auto;
-  height: 85%;
+  margin-bottom: 0.1rem;
+  width: 30px;
+  height: auto;
 }
 
 #new-desgin>.content .threeContainer #threeContainer {
@@ -355,7 +358,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 3px;
-  height: 25%;
+  height: 150px;
 }
 
 #new-desgin>.content .info-and-handle .item {
@@ -469,7 +472,7 @@
 }
 
 .chart-item.active {
-  background-color: rgba(0, 0, 255, 0.54) !important;
+  background-color: rgb(113 79 223 / 54%) !important;
   color: white;
 }
 

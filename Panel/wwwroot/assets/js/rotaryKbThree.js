@@ -517,7 +517,7 @@ const loadModelFinished = () => {
 const clock = new THREE.Clock()
 let previousTime = 0
 const tick = () => {
-
+    camera.lookAt(0,50,0)
     const elapsedTime = clock.getElapsedTime()
     deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
@@ -528,7 +528,6 @@ const tick = () => {
     if (tong_mixer) {
         tong_mixer.update(deltaTime)
     }
-    // controls.update()
     ProcessActions()
     raycaster.setFromCamera(mousePosition, camera)
     ApplySilipsCollision(raycaster)
@@ -537,9 +536,6 @@ const tick = () => {
     renderer.render(scene, camera)
     window.requestAnimationFrame(tick)
 }
-
-
-
 
 function initRotary3D() {
     container = document.getElementById('threeContainer');
@@ -755,10 +751,14 @@ function initRotary3D() {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement);
-    // controls = new OrbitControls(camera, renderer.domElement);
-    // controls.minDistance = 0;
-    // controls.maxDistance = 300;
-    // controls.target.set(0, 4, 0);
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = true; // Enable zoom
+    controls.enableRotate = true; //
+    controls.minDistance = 0;
+    controls.maxDistance = 300;
+    controls.target.set(0, 4, 0);
+    controls.minPolarAngle = Math.PI / 4; // Minimum vertical angle (in radians)
+    controls.maxPolarAngle = (3 * Math.PI) / 4; 
     // controls.update();
     document.querySelector('canvas').addEventListener("mousemove", (e) => {
         const mouseX = e.clientX;
