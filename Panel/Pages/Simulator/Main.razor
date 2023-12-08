@@ -298,13 +298,19 @@
                                        <div class="ub"></div>
                                        <div class="lb"></div>
                                    </div>
-           
+
                                </div>
                                <div class="name">
                                    <span>
                                        @Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitGainLose
                                    </span>
                                    <span>bbl</span>
+                                   
+                                   
+                               </div>
+                               
+                               <div class="name">
+                                   <span>PitGainLoss</span>
                                </div>
                            </div>
                            <div class="item item-4 non-selectable" >
@@ -351,6 +357,9 @@
                                    </span> 
                                    <span>%</span>
                                </div>
+                               <div class="name">
+                                   <span>PercentFlow</span>
+                                   </div>
                            </div>
 
                            <ControlCardMobile
@@ -432,7 +441,7 @@
         
         <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
             <span>
-                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}")
+                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PitVolume:0}") bbl
             </span>
         </div>
         
@@ -471,7 +480,7 @@
         
         <div class="d-flex align-items-center justify-content-center gap-2 flex-row">
             <span>
-                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow:0}")
+                @($"{Simulation.SimulationFeilds.OutputVals.Equipments.DrillingWatch.PercentFlow:0}") %
             </span>
         </div>
         
