@@ -1,0 +1,26 @@
+name: Deploy and Run dotnet
+
+on:
+  push:
+    branches:
+      - main  # Change this to your branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        run: echo "$SERVER_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+
+      - name: Copy files to server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@78.109.201.86 "mkdir -p /SimulationWebHost"
+          rsync -avz --delete --exclude='.git*' ./ root@78.109.201.86:/SimulationWebHost/
+
+      - name: Run dotnet run command on server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@78.109.201.86 "cd /SimulationWebHost/HostServer && dotnet run"
