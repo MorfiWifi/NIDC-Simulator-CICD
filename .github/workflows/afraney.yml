@@ -1,35 +1,26 @@
-name: Deploy on Afranet
+name: Deploy to Afranet
 
-on:
+on: 
   push:
     branches:
-      - main  # Change this to your branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create SSH directory
-        run: mkdir -p ~/.ssh
+      - name: Copy new files
+        uses: garygrossgarten/github-action-scp@v0.8.0
+        with:
+          local: '.'
+          remote: '/SimulationHost'
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
 
-      - name: Write SSH private key to a file
-        run: echo "$SERVER_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-
-      - name: Add server to known hosts
-        run: ssh-keyscan -t rsa 78.109.201.86 >> ~/.ssh/known_hosts
-
-      - name: Set permissions for known_hosts file
-        run: chmod 644 ~/.ssh/known_hosts
-
-      - name: Copy files to server
+      - name: Run script
         run: |
-          ssh -o StrictHostKeyChecking=no root@78.109.201.86 "mkdir -p /SimulationWebHost"
-          rsync -avz --delete --exclude='.git*' ./ root@78.109.201.86:/SimulationWebHost/
-
-      - name: Run dotnet run command on server
-        run: |
-          ssh -o StrictHostKeyChecking=no root@78.109.201.86 "cd /SimulationWebHost/HostServer && dotnet run"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd /SimulationHost/HostServer && ./linux_exec.sh"
