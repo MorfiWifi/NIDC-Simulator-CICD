@@ -13,12 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install SSH key
+      - name: Create SSH directory
         run: mkdir -p ~/.ssh
-          echo "$SERVER_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa 78.109.201.86 >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+
+      - name: Write SSH private key to a file
+        run: echo "$SERVER_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+
+      - name: Add server to known hosts
+        run: ssh-keyscan -t rsa 78.109.201.86 >> ~/.ssh/known_hosts
+
+      - name: Set permissions for known_hosts file
+        run: chmod 644 ~/.ssh/known_hosts
 
       - name: Copy files to server
         run: |
