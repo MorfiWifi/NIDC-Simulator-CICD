@@ -1,4 +1,4 @@
-name: nidc
+name: deploy on liara
 
 on:
   push:
