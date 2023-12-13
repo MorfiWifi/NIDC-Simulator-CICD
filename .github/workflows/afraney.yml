@@ -33,12 +33,12 @@ jobs:
 
       # We will output publish files to the folder we previously created
       - name: Publish-ON-GITHUB
-        run: dotnet publish -c Release -o /var/www/published
+        run: dotnet publish -c Release -o /home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish
 
       - name: Copy new files
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
-          local: '/var/www/published'
+          local: '/home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish'
           remote: '/var/www/shimulation-host'
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
