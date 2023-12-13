@@ -1,7 +1,7 @@
 { 
   "netcore": { 
-"version": "6.0", 
-"finalDllName": "HostServer", 
-"csprojectFile": "HostServer/HostServer.csproj" 
- } 
+    "version": "6.0", 
+    "finalDllName": "HostServer", 
+    "csprojectFile": "HostServer/HostServer.csproj" 
+  } 
 } 

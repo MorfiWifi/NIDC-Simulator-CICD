@@ -22,6 +22,13 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           exclude: '.git'
 
-      - name: Run script
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd /SimulationHost/HostServer && dotnet run"
+      - name: Start Project Using Dotnet
+        uses: appleboy/ssh-action@v2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PASSWORD }}
+          port: 22  # Change if your SSH port is different
+          script: |
+            cd /SimulationHost/HostServer
+            dotnet run
