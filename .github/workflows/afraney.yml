@@ -23,7 +23,7 @@ jobs:
           exclude: '.git'
 
       - name: Start Project Using Dotnet
-        uses: appleboy/ssh-action@v2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
