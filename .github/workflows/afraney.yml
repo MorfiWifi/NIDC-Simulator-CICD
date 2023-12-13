@@ -8,21 +8,44 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet: ["6.0.x"]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # install Dotnet ON Github worker
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # restore project (deps)
+      - name: Install dependencies
+        run: dotnet restore
+
+      # build release version
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # We will output publish files to the folder we previously created
+      - name: Publish-ON-GITHUB
+        run: dotnet publish -c Release -o /var/www/published
+
       - name: Copy new files
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
-          local: '.'
-          remote: '/SimulationHost'
+          local: '/var/www/published'
+          remote: '/var/www/shimulation-host'
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           exclude: '.git'
 
-      - name: Start Project Using Dotnet
+      - name: restart host service
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -30,5 +53,4 @@ jobs:
           key: ${{ secrets.SSH_PASSWORD }}
           port: 22  # Change if your SSH port is different
           script: |
-            cd /SimulationHost/HostServer
-            dotnet run
+            systemctl --user restart sample-app.service
