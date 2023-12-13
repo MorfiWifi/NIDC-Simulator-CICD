@@ -20,7 +20,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
+          exclude: '.git'
 
       - name: Run script
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd /SimulationHost/HostServer && ./linux_exec.sh"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd /SimulationHost/HostServer && dotnet run"

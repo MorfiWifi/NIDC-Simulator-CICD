@@ -31,9 +31,11 @@ namespace Infrastructure
         // public static string BaseAddress = "http://localhost:5000/";
         // public static string BaseAddress = "http://0.0.0.0:5000/";
         // public static string BaseAddress = "http://192.168.73.133:5000/";
-        public static string BaseAddress = "https://sample-api.iran.liara.run/";
+        // public static string BaseAddress = "https://sample-api.iran.liara.run/";
+        public static string BaseAddress = "http://78.109.201.86/"; // afranet
 
-        public static string RedisAddress = "85.198.9.229:6379";
+        public static string RedisAddress = "78.109.201.86:6379"; // afranet 
+        // public static string RedisAddress = "85.198.9.229:6379";
         public static string RedisPassword = "1qazxsw2$$";
 
         //public static string RedisAddress = "aberama.iran.liara.ir:32815";
