@@ -35,6 +35,11 @@ jobs:
       - name: Publish-ON-GITHUB
         run: dotnet publish -c Release -o /home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish
 
+      # fill appsetting on server with debug one (can be modified)
+      - name: Copy appsettings.json content
+        run: |
+          cp -f HostServer/appsettings.json /home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish/appsettings.json
+
       - name: Copy new files
         uses: garygrossgarten/github-action-scp@v0.8.0
         with:
