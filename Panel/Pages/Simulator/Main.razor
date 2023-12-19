@@ -749,7 +749,25 @@
         hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
 
         hubConnection.On<SimulationModel>("Toggle-SilipsStand", async (_) => { await ThreeJs.ToggleSilipsStand();});
-        hubConnection.On<SimulationModel>("Toggle-Tong", async (_) => { await ThreeJs.ToggleTong(); });
+        hubConnection.On<SimulationModel>("Toggle-Tong", async (_) =>
+        {
+            if (Simulation.SimulationFeilds.OutputVals.OperationScenarioEvent.GetEnum() !=
+                KellyConnectionEnum.ConnectionNothing)
+            {
+                Simulation.SimulationFeilds.InputValues.OperationScenarioEvent.SetOperationEvent(KellyConnectionEnum.ConnectionString);
+                EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.OperationScenarioEvent));
+            }
+            
+            
+            if (Simulation.SimulationFeilds.OutputVals.OperationScenarioEvent.GetEnum() !=
+                KellyConnectionEnum.ConnectionString)
+            {
+                Simulation.SimulationFeilds.InputValues.OperationScenarioEvent.SetOperationEvent(KellyConnectionEnum.ConnectionNothing);
+                EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.OperationScenarioEvent));
+            }
+
+            await ThreeJs.ToggleTong();
+        });
         
         hubConnection.On<SimulationModel>("update-model", async (newModel) =>
         {

@@ -1,4 +1,5 @@
-﻿using SimulationInputValues;
+﻿using System;
+using SimulationInputValues;
 using SimulationOutPutValues;
 using System.Collections.Generic;
 
@@ -10,6 +11,35 @@ public class SimulationFeilds
     
     
 }
+
+public class OperationScenarioEvent
+{
+    public string KellyConnection { get; set; } = KellyConnectionEnum.ConnectionNothing.ToString();
+    public int KellyConnectionCode { get; set; } = (int) KellyConnectionEnum.ConnectionNothing;
+}
+
+
+public enum KellyConnectionEnum
+{
+    Unknown = 0 ,
+    ConnectionNothing = 1 ,
+    ConnectionString = 2
+}
+
+public static class OperationScenarioEventExtension
+{
+    public static void SetOperationEvent( this OperationScenarioEvent @event,  KellyConnectionEnum @enum)
+    {
+        @event.KellyConnection = @enum.ToString();
+        @event.KellyConnectionCode = (int) @enum;
+    }
+
+    public static KellyConnectionEnum GetEnum(this OperationScenarioEvent @event) 
+        => (KellyConnectionEnum) @event.KellyConnectionCode;
+} 
+
+
+
 public class TempValues
 {
     public bool MaxValumeHornActived { set; get; }
@@ -333,6 +363,7 @@ namespace SimulationInputValues
 
     public class OutputRoot
     {
+        public OperationScenarioEvent OperationScenarioEvent { get; set; } = new();
         public int Step { get; set; } = new();
         public Warnings Warnings { get; set; } = new();
         public Equipments Equipments { get; set; } = new();
@@ -1522,6 +1553,7 @@ namespace SimulationOutPutValues
 
     public class InputRoot
     {
+        public OperationScenarioEvent OperationScenarioEvent { get; set; } = new();
         public int status { get; set; } = new();
         public int speed { get; set; } = new();
         public int endstep { get; set; } = new();
