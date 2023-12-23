@@ -1,7 +1,7 @@
-﻿using System;
-using SimulationInputValues;
+﻿using SimulationInputValues;
 using SimulationOutPutValues;
 using System.Collections.Generic;
+using static System.Enum;
 
 public class SimulationFeilds
 {
@@ -12,11 +12,11 @@ public class SimulationFeilds
     
 }
 
-public class OperationScenarioEvent
-{
-    public string KellyConnection { get; set; } = KellyConnectionEnum.ConnectionNothing.ToString();
-    public int KellyConnectionCode { get; set; } = (int) KellyConnectionEnum.ConnectionNothing;
-}
+// public class OperationScenarioEvent
+// {
+//     public string KellyConnection { get; set; } = KellyConnectionEnum.ConnectionNothing.ToString();
+//     public int KellyConnectionCode { get; set; } = (int) KellyConnectionEnum.ConnectionNothing;
+// }
 
 
 public enum KellyConnectionEnum
@@ -26,16 +26,32 @@ public enum KellyConnectionEnum
     ConnectionString = 2
 }
 
-public static class OperationScenarioEventExtension
+// public static class OperationScenarioEventExtension
+public static class SimulationFieldsExtension
 {
-    public static void SetOperationEvent( this OperationScenarioEvent @event,  KellyConnectionEnum @enum)
+    public static void SetOperationEvent( this OutputRoot @event,  KellyConnectionEnum @enum)
     {
-        @event.KellyConnection = @enum.ToString();
-        @event.KellyConnectionCode = (int) @enum;
+        @event.OperationScenarioEvent = @enum.ToString();
     }
 
-    public static KellyConnectionEnum GetEnum(this OperationScenarioEvent @event) 
-        => (KellyConnectionEnum) @event.KellyConnectionCode;
+    public static KellyConnectionEnum GetKellyEnum(this OutputRoot @event)
+    {
+        var parsed = TryParse<KellyConnectionEnum>(@event.OperationScenarioEvent, out var res);
+        return parsed ? res : KellyConnectionEnum.Unknown;
+    }
+    
+    
+    public static void SetOperationEvent( this InputRoot @event,  KellyConnectionEnum @enum)
+    {
+        @event.OperationScenarioEvent = @enum.ToString();
+    }
+
+    public static KellyConnectionEnum GetKellyEnum(this InputRoot @event)
+    {
+        var parsed = TryParse<KellyConnectionEnum>(@event.OperationScenarioEvent, out var res);
+        return parsed ? res : KellyConnectionEnum.Unknown;
+    }
+    
 } 
 
 
@@ -363,7 +379,7 @@ namespace SimulationInputValues
 
     public class OutputRoot
     {
-        public OperationScenarioEvent OperationScenarioEvent { get; set; } = new();
+        public string OperationScenarioEvent { get; set; } = string.Empty;
         public int Step { get; set; } = new();
         public Warnings Warnings { get; set; } = new();
         public Equipments Equipments { get; set; } = new();
@@ -1553,7 +1569,7 @@ namespace SimulationOutPutValues
 
     public class InputRoot
     {
-        public OperationScenarioEvent OperationScenarioEvent { get; set; } = new();
+        public string OperationScenarioEvent { get; set; } = string.Empty;
         public int status { get; set; } = new();
         public int speed { get; set; } = new();
         public int endstep { get; set; } = new();
