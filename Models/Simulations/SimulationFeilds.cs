@@ -22,8 +22,8 @@ public class SimulationFeilds
 public enum KellyConnectionEnum
 {
     Unknown = 0 ,
-    ConnectionNothing = 1 ,
-    ConnectionString = 2
+    Kelly_ConnectionNothing = 1 ,
+    Kelly_ConnectionString = 2
 }
 
 // public static class OperationScenarioEventExtension

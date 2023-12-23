@@ -752,17 +752,17 @@
         hubConnection.On<SimulationModel>("Toggle-Tong", async (_) =>
         {
             if (Simulation.SimulationFeilds.OutputVals.GetKellyEnum() !=
-                KellyConnectionEnum.ConnectionNothing)
+                KellyConnectionEnum.Kelly_ConnectionNothing)
             {
-                Simulation.SimulationFeilds.InputValues.SetOperationEvent(KellyConnectionEnum.ConnectionString);
+                Simulation.SimulationFeilds.InputValues.SetOperationEvent(KellyConnectionEnum.Kelly_ConnectionString);
                 EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.OperationScenarioEvent));
             }
             
             
             if (Simulation.SimulationFeilds.OutputVals.GetKellyEnum() !=
-                KellyConnectionEnum.ConnectionString)
+                KellyConnectionEnum.Kelly_ConnectionString)
             {
-                Simulation.SimulationFeilds.InputValues.SetOperationEvent(KellyConnectionEnum.ConnectionNothing);
+                Simulation.SimulationFeilds.InputValues.SetOperationEvent(KellyConnectionEnum.Kelly_ConnectionNothing);
                 EditContext.NotifyFieldChanged(FieldIdentifier.Create(() => Simulation.SimulationFeilds.InputValues.OperationScenarioEvent));
             }
 
