@@ -12,6 +12,184 @@ public class SimulationFeilds
     
 }
 
+
+public class UnitySignalsType
+{
+    public int MudBucket { get; set; }
+    public int Elevator { get; set; }
+    public int FillupHead { get; set; }
+    public int Ibop { get; set; }
+    public int Kelly { get; set; }
+    public int MouseHole { get; set; }
+    public int OperationCondition { get; set; }
+    public int SafetyValve { get; set; }
+    public int operation { get; set; }
+    public int Slips { get; set; }
+    public int Slips_S { get; set; }
+    public int Swing { get; set; }
+    public int Swing_S { get; set; }
+    public int TdsBackupClamp { get; set; }
+    public int TdsSpine { get; set; }
+    public int TdsSwing { get; set; }
+    public int TdsTong { get; set; }
+    public int Tong { get; set; }
+    public int Tong_S { get; set; }
+    public int TdsConnectionModes { get; set; }
+    public int TdsElevatorModes { get; set; }
+
+    public UnitySignalsType()
+    {
+        MudBucket = 0;
+        Elevator = 0;
+        FillupHead = 0;
+        Ibop = 0;
+        Kelly = 0;
+        MouseHole = 0;
+        OperationCondition = 0;
+        SafetyValve = 0;
+        operation = 0;
+        Slips = 0;
+        Slips_S = 0;
+        Swing = 0;
+        Swing_S = 0;
+        TdsBackupClamp = 0;
+        TdsSpine = 0;
+        TdsSwing = 0;
+        TdsTong = 0;
+        Tong = 0;
+        Tong_S = 0;
+        TdsConnectionModes = 0;
+        TdsElevatorModes = 0;
+    }
+}
+
+ public enum TONG
+    {
+        TONG_NEUTRAL,
+        TONG_BREAKOUT_BEGIN,
+        TONG_BREAKOUT_END,
+        TONG_MAKEUP_BEGIN,
+        TONG_MAKEUP_END
+    }
+
+    public enum TDS_SWING
+    {
+        TDS_SWING_NEUTRAL,
+        TDS_SWING_OFF_BEGIN,
+        TDS_SWING_OFF_END,
+        TDS_SWING_DRILL_BEGIN,
+        TDS_SWING_DRILL_END,
+        TDS_SWING_TILT_BEGIN,
+        TDS_SWING_TILT_END
+    }
+
+    public enum TDS_SPINE
+    {
+        TDS_SPINE_NEUTRAL,
+        TDS_SPINE_CONNECT_BEGIN,
+        TDS_SPINE_CONNECT_END,
+        TDS_SPINE_DISCONNECT_BEGIN,
+        TDS_SPINE_DISCONNECT_END
+    }
+
+    public enum BACKUP_CLAMP
+    {
+        BACKUP_CLAMP_OFF_END,
+        BACKUP_CLAMP_OFF_BEGIN,
+        BACKUP_CLAMP_FW_BEGIN,
+        BACKUP_CLAMP_FW_END
+    }
+
+    public enum SWING
+    {
+        SWING_NEUTRAL,
+        SWING_MOUSE_HOLE_BEGIN,
+        SWING_MOUSE_HOLE_END,
+        SWING_RAT_HOLE_BEGIN,
+        SWING_RAT_HOLE_END,
+        SWING_WELL_BEGIN,
+        SWING_WELL_END
+    }
+
+    public enum TDS_TONG
+    {
+        TDS_TONG_BREAKOUT_END,
+        TDS_TONG_BREAKOUT_BEGIN,
+        TDS_TONG_MAKEUP_BEGIN,
+        TDS_TONG_MAKEUP_END
+    }
+
+    public enum SAFETY_VALVE
+    {
+        SAFETY_VALVE_NEUTRAL,
+        SAFETY_VALVE_REMOVE,
+        SAFETY_VALVE_INSTALL
+    }
+
+    public enum OPERATION
+    {
+        OPERATION_DRILL,
+        OPERATION_TRIP
+    }
+
+    public enum SLIPS
+    {
+        SLIPS_NEUTRAL,
+        SLIPS_SET_BEGIN,
+        SLIPS_SET_END,
+        SLIPS_UNSET_BEGIN,
+        SLIPS_UNSET_END,
+
+        MOUSE_HOLE_NEUTRAL,
+        MOUSE_HOLE_FILL,
+        MOUSE_HOLE_EMPTY,
+
+        KELLY_NEUTRAL,
+        KELLY_INSTALL,
+        KELLY_REMOVE,
+
+        FILLUP_HEAD_REMOVE,
+        FILLUP_HEAD_INSTALL,
+
+        ELEVATOR_NEUTRAL,
+
+        ELEVATOR_LATCH_STRING_BEGIN,
+        ELEVATOR_LATCH_STRING_END,
+
+        ELEVATOR_UNLATCH_STRING_BEGIN,
+        ELEVATOR_UNLATCH_STRING_END,
+
+        ELEVATOR_LATCH_STAND_BEGIN,
+        ELEVATOR_LATCH_STAND_END,
+
+        ELEVATOR_UNLATCH_STAND_BEGIN,
+        ELEVATOR_UNLATCH_STAND_END,
+
+        ELEVATOR_LATCH_SINGLE_BEGIN,
+        ELEVATOR_LATCH_SINGLE_END,
+
+        ELEVATOR_UNLATCH_SINGLE_BEGIN,
+        ELEVATOR_UNLATCH_SINGLE_END,
+
+        MUD_BUCKET_REMOVE,
+        MUD_BUCKET_INSTALL,
+
+        IBOP_REMOVE,
+        IBOP_INSTALL,
+
+        TDS_CONNECTION_NOTHING,
+        TDS_CONNECTION_STRING,
+        TDS_CONNECTION_SPINE,
+
+        TDS_ELEVATOR_CONNECTION_NOTHING,
+        TDS_ELEVATOR_CONNECTION_STRING,
+        TDS_ELEVATOR_CONNECTION_SINGLE,
+        TDS_ELEVATOR_CONNECTION_STAND,
+        TDS_ELEVATOR_LATCH_STRING,
+        TDS_ELEVATOR_LATCH_SINGLE,
+        TDS_ELEVATOR_LATCH_STAND
+    }
+
 // public class OperationScenarioEvent
 // {
 //     public string KellyConnection { get; set; } = KellyConnectionEnum.ConnectionNothing.ToString();
@@ -379,6 +557,7 @@ namespace SimulationInputValues
 
     public class OutputRoot
     {
+        public UnitySignalsType UnitySignals = new();
         public string OperationScenarioEvent { get; set; } = string.Empty;
         public int Step { get; set; } = new();
         public Warnings Warnings { get; set; } = new();
@@ -1569,6 +1748,7 @@ namespace SimulationOutPutValues
 
     public class InputRoot
     {
+        public UnitySignalsType UnitySignals = new();
         public string OperationScenarioEvent { get; set; } = string.Empty;
         public int status { get; set; } = new();
         public int speed { get; set; } = new();
