@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper;
 using Castle.DynamicProxy.Generators;
 using Domain.Config;
 using Infrastructure;
@@ -50,9 +51,10 @@ namespace Api.Controllers
             #region Converting Config to Simulation Json
             var simulationFields = new SimulationFeilds
             {                
-                InputValues = new SimulationOutPutValues.InputRoot
+                InputValues = new InputRoot
                 {
                     status=1,
+                    speed = 1, // speed > 0 to start
                     Configuration = new Configuration
                     {
                         Pumps = new Pumps
