@@ -200,3 +200,8 @@
   width: 50px;
   right: 3%;
 }
+
+
+.valve{
+  transition: all 0.2s;
+}

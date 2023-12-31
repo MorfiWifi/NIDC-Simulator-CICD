@@ -2,7 +2,7 @@ var chart;
 var datasetsVisibility = [true, true, true, true];
 
 function toggleDataset(datasetIndex) {
-    chart =  chartDict['chokeChart'];
+    chart = chartDict['chokeChart'];
     datasetsVisibility[datasetIndex] = !datasetsVisibility[datasetIndex];
 
     updateChartVisibility();
@@ -17,7 +17,7 @@ function updateChartVisibility() {
     }
 }
 
-function initialize_chockjs(){
+function initialize_chockjs() {
 
 
     const pump = document.querySelector('.chart-item.item-1');
@@ -76,12 +76,12 @@ function initialize_chockjs(){
         if (nearestRotation == -90)
             nearestRotation = -45;
         chokeHandle.style.transform = `translate(-50%,-50%) rotate(${nearestRotation}deg)`;
-        
-        
+
+
         // todo for morteza
         let num = nearestRotation < 0 ? -1 : (nearestRotation == 0 ? 0 : 1);
         DotNet.invokeMethodAsync('Panel16', 'SetChockHandlerStatus', num);
-        
+
         chokeHandle.style.transition = 'transform 0.3s ease-in-out';
     });
 
@@ -97,21 +97,21 @@ function initialize_chockjs(){
 let chartDict = {}
 let chartCanvasDict = {}
 
-function initChart(identity , type) {
+function initChart(identity, type) {
     chartCanvasDict[identity] = document.getElementById(identity).getContext(type);
 }
 
 
 // arr = [0,1,2,3] of [] , labels = []
-const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
+const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
 
     // console.log("updateChokeChart called from dotnet ");
-    
-    let ch =  chartDict[identity];
-    
+
+    let ch = chartDict[identity];
+
     // Check if chart instance exists
     if (!ch) {
-        initChart(identity , contextType);
+        initChart(identity, contextType);
         let canvas = chartCanvasDict[identity];
 
         const data = {
@@ -182,21 +182,21 @@ const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
             data: data,
             options: options
         });
-        
+
         chartDict[identity] = ch;
     } else {
         // console.log("updateChokeChart called updating dataset from dotnet ");
-        
+
         // Update existing chart with new data
         ch.data.datasets[0].data = arr[0];
         ch.data.datasets[1].data = arr[1];
         ch.data.datasets[2].data = arr[2];
         ch.data.datasets[3].data = arr[3];
-        
+
         ch.data.labels = labels;
 
         // console.log(ch.data);
-        
+
         ch.update(); // Update the chart
     }
 }
@@ -206,3 +206,29 @@ const updateChokeChart = (identity , arr , labels , contextType = '2d' ) => {
 window.InitilaizeChockJs = initialize_chockjs;
 window.ToggleBopPanelDataset = toggleDataset;
 window.UpdateChokeChart = updateChokeChart;
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    var valveElements = document.querySelectorAll('.valve');
+    valveElements.forEach(function (valve) {
+        valve.addEventListener('click', function () {
+            var currentTransform = window.getComputedStyle(valve).getPropertyValue('transform');
+            var currentRotation = getRotation(currentTransform);
+            var newRotation = currentRotation + 30;
+            if (valve.classList.contains('rotate')) {
+                newRotation = currentRotation - 30;
+                valve.classList.remove('rotate');
+            } else {
+                valve.classList.add('rotate');
+            }
+            valve.style.transform = currentTransform + ' rotate(' + newRotation + 'deg)';
+        });
+    });
+    function getRotation(matrix) {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+        return angle < 0 ? angle + 360 : angle;
+    }
+});
