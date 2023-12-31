@@ -249,7 +249,27 @@ const updateChart = (identity , arr , labels , chartId , contextType = '2d' ) =>
     }
 }
 
+function setPipesEventListeners(){
+    console.log('setPipesEventListeners called from js ');
+    
+    // Get the SVG element by its ID
+    var svg = document.getElementById('Layer_1');
 
+// Find the image within the SVG by its ID
+    var standpipe = svg.getElementById('standpipe');
+    var choke = svg.getElementById('choke');
+// Add an onclick event listener to the image
+    standpipe.addEventListener('click', function() {
+        console.log("stand pipe clicked from js");
+        DotNet.invokeMethodAsync('Panel16', 'InvokePipesEvent', 'standpipe' );
+    });
+    
+    // Add an onclick event listener to the image
+    choke.addEventListener('click', function() {
+        console.log("choke clicked from js");
+        DotNet.invokeMethodAsync('Panel16', 'InvokePipesEvent', 'chock' );
+    });
+}
 
 
 const charts = {}
@@ -261,3 +281,4 @@ window.resetHandlers = restSliders;
 window.setVerticalGaugeValue = setVerticalGaugeValue;
 window.initSliderHandler = initSliderHandler;
 window.iniBop = InitBop;
+window.initPipeEvents = setPipesEventListeners;

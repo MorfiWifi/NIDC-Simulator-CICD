@@ -81,6 +81,11 @@ namespace AbrBlazorTools
         {
             await _js.InvokeVoidAsync("window.InitilaizeChockJs");
         }
+        
+        public async Task InitPipeEvents()
+        {
+            await _js.InvokeVoidAsync("window.initPipeEvents");
+        }
     }
 
     public class BrowserDimension
@@ -104,5 +109,6 @@ namespace AbrBlazorTools
         Task UpdateChokeChart(string id , double[][] arr , string[] labels , string contextType = "2d");
 
         Task Prepare3dTest();
+        Task InitPipeEvents();
     }
 }

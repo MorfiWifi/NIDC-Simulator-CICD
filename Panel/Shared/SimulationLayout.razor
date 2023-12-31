@@ -256,7 +256,8 @@
                 Link = $"/SaveConfig_20?Id={ConfigId}"
             });
             #endregion
-
+            
+            //Console.WriteLine($"MY SIGNALR URL: {Statics.BaseAddress}SimulationHub");
         hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
 
         hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
