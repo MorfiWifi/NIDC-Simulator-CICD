@@ -67,18 +67,6 @@
 
     <div id="chock">
         <div class="charts">
-            <div class="chart-content">
-                <ul>
-                    <li class="chart-item item-1 show" onclick="window.ToggleBopPanelDataset(0)">Pump Press.</li>
-                    <li class="chart-item item-2 show" onclick="window.ToggleBopPanelDataset(1)">CSG Press.</li>
-                    <li class="chart-item item-3 show" onclick="window.ToggleBopPanelDataset(2)">SPM</li>
-                    <li class="chart-item item-4 show" onclick="window.ToggleBopPanelDataset(3)">
-                        <div class="name">Pit Gain</div>
-                        <div class="unit">bbl</div>
-                        <div class="value">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.DataDisplay.PitGainLossGauge:0}")</div>
-                    </li>
-                </ul>
-            </div>
             <div class="charts-preview">
                 <canvas id="chokeChart"></canvas>
                 @* <canvas id="myChart"></canvas> *@

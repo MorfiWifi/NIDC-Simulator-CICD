@@ -513,7 +513,6 @@ const loadModelFinished = () => {
         }, 3000)
     }
 }
-
 const clock = new THREE.Clock()
 let previousTime = 0
 const tick = () => {
@@ -528,6 +527,7 @@ const tick = () => {
     if (tong_mixer) {
         tong_mixer.update(deltaTime)
     }
+
     ProcessActions()
     raycaster.setFromCamera(mousePosition, camera)
     ApplySilipsCollision(raycaster)
@@ -752,13 +752,26 @@ function initRotary3D() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement);
     controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = true; // Enable zoom
-    controls.enableRotate = true; //
+    // controls.enableZoom = false; // Enable zoom
+    // controls.enableRotate = true; //
     controls.minDistance = 0;
     controls.maxDistance = 300;
     controls.target.set(0, 4, 0);
-    controls.minPolarAngle = Math.PI / 4; // Minimum vertical angle (in radians)
-    controls.maxPolarAngle = (3 * Math.PI) / 4; 
+
+// Listen for changes in controls
+controls.addEventListener('change', function () {
+    console.log('changing controls')
+    // Update the target based on the controls' target
+    // This assumes you want to update the target to the same position as the controls' target
+    controls.target.clone();
+    // You can use controls.target.x, controls.target.y, controls.target.z individually if needed
+    // Use the updated target position for other purposes if necessary
+    // For example, update some UI elements based on the new target position
+});
+    // controls.minZoom = 0.5; // Minimum zoom level
+    // controls.maxZoom = 2.0;
+    // controls.minPolarAngle = -(3 * Math.PI) / 4; // Minimum vertical angle (in radians)
+    // controls.maxPolarAngle = (3 * Math.PI); 
     // controls.update();
     document.querySelector('canvas').addEventListener("mousemove", (e) => {
         const mouseX = e.clientX;

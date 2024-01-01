@@ -122,28 +122,32 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     data: arr[0],
                     borderColor: 'rgb(108, 108, 245)',
                     backgroundColor: 'rgb(108, 108, 245)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    yAxisID:'y'
                 },
                 {
                     label: 'CSG Press.',
                     data: arr[1],
                     borderColor: 'rgb(255, 55, 0)',
                     backgroundColor: 'rgb(255, 55, 0)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    yAxisID:'y'
                 },
                 {
                     label: 'SPM',
                     data: arr[2],
                     borderColor: 'rgb(85, 232, 87)',
                     backgroundColor: 'rgb(85, 232, 87)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    yAxisID:'y'
                 },
                 {
                     label: 'Pit Gain',
                     data: arr[3],
                     borderColor: 'rgb(244, 219, 1)',
                     backgroundColor: 'rgb(244, 219, 1)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    yAxisID:'y1'
                 }]
         };
 
@@ -161,6 +165,14 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     }
                 },
                 y: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    ticks: {
+                        color: 'rgb(255,255,255,0.5)'
+                    }
+                },
+                y1: {
                     grid: {
                         color: 'rgba(255, 255, 255, 0.3)'
                     },
