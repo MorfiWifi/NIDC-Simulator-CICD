@@ -1,4 +1,4 @@
-var chart;
+// var chart;
 var datasetsVisibility = [true, true, true, true];
 
 function toggleDataset(datasetIndex) {
@@ -20,26 +20,26 @@ function updateChartVisibility() {
 function initialize_chockjs() {
 
 
-    const pump = document.querySelector('.chart-item.item-1');
-    const csco = document.querySelector('.chart-item.item-2');
-    const press = document.querySelector('.chart-item.item-3');
-    const gain = document.querySelector('.chart-item.item-4');
-    pump.addEventListener('click', () => {
-        console.log('hello')
-        pump.classList.toggle('show')
-    })
-    csco.addEventListener('click', () => {
-        console.log('hello')
-        csco.classList.toggle('show')
-    })
-    press.addEventListener('click', () => {
-        console.log('hello')
-        press.classList.toggle('show')
-    })
-    gain.addEventListener('click', () => {
-        console.log('hello')
-        gain.classList.toggle('show')
-    })
+    // const pump = document.querySelector('.chart-item.item-1');
+    // const csco = document.querySelector('.chart-item.item-2');
+    // const press = document.querySelector('.chart-item.item-3');
+    // const gain = document.querySelector('.chart-item.item-4');
+    // pump.addEventListener('click', () => {
+    //     console.log('hello')
+    //     pump.classList.toggle('show')
+    // })
+    // csco.addEventListener('click', () => {
+    //     console.log('hello')
+    //     csco.classList.toggle('show')
+    // })
+    // press.addEventListener('click', () => {
+    //     console.log('hello')
+    //     press.classList.toggle('show')
+    // })
+    // gain.addEventListener('click', () => {
+    //     console.log('hello')
+    //     gain.classList.toggle('show')
+    // })
 
     let isDragging = false;
     let initialMouseX;
@@ -94,12 +94,13 @@ function initialize_chockjs() {
 
 }
 
-let chartDict = {}
-let chartCanvasDict = {}
+// let chartDict = {}
+// let chartCanvasDict = {}
 
 function initChart(identity, type) {
     chartCanvasDict[identity] = document.getElementById(identity).getContext(type);
 }
+
 
 
 // arr = [0,1,2,3] of [] , labels = []
@@ -123,7 +124,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     borderColor: 'rgb(108, 108, 245)',
                     backgroundColor: 'rgb(108, 108, 245)',
                     borderWidth: 2,
-                    yAxisID:'y'
+                    yAxisID: 'y'
                 },
                 {
                     label: 'CSG Press.',
@@ -131,7 +132,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     borderColor: 'rgb(255, 55, 0)',
                     backgroundColor: 'rgb(255, 55, 0)',
                     borderWidth: 2,
-                    yAxisID:'y'
+                    yAxisID: 'y'
                 },
                 {
                     label: 'SPM',
@@ -139,7 +140,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     borderColor: 'rgb(85, 232, 87)',
                     backgroundColor: 'rgb(85, 232, 87)',
                     borderWidth: 2,
-                    yAxisID:'y'
+                    yAxisID: 'y'
                 },
                 {
                     label: 'Pit Gain',
@@ -147,7 +148,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     borderColor: 'rgb(244, 219, 1)',
                     backgroundColor: 'rgb(244, 219, 1)',
                     borderWidth: 2,
-                    yAxisID:'y1'
+                    yAxisID: 'y1'
                 }]
         };
 
@@ -214,12 +215,6 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
 }
 
 
-
-window.InitilaizeChockJs = initialize_chockjs;
-window.ToggleBopPanelDataset = toggleDataset;
-window.UpdateChokeChart = updateChokeChart;
-
-
 document.addEventListener("DOMContentLoaded", function () {
     var valveElements = document.querySelectorAll('.valve');
     valveElements.forEach(function (valve) {
@@ -236,6 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
             valve.style.transform = currentTransform + ' rotate(' + newRotation + 'deg)';
         });
     });
+
     function getRotation(matrix) {
         var values = matrix.split('(')[1].split(')')[0].split(',');
         var a = values[0];
@@ -244,3 +240,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return angle < 0 ? angle + 360 : angle;
     }
 });
+
+
+window.InitilaizeChockJs = initialize_chockjs;
+window.ToggleBopPanelDataset = toggleDataset;
+window.UpdateChokeChart = updateChokeChart;
