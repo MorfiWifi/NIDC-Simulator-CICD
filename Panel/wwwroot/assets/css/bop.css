@@ -96,16 +96,17 @@
 #bop-v2 .left .item .gage-label,
 #bop-v2 .right .item .gage-label {
   padding: 0px 12px;
-  margin-top: 2px;
-  width: 90px;
+  margin-top: 8px;
+  width: 150px;
+  height: 18px;
   text-align: center;
-  background-image: url("/assets/img/label.png");
+  background-image: url(/assets/img/label.png);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
   color: rgba(0, 0, 0, 0.74);
   font-weight: 600;
-  font-size: 0.4rem;
+  font-size: 0.6rem;
 }
 #bop-v2 .right {
   right: 0;
@@ -141,6 +142,18 @@
   color: rgba(0, 0, 0, 0.74);
   font-weight: 600;
   font-size: 0.3rem;
+  padding: 0px 12px;
+    margin-top: 8px;
+    width: 150px;
+    height: 18px;
+    text-align: center;
+    background-image: url(/assets/img/label.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: rgba(0, 0, 0, 0.74);
+    font-weight: 600;
+    font-size: 0.6rem;
 }
 
 .main {
