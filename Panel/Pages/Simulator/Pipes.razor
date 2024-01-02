@@ -91,7 +91,7 @@ MODAL --------------------
         
     </DialogContent>
     <DialogActions>
-        <button class="btn  btn-primary w-100">
+        <button @onclick="LineUpSetClicked" class="btn  btn-primary w-100">
             <i class="fa fa-save"></i>
             @localizer[LocalizationKeys.Set]
         </button>
@@ -122,7 +122,7 @@ MODAL --------------------
         
     </DialogContent>
     <DialogActions>
-        <button class="btn  btn-primary w-100">
+        <button @onclick="ChockSetClicked" class="btn  btn-primary w-100">
             <i class="fa fa-save"></i>
             @localizer[LocalizationKeys.Set]
         </button>
@@ -183,4 +183,14 @@ MODAL --------------------
         await base.OnAfterRenderAsync(firstRender);
     }
 
+
+    private void LineUpSetClicked()
+    {
+        StatndpipeIsVisible = false;
+    }
+
+    private void ChockSetClicked()
+    {
+        chockModalIsVisible = false;
+    }
 }

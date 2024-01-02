@@ -73,7 +73,7 @@ namespace HafariApi.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateRedis()
         {
-            var options = ConfigurationOptions.Parse("85.198.9.229:6379"); // host1:port1, host2:port2, ...
+            var options = ConfigurationOptions.Parse("78.109.201.86:6379"); // host1:port1, host2:port2, ...
             options.Password = "1qazxsw2$$";
             options.AsyncTimeout = 1000;
             using (var redis = ConnectionMultiplexer.Connect(options))
