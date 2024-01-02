@@ -166,6 +166,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     }
                 },
                 y: {
+                    position: 'left',
                     grid: {
                         color: 'rgba(255, 255, 255, 0.3)'
                     },
@@ -174,6 +175,7 @@ const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
                     }
                 },
                 y1: {
+                    position: 'right',
                     grid: {
                         color: 'rgba(255, 255, 255, 0.3)'
                     },
