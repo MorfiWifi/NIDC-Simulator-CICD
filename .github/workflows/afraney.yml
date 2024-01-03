@@ -47,7 +47,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           remote-dir: '/home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish'
-          server-dir: '/var/www/shimulation-host'
+          server-dir: '/var/www/shimulation-host/'
           exclude: '.git'
 
 
