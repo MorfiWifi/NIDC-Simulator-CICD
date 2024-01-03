@@ -448,9 +448,11 @@
 }
 
 #new-desgin>.content .info-and-handle .item .degree .icon i {
-  color: #e1d009;
+  color: orange;
 }
-
+#new-desgin>.content .info-and-handle .item .degree .icon i.bi-bell-slash-fill {
+  color: red;
+}
 #new-desgin>.content .info-and-handle .item .degree .degrees {
   height: 100%;
   width: 100%;
@@ -686,6 +688,10 @@
 
 .click-scale-down {
   transition: transform 0.2s ease-in-out;
+}
+
+.click-scale-down .bi-bell-slash-fill{
+  color: red;
 }
 
 .click-scale-down:active {

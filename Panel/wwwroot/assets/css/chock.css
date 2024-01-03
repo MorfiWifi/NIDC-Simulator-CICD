@@ -746,7 +746,7 @@
   padding: 6px 6px;
   left: 10%;
   top: 20%;
-  font-size: 0.65rem;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
@@ -757,6 +757,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.329);
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
+  z-index: 999;
 }
 #chock .gages .bottom .power:hover {
   background-color: rgb(81, 224, 83);

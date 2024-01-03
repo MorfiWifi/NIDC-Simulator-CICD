@@ -78,6 +78,17 @@ let isElevatorOnLastPipe = false
 let shouldTongsClose = true
 let isDrilling = false
 
+
+const cubeMaterial = new THREE.MeshBasicMaterial({
+    envMap: new THREE.CubeTextureLoader().load([
+        '/assets/texture/enviromentMap/px.jpg', '/assets/texture/enviromentMap/nx.jpg',
+        '/assets/texture/enviromentMap/py.jpg', '/assets/texture/enviromentMap/ny.jpg',
+        '/assets/texture/enviromentMap/pz.jpg', '/assets/texture/enviromentMap/nz.jpg'
+    ]),
+    side: THREE.BackSide // Ensure that the texture is on the inside of the cube
+});
+
+
 const AccelerateUp = (distanceUp) => {
 
     const distance = distanceUp;
@@ -546,13 +557,17 @@ function initRotary3D() {
     camera.enableRotate = true;
     camera.updateProjectionMatrix()
     const environmentMap = cubeTextureLoader.load([
-        '/assets/textures/environmentMap/px.jpg',
-        '/assets/textures/environmentMap/nx.jpg',
-        '/assets/textures/environmentMap/py.jpg',
-        '/assets/textures/environmentMap/ny.jpg',
-        '/assets/textures/environmentMap/pz.jpg',
-        '/assets/textures/environmentMap/nz.jpg'
+        '/assets/hdri/desert/px.png',
+        '/assets/hdri/desert/nx.png',
+        '/assets/hdri/desert/py.png',
+        '/assets/hdri/desert/ny.png',
+        '/assets/hdri/desert/pz.png',
+        '/assets/hdri/desert/nz.png'
     ])
+
+
+    scene.environment = environmentMap;
+
     environmentMap.encoding = THREE.sRGBEncoding
     scene.environment = environmentMap
     gltfLoader.load(
@@ -743,7 +758,8 @@ function initRotary3D() {
     })
     renderer.physicallyCorrectLights = true
     renderer.outputEncoding = THREE.sRGBEncoding
-    renderer.toneMapping = THREE.CineonToneMapping
+    // renderer.toneMapping = THREE.CineonToneMapping
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.75
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
