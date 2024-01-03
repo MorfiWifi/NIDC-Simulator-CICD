@@ -49,6 +49,7 @@ jobs:
           remote-dir: '/home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish'
           server-dir: '/var/www/shimulation-host/'
           exclude: '.git'
+          port: 22
 
 
       - name: restart host service
