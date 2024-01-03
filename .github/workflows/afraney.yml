@@ -40,7 +40,7 @@ jobs:
         run: |
           cp -f HostServer/appsettings.json /home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish/appsettings.json
 
-     - name: 📂 Sync files
+      - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.HOST }}
