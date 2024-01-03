@@ -11,7 +11,7 @@
             <div class="item">
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
-                    <img src="assets/img/ceret.png" style="--rotation:100deg" alt="" class="ceret"> @* min: 0 max: 260 *@
+                    <img src="assets/img/ceret.png" style="--rotation:@SwalUtils.TransformNumber(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AccumulatorPressureGauge , 0 , 6000 , 0 , 260)deg" alt="" class="ceret"> @* min: 0 max: 260 *@
                     <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AccumulatorPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Accumulator Press</div>
@@ -19,7 +19,7 @@
             <div class="item">
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
-                    <img src="assets/img/ceret.png" style="--rotation:20deg" alt="" class="ceret"> @* min: 0 max: 260 *@
+                    <img src="assets/img/ceret.png" style="--rotation:@SwalUtils.TransformNumber(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirSupplyPressureGauge , 0 , 6000 , 0 , 260)deg" alt="" class="ceret"> @* min: 0 max: 260 *@
                     <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirSupplyPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Rig Air Press</div>
@@ -115,8 +115,7 @@
                     </linearGradient>
                     <linearGradient id="e69bfd08-3757-407b-b2e9-591453743027"
                                     x1="1134.74" y1="1928.93" x2="1134.74" y2="1964.81"
-                                    gradientTransform="translate(2089.2 -875.91) rotate(90)"
-                                    ="userSpaceOnUse">
+                                    gradientTransform="translate(2089.2 -875.91) rotate(90)">
                         <stop offset="0" stop-color="#a8cd8d"/>
                         <stop offset="1" stop-color="#2db8ac"/>
                     </linearGradient>
@@ -153,7 +152,7 @@
             <div class="item">
                 <div class="gaging">
                     <img src="assets/img/gage.png" style="--rotation:20deg" alt="" class="gage">
-                    <img src="assets/img/ceret.png" style="--rotation:20deg" alt="" class="ceret"> @* min: 0 max: 260 *@
+                    <img src="assets/img/ceret.png" style="--rotation:@SwalUtils.TransformNumber(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ManifoldPressureGauge , 0 , 6000 , 0 , 260)deg" alt="" class="ceret"> @* min: 0 max: 260 *@
                     <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ManifoldPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Manifold Press</div>
@@ -161,7 +160,7 @@
             <div class="item">
                 <div class="gaging">
                     <img src="assets/img/gage.png" alt="" class="gage">
-                    <img src="assets/img/ceret.png" style="--rotation:20deg" alt="" class="ceret"> @* min: 0 max: 260 *@
+                    <img src="assets/img/ceret.png" style="--rotation:@SwalUtils.TransformNumber(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularPressureGauge , 0 , 6000 , 0 , 260)deg" alt="" class="ceret"> @* min: 0 max: 260 *@
                     <div class="value segment">@($"{Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularPressureGauge:0}")</div>
                 </div>
                 <div class="gage-label">Annular Press</div>
@@ -519,7 +518,7 @@
                         <g id="a64c932f-7806-4844-a9ea-fab7817d81fd" 
                            class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsOpenLED) )" 
-                           @onclick="() => SetUpperRam(-1)"
+                           @onclick="() =>  SetUpperRam(-1)" @ontouchend="() =>  SetUpperRam(-1)"
                            data-name="piperamsupopen">
                             <circle cx="210.83" cy="199.47" r="14.17" transform="translate(-121.71 -72.4) rotate(-3.62)"
                                 style="fill:url(#b6e5079d-69a8-4d32-aa1a-21eab27cc84c)" />
@@ -550,7 +549,7 @@
                     <g id="f8a689dc-6146-4d96-a0aa-492dcc89b850" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularOpenLED))" 
-                       @onclick="()=>SetAnnular(-1)"
+                       @onclick="() => SetAnnular(-1)" @ontouchend="() => SetAnnular(-1)"
                        data-name="annularopen">
                             <circle cx="224.36" cy="126.19" r="14.17"
                                 transform="translate(-117.06 -71.69) rotate(-3.62)"
@@ -583,7 +582,7 @@
                     <g id="a9e73d1d-5b4f-4bf4-b95c-2d0ea4103e48" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineOpenLED))" 
-                       @onclick="() => SetChokeLine(-1)"
+                       @onclick="() =>  SetChokeLine(-1)" @ontouchend="() =>  SetChokeLine(-1)"
                        data-name="chocklineopen">
                             <circle cx="334.92" cy="316.15" r="14.17"
                                 transform="translate(-128.82 -64.34) rotate(-3.62)"
@@ -616,7 +615,7 @@
                     <g id="a100a488-4d17-40e4-a78a-d7c6cab25f25" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsOpenLED))" 
-                       @onclick="()=>SetLowerRams(-1)"
+                       @onclick="() => SetLowerRams(-1)" @ontouchend="() => SetLowerRams(-1)"
                        data-name="piperamsbottomopen">
                             <circle cx="211.34" cy="376.66" r="14.17"
                                 transform="translate(-132.89 -72.01) rotate(-3.62)"
@@ -649,7 +648,7 @@
                     <g id="a0d72715-b844-46ca-a41b-1a8b264900b6" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.LowerRamsCloseLED))" 
-                       @onclick="() => SetLowerRams(1)"
+                       @onclick="() =>  SetLowerRams(1)" @ontouchend="() =>  SetLowerRams(1)"
                        data-name="pipramsbottomclose">
                             <circle cx="308.36" cy="376.91" r="14.17"
                                 transform="translate(-132.71 -65.89) rotate(-3.62)"
@@ -683,7 +682,7 @@
                     <g id="b1b9d215-d76d-45e3-944d-6e02bce33f6e" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ChokeLineCloseLED))" 
-                       @onclick="() => SetChokeLine(1)"
+                       @onclick="() =>  SetChokeLine(1)" @ontouchend="() =>  SetChokeLine(1)"
                        data-name="chokelineclose">
                             <circle cx="395.51" cy="316.66" r="14.17"
                                 transform="translate(-128.73 -60.51) rotate(-3.62)"
@@ -718,7 +717,7 @@
                     <g id="a423743b-114e-468a-b580-9a3cc01430be" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineCloseLED))"
-                       @onclick="() => SetKillLine(1)"
+                       @onclick="() =>  SetKillLine(1)" @ontouchend="() =>  SetKillLine(1)"
                        data-name="killlineclose">
                             <circle cx="190.24" cy="315.3" r="14.17" transform="translate(-129.06 -73.47) rotate(-3.62)"
                                 style="fill:url(#a375ea0d-b0bb-4fa9-9149-6ff1c5caeaa2)" />
@@ -751,7 +750,7 @@
                     <g id="be716a8b-f4b8-45d3-a374-caedd14b9e0f" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsCloseLED))"
-                       @onclick="() => SetMiddleRams(1)"
+                       @onclick="() =>  SetMiddleRams(1)" @ontouchend="() =>  SetMiddleRams(1)"
                        data-name="blindramsclose">
                             <circle cx="314.15" cy="255.38" r="14.17"
                                 transform="translate(-125.03 -65.77) rotate(-3.62)"
@@ -786,7 +785,7 @@
                     <g id="f28b3a08-b53d-4fdb-a58a-7466191a6138" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.UpperRamsCloseLED))" 
-                       @onclick="() => SetUpperRam(1)"
+                       @onclick="() =>  SetUpperRam(1)" @ontouchend="() =>  SetUpperRam(1)"
                        data-name="piperamsupclose">
                             <circle cx="315.17" cy="199.55" r="14.17" transform="translate(-121.5 -65.81) rotate(-3.62)"
                                 style="fill:url(#e7b07be7-84be-4051-8ade-8a245ddf96b6)" />
@@ -819,7 +818,7 @@
                     <g id="f6695c4b-57bc-43a6-a5a1-57c2ca3d2dc2" 
                        class="bopbutton
  @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AnnularCloseLED))"
-                       @onclick="() => SetAnnular(1)"
+                       @onclick="() =>  SetAnnular(1)" @ontouchend="() =>  SetAnnular(1)"
                        data-name="annularclose">
                             <circle cx="300.19" cy="126.7" r="14.17" transform="translate(-116.94 -66.91) rotate(-3.62)"
                                 style="fill:url(#a0d25cb5-20a4-43ce-9b75-95e77a52a9a8)" />
@@ -852,7 +851,7 @@
                     <g id="b574ab2b-91a4-44d2-9103-53a7b504dc8e" 
                        class="bopbutton 
 @(GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.MiddleRamsOpenLED))" 
-                       @onclick="() => SetMiddleRams(-1)"
+                       @onclick="() =>  SetMiddleRams(-1)" @ontouchend="() =>  SetMiddleRams(-1)"
                        data-name="blindramsopen">
                         <circle cx="210.96" cy="255" r="14.17" transform="translate(-125.21 -72.28) rotate(-3.62)"
                                 style="fill:url(#ec9d4d23-f83b-49db-a001-1e2c7a844366)" />
@@ -883,7 +882,7 @@
                     <g id="affdc8ec-f915-4f18-b481-9f2f31850e94" 
                        class="bopbutton 
 @GetBtnClass(Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.KillLineOpenLED)" 
-                       @onclick="() => SetKillLine(-1)"
+                       @onclick="() =>  SetKillLine(-1)" @ontouchend="() =>  SetKillLine(-1)"
                        data-name="killlineopen">
                             <circle cx="127.98" cy="316.28" r="14.17"
                                 transform="translate(-129.24 -77.39) rotate(-3.62)"

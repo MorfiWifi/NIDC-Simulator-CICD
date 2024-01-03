@@ -40,5 +40,17 @@ namespace AbrBlazorTools
                 Title = title,
             });
         }
+        
+        public static int TransformNumber (double input , int min , int max , int minDeg , int maxDeg )
+        {
+            input = Math.Max(input, min);
+            input = Math.Min(input, max);
+            // zero based
+            input /= (max - min);
+            // transform
+            input *= (maxDeg - minDeg);
+
+            return (int) input;
+        }
     }
 }
