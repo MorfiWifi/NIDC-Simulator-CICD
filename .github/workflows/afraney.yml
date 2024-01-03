@@ -49,7 +49,7 @@ jobs:
           local-dir: '/home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish/'
           server-dir: './'
           port: 22
-          protocol: sftp
+          protocol: ftps
           exclude: |
             **/.git*
             **/.git*/**
