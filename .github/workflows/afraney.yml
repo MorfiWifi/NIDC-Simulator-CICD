@@ -50,15 +50,6 @@ jobs:
           server-dir: '/var/www/shimulation-host'
           exclude: '.git'
 
-#      - name: Copy new files
-#        uses: garygrossgarten/github-action-scp@v0.8.0
-#        with:
-#          local: '/home/runner/work/NIDC-Simulator-CICD/NIDC-Simulator-CICD/Services/bin/publish'
-#          remote: '/var/www/shimulation-host'
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.SSH_USER }}
-#          password: ${{ secrets.SSH_PASSWORD }}
-#          exclude: '.git'
 
       - name: restart host service
         uses: appleboy/ssh-action@master
