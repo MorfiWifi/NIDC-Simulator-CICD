@@ -476,7 +476,7 @@
   flex-direction: column;
   gap: 2px;
   position: absolute;
-  transform: translateY(70px);
+  transform: translateY(6px);
 }
 #chock .gages .top .display .name {
   font-size: 0.5rem;
