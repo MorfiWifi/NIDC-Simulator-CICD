@@ -204,11 +204,12 @@ aside ul {
 }
 
     .folder-cards .card {
-        flex: 0 0 calc(100%% - 10px);
+        flex: 0 0 calc(100% - 10px);
+        transition: all 0.2s;
     }
 
         .folder-cards .card:hover {
-            box-shadow: 1px 2px 5px 5px rgb(0 0 0 / 5%)
+            box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.2);
         }
 
         .folder-cards .card h5.card-title {
