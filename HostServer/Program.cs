@@ -18,6 +18,7 @@ var app = builder.Build();
 hafariStartup.Configure(app, app.Environment);
 
 app.UseBlazorFrameworkFiles();
+app.UseWebAssemblyDebugging();
 
 app.MapFallbackToFile("index.html");
 

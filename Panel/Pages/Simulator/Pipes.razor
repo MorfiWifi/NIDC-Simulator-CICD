@@ -93,8 +93,14 @@ MODAL --------------------
     <DialogActions>
         <button @onclick="LineUpSetClicked" class="btn  btn-primary w-100">
             <i class="fa fa-save"></i>
-            @localizer[LocalizationKeys.Set]
+            @localizer[LocalizationKeys.Button_Save]
         </button>
+        
+        <button @onclick="LineUpSetClicked" class="btn  btn-danger w-50">
+            <i class="fa fa-cross"></i>
+            @localizer[LocalizationKeys.Cancel]
+        </button>
+        
     </DialogActions>
 </MudDialog>
 
@@ -122,18 +128,29 @@ MODAL --------------------
         
     </DialogContent>
     <DialogActions>
-        <button @onclick="ChockSetClicked" class="btn  btn-primary w-100">
+        <button @onclick="ChockSetClicked" class="btn  btn-primary w-50">
             <i class="fa fa-save"></i>
-            @localizer[LocalizationKeys.Set]
+            @localizer[LocalizationKeys.Button_Save]
         </button>
+        
+        <button @onclick="ChockSetClicked" class="btn  btn-danger w-50">
+            <i class="fa fa-cross"></i>
+            @localizer[LocalizationKeys.Cancel]
+        </button>
+        
     </DialogActions>
 </MudDialog>
 
 @code {
+    [CascadingParameter]
+    public Func<SimulationModel> GetSimulation { get; set; }
 
     private bool StatndpipeIsVisible = false;
     private bool chockModalIsVisible = false;
     private bool modal3isVisible = false;
+    
+    private SimulationModel Simulation = new ();
+    private EditContext EditContext;
 
     private void ChockClicked()
     {
@@ -168,8 +185,13 @@ MODAL --------------------
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("Pipes INITIALIZED");
+        
         ShowChockModal = ChockClicked;
         ShowStandpipeModal = StandPipeClicked;
+
+        Simulation = GetSimulation();
+        EditContext = new EditContext(Simulation);
         
         await base.OnInitializedAsync();
     }

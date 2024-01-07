@@ -162,4 +162,7 @@
   <data name="Set" xml:space="preserve">
     <value>قرار دادن</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>لغو</value>
+  </data>
 </root>

@@ -47,9 +47,9 @@ namespace AbrBlazorTools
             await _js.InvokeVoidAsync("window.InitThree");
         }
 
-        public async Task SetMainChart(string identity  , double[] array , string[] labels , int chartId)
+        public async Task SetMainChart(string identity, double[] array, string[] labels, int chartId)
         {
-            await _js.InvokeVoidAsync("window.Charts.main", identity , array , labels , chartId);
+            await _js.InvokeVoidAsync("window.Charts.main", identity, array, labels, chartId);
         }
 
         public async Task SetVerticalGaugeValue(string id, double value, double ub, double lb)
@@ -69,22 +69,27 @@ namespace AbrBlazorTools
 
         public async Task InitBop()
         {
-           await _js.InvokeVoidAsync("window.iniBop"); 
+            await _js.InvokeVoidAsync("window.iniBop");
         }
 
         public async Task UpdateChokeChart(string id, double[][] arr, string[] labels, string contextType = "2d")
         {
-            await _js.InvokeVoidAsync("window.UpdateChokeChart" , id , arr , labels , contextType);
+            await _js.InvokeVoidAsync("window.UpdateChokeChart", id, arr, labels, contextType);
         }
 
         public async Task InitChockJs()
         {
             await _js.InvokeVoidAsync("window.InitilaizeChockJs");
         }
-        
+
         public async Task InitPipeEvents()
         {
             await _js.InvokeVoidAsync("window.initPipeEvents");
+        }
+
+        public async Task KillChart(string chartName)
+        {
+            await _js.InvokeVoidAsync("window.killChart", chartName);
         }
     }
 
@@ -100,15 +105,16 @@ namespace AbrBlazorTools
         Task CopyText(string text, string title = "", bool toast = false);
         Task PrepareResponsiveTable();
         Task Prepare3d();
-        Task SetMainChart(string identity  ,double[] array , string[] labels , int chartId);
+        Task SetMainChart(string identity, double[] array, string[] labels, int chartId);
         Task SetVerticalGaugeValue(string id, double value, double ub, double lb);
         Task InitSliderHandler(string id);
         Task SetSlider(double value);
         Task InitChockJs();
         Task InitBop();
-        Task UpdateChokeChart(string id , double[][] arr , string[] labels , string contextType = "2d");
+        Task UpdateChokeChart(string id, double[][] arr, string[] labels, string contextType = "2d");
 
         Task Prepare3dTest();
         Task InitPipeEvents();
+        Task KillChart(string chartName);
     }
 }

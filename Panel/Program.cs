@@ -14,10 +14,12 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Builder;
 using System.Globalization;
+using AbrTools;
 using Microsoft.AspNetCore.Localization;
 using Panel16.AbrTools;
 using Panel16.ApiUtils;
 using Microsoft.AspNetCore.StaticFiles;
+using Models.Config;
 
 namespace Panel16
 {
@@ -51,8 +53,8 @@ namespace Panel16
             builder.Services.AddScoped<IConfigApi, ConfigsApi>();
             builder.Services.AddScoped<IUnitApi, UnitApi>();
             builder.Services.AddScoped<ISimulationApi, SimulationApi>();
-
-
+            builder.Services.AddSingleton<IChannel<SimulationModel>, SimulationChanel>();
+            
 
             #endregion
 

@@ -1,5 +1,6 @@
 ﻿@using Panel16.AbrTools
 @using AbrBlazorTools
+@using global::AbrTools
 @using Models.Identity
 @using Models.Config
 @using Microsoft.AspNetCore.SignalR.Client;
@@ -7,10 +8,12 @@
 @inject ISimulationApi SimulationApi
 @inherits LayoutComponentBase
 
-<MudThemeProvider Theme="_theme" />
-<MudDialogProvider />
-<MudSnackbarProvider />
-<aside class="@(IsMenuOpen?"open":"")">
+@inject IChannel<SimulationModel> SimulationChanel
+
+<MudThemeProvider Theme="_theme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+<aside class="@(IsMenuOpen ? "open" : "")">
     <nav>
         <h3 class="title">@Simulation.Title</h3>
         <ul>
@@ -29,13 +32,13 @@
             {
                 <li>
 
-                    <a @onclick="()=>PauseSim(Simulation)" >
+                    <a @onclick="() => PauseSim(Simulation)">
                         <i class="fa fa-pause"></i>Pause
                     </a>
                 </li>
                 <li>
 
-                    <a @onclick="()=>Stop(Simulation)" >
+                    <a @onclick="() => Stop(Simulation)">
                         <i class="fa fa-stop"></i>Stop
                     </a>
                 </li>
@@ -63,10 +66,12 @@
         </button>*@
     </nav>
 </aside>
-<div class="dashboard-main layout-fixedmenu @(IsMenuOpen?"menu-open":"")">
+<div class="dashboard-main layout-fixedmenu @(IsMenuOpen ? "menu-open" : "")">
     <header class="top-header fixed">
         <div class="top-header-left">
-            <a class="menu itm" @onclick="ToggleMenu"><i class="fa fa-bars"></i></a>
+            <a class="menu itm" @onclick="ToggleMenu">
+                <i class="fa fa-bars"></i>
+            </a>
 
             <div class="info itm">
                 <span> Sim speed: 250 </span>
@@ -74,41 +79,55 @@
             </div>
 
 
-
             <ul class="menu-links">
-                <li><a href="/main?simulationId=@(SimulationId)">Main</a></li>
-                <li><a href="/BopPanel?simulationId=@(SimulationId)">Bop Panel</a></li>
-                <li><a href="/ChockPanel?simulationId=@(SimulationId)">Chock Panel</a></li>
-                
-                <li><a href="/Pipes?simulationId=@(SimulationId)">Line Up</a></li>
-            
+                <li>
+                    <a href="/main?simulationId=@(SimulationId)">Main</a>
+                </li>
+                <li>
+                    <a href="/BopPanel?simulationId=@(SimulationId)">Bop Panel</a>
+                </li>
+                <li>
+                    <a href="/ChockPanel?simulationId=@(SimulationId)">Chock Panel</a>
+                </li>
+
+                <li>
+                    <a href="/Pipes?simulationId=@(SimulationId)">Line Up</a>
+                </li>
+
                 @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))
                 {
-                    <li><a href="/SimulationUsers?simulationId=@(SimulationId)">Users</a></li>
+                    <li>
+                        <a href="/SimulationUsers?simulationId=@(SimulationId)">Users</a>
+                    </li>
                 }
             </ul>
         </div>
         <div class="top-header-right">
             <div class="itm lang">
-                <CultureDropDown />
+                <CultureDropDown/>
             </div>
             <div class="itm logo">
-                <img src="./assets/img/logo.png" />
+                <img src="./assets/img/logo.png"/>
             </div>
         </div>
     </header>
     <main @onclick="HideMenu" class="dashboard-body">
         <div class="main-body">
-            <CascadingValue Value=ToggleMenu >
-                @Body
+            <CascadingValue Value=GetSimulation>
+                <CascadingValue Value=ToggleMenu>
+                    @Body
+                </CascadingValue>
             </CascadingValue>
         </div>
     </main>
 </div>
+
 @code {
+    public EventCallback<SimulationModel> SimulationChangedCallBack;
     public MudTheme _theme = new MudTheme();
     public string ConfigId { set; get; }
     public string SimulationId { set; get; }
+
     public class NavMenuItem
     {
         public bool IsExpanded { get; set; }
@@ -124,6 +143,7 @@
         public bool HasChild => Items != null && Items.Count > 0;
         public bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
     }
+
     public HashSet<NavMenuItem> Items { get; set; }
     public HashSet<NavMenuItem> NavMenuItems = new HashSet<NavMenuItem>();
     protected SimulationModel Simulation { set; get; } = new();
@@ -139,8 +159,8 @@
         else
             await Swal.ShowSwal(title: "", message: $"You can not pause This Simulation!", icon: SweetAlertIcon.Error);
         NavigationManager.NavigateTo("/");
-
     }
+
     protected async Task Stop(SimulationModel sim)
     {
         var confirm = await Swal.ShowSwal(title: "", message: $"Are you sure to Stop this simulation({sim.Title})?", icon: SweetAlertIcon.Question);
@@ -152,142 +172,217 @@
         else
             await Swal.ShowSwal(title: "", message: $"You can not Stop This Simulation!", icon: SweetAlertIcon.Error);
         NavigationManager.NavigateTo("/");
-
     }
+
     private HubConnection? hubConnection;
 
     protected override async void OnInitialized()
     {
-        //_theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
+
+        SimulationChanel.OnNewMessage += (channel, simulation) =>
+        {
+            if (channel == ChannelNames.BROADCAST_UPDATE_INPUTS)
+                NotifyClientsForInputChange(simulation);
+            if (channel == ChannelNames.TOGGLE_SLIPS)
+                NotifyClientsForSlipsChange(simulation);
+            if (channel == ChannelNames.TOGGLE_TONG)
+                NotifyClientsForTongChange(simulation);
+        };
+        
+    //_theme.Typography.Body1.FontFamily = new[] { "IRanSans" };
         SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationID");
         Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
-        #region usless Nav
+
+        // Console.WriteLine("Layout Simulatnio OnInitialized as JSON : {0}", System.Text.Json.JsonSerializer.Serialize(Simulation));
+
+    #region usless Nav
+
         NavMenuItems.Add(new NavMenuItem
-            {
-                Title = localizer[LocalizationKeys.MainPage],
-                Link = "/",
-                Icon = Icons.Material.Filled.Dashboard,
-            });
+        {
+            Title = localizer[LocalizationKeys.MainPage],
+            Link = "/",
+            Icon = Icons.Material.Filled.Dashboard,
+        });
         NavMenuItems.Add(new NavMenuItem
+        {
+            Title = "Rig",
+            Link = "",
+            Items = new HashSet<NavMenuItem>
             {
-                Title = "Rig",
-                Link = "",
-                Items = new HashSet<NavMenuItem>
+                new NavMenuItem
                 {
-                    new NavMenuItem{
-                        Title = "Pumps",
-                        Link = $"/SaveConfig_1?Id={ConfigId}",
-                    },
-                    new NavMenuItem
-                    {
-                        Title="BOP Stack",
-                        Link=$"/SaveConfig_2?Id={ConfigId}"
-                    },
-                    new NavMenuItem
-                    {
-                        Title="BOP control System",
-                        Link=$"/SaveConfig_3?Id={ConfigId}"
-                    },
-                    new NavMenuItem
-                    {
-                        Title="Choke manifold",
-                        Link=$"/SaveConfig_4?Id={ConfigId}"
-                    },
-                     new NavMenuItem
-                    {
-                        Title="Top Drive and Rotary Table",
-                        Link=$"/SaveConfig_5?Id={ConfigId}"
-                    },
-                    new NavMenuItem
-                    {
-                        Title="String Traveling settings",
-                        Link=$"/SaveConfig_6?Id={ConfigId}"
-                    },
-                    new NavMenuItem
-                    {
-                        Title = "Active Tank",
-                        Link = $"/SaveConfig_7?Id={ConfigId}"
-                    },
-                    new NavMenuItem
-                    {
-                        Title = "Power of equipment",
-                        Link = $"/SaveConfig_8?Id={ConfigId}"
-                    }
-                    }
-            });
+                    Title = "Pumps",
+                    Link = $"/SaveConfig_1?Id={ConfigId}",
+                },
+                new NavMenuItem
+                {
+                    Title = "BOP Stack",
+                    Link = $"/SaveConfig_2?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "BOP control System",
+                    Link = $"/SaveConfig_3?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "Choke manifold",
+                    Link = $"/SaveConfig_4?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "Top Drive and Rotary Table",
+                    Link = $"/SaveConfig_5?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "String Traveling settings",
+                    Link = $"/SaveConfig_6?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "Active Tank",
+                    Link = $"/SaveConfig_7?Id={ConfigId}"
+                },
+                new NavMenuItem
+                {
+                    Title = "Power of equipment",
+                    Link = $"/SaveConfig_8?Id={ConfigId}"
+                }
+            }
+        });
 
         NavMenuItems.Add(new NavMenuItem
-            {
-                Title = "Holes Settings",
-                Link = $"/SaveConfig_10?Id={ConfigId}"
-            });
+        {
+            Title = "Holes Settings",
+            Link = $"/SaveConfig_10?Id={ConfigId}"
+        });
         NavMenuItems.Add(new NavMenuItem
-            {
-                Title = "Formation data",
-                Link = $"/SaveConfig_15?Id={ConfigId}",
-                Items = new HashSet<NavMenuItem>
+        {
+            Title = "Formation data",
+            Link = $"/SaveConfig_15?Id={ConfigId}",
+            Items = new HashSet<NavMenuItem>
 
-    {
-    new NavMenuItem
-    {
-    Title="Leak-off Test",
-    Link = $"/SaveConfig_16?Id={ConfigId}",
-    },
-    new NavMenuItem
-    {
-    Title="Last Zone Data",
-    Link = $"/SaveConfig_17?Id={ConfigId}",
-    },
-    new NavMenuItem
-    {
-    Title="Reservoir Data",
-    Link = $"/SaveConfig_18?Id={ConfigId}",
-    }
-    }
-            });
-        NavMenuItems.Add(new NavMenuItem
             {
-                Title = "Mud system",
-                Link = $"/SaveConfig_19?Id={ConfigId}"
-            });
+                new NavMenuItem
+                {
+                    Title = "Leak-off Test",
+                    Link = $"/SaveConfig_16?Id={ConfigId}",
+                },
+                new NavMenuItem
+                {
+                    Title = "Last Zone Data",
+                    Link = $"/SaveConfig_17?Id={ConfigId}",
+                },
+                new NavMenuItem
+                {
+                    Title = "Reservoir Data",
+                    Link = $"/SaveConfig_18?Id={ConfigId}",
+                }
+            }
+        });
         NavMenuItems.Add(new NavMenuItem
-            {
-                Title = "string components",
-                Link = $"/SaveConfig_20?Id={ConfigId}"
-            });
-            #endregion
-            
-            //Console.WriteLine($"MY SIGNALR URL: {Statics.BaseAddress}SimulationHub");
+        {
+            Title = "Mud system",
+            Link = $"/SaveConfig_19?Id={ConfigId}"
+        });
+        NavMenuItems.Add(new NavMenuItem
+        {
+            Title = "string components",
+            Link = $"/SaveConfig_20?Id={ConfigId}"
+        });
+
+    #endregion
+
+    //Console.WriteLine($"MY SIGNALR URL: {Statics.BaseAddress}SimulationHub");
         hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
 
-        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
+        hubConnection.On<SimulationModel>(ChannelNames.TOGGLE_SLIPS, async (newModel) =>
         {
             Console.WriteLine("Update-Outputs");
-            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
+            if (newModel?.Id != Guid.Parse(SimulationId))
                 return;
-            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+    // Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+
+    // invoke children 
+            SimulationChanel.SendMessage(ChannelNames.TOGGLE_SLIPS, newModel);
+
+            StateHasChanged();
+        });
+        hubConnection.On<SimulationModel>(ChannelNames.TOGGLE_TONG, async (newModel) =>
+        {
+            Console.WriteLine("Update-Outputs");
+            if (newModel?.Id != Guid.Parse(SimulationId))
+                return;
+    // Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+
+    // invoke children 
+            SimulationChanel.SendMessage(ChannelNames.TOGGLE_TONG, newModel);
+
+            StateHasChanged();
+        });
+        hubConnection.On<SimulationModel>(ChannelNames.UPDATE_INPUTS, async (newModel) =>
+        {
+            Console.WriteLine("Update-Outputs");
+            if (newModel?.Id != Guid.Parse(SimulationId))
+                return;
+    // Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+
+    // invoke children 
+            SimulationChanel.SendMessage(ChannelNames.UPDATE_INPUTS, newModel);
+
+            StateHasChanged();
+        });
+        hubConnection.On<SimulationModel>(ChannelNames.UPDATE_OUTPUTS, async (newModel) =>
+        {
+            Console.WriteLine("Update-Outputs");
+            if (newModel?.Id != Guid.Parse(SimulationId))
+                return;
+    // Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
+
+    // invoke children 
+            SimulationChanel.SendMessage(ChannelNames.UPDATE_OUTPUTS, newModel);
+
             StateHasChanged();
         });
         await hubConnection.StartAsync();
         NavigationManager.LocationChanged += LocationChanged;
         await CheckLogin();
         base.OnInitialized();
-
     }
+
+    private async Task NotifyClientsForTongChange(SimulationModel simulation)
+    {
+        if (hubConnection is {State: HubConnectionState.Connected })
+        {
+            await hubConnection?.SendAsync("ToggleTong" , simulation);
+        }
+    }
+
+    private async Task NotifyClientsForSlipsChange(SimulationModel simulation)
+    {
+        if (hubConnection is {State: HubConnectionState.Connected })
+        {
+            await hubConnection?.SendAsync("ToggleSilipsStand" , simulation);
+        }
+    }
+
     bool IsMenuOpen { set; get; } = false;
+
     protected void ToggleMenu()
     {
         Console.WriteLine("Toggle MENU Applyed");
         IsMenuOpen = !IsMenuOpen;
         StateHasChanged();
     }
+
     protected void HideMenu()
     {
         IsMenuOpen = false;
         StateHasChanged();
     }
 
-    
+
     // EventCallback ToggleMenuCallback => EventCallback.Factory.Create(this, ToggleMenu);
 
 
@@ -297,6 +392,7 @@
         await CheckLogin();
         StateHasChanged();
     }
+
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
@@ -323,15 +419,15 @@
             var token = await LocalStorage.GetItemAsStringAsync(Statics.LoginTokenKey);
             var res = await HttpClientWithToken.HttpGet("/api/Auth/CheckLogin");
             var result =
-            JsonConvert.DeserializeObject<CheckLoginResponse>
-                (
-                await res.Content.ReadAsStringAsync());
+                JsonConvert.DeserializeObject<CheckLoginResponse>
+                    (
+                        await res.Content.ReadAsStringAsync());
             if (res.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 var refreshRes = await HttpClientWithToken.HttpPost("/api/Auth/refresh", new RefreshTokenModel
-                    {
-                        Token = token
-                    });
+                {
+                    Token = token
+                });
                 if (refreshRes.IsSuccessStatusCode)
                 {
                     var newToken = JsonConvert.DeserializeObject<PlainToken>
@@ -360,4 +456,21 @@
         await LocalStorage.RemoveItemAsync(Statics.RefreshTokenKey);
         NavigationManager.NavigateTo("/login");
     }
+
+    private SimulationModel GetSimulation() => Simulation;
+
+    private async Task NotifyClientsForInputChange(SimulationModel simulation)
+    {
+        // UPDATE LOCAL INPUTS
+        Simulation.SimulationFeilds.InputValues = simulation.SimulationFeilds.InputValues;
+        
+        // if (DateTime.Now.Subtract(Lastupdate).TotalMilliseconds < 100)
+            // return;
+        Console.WriteLine("OnFieldChanged");
+        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
+        {
+            await hubConnection.SendAsync("UpdateModel", simulation);
+        }
+    }
+
 }

@@ -175,6 +175,11 @@ function InitBop(){
 let chartDict = {}
 let chartCanvasDict = {}
 
+const killChart = (name) => {
+    chartDict[name] = null;
+    chartCanvasDict[name] = null;
+}
+
 function initChart(identity , type) {
     chartCanvasDict[identity] = document.getElementById(identity).getContext(type);
 }
@@ -282,3 +287,4 @@ window.setVerticalGaugeValue = setVerticalGaugeValue;
 window.initSliderHandler = initSliderHandler;
 window.iniBop = InitBop;
 window.initPipeEvents = setPipesEventListeners;
+window.killChart = killChart;

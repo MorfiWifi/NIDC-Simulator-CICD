@@ -3,8 +3,12 @@
 @using Models.Config;
 @using Microsoft.Extensions.Logging;
 @using System.Timers;
+@using global::AbrTools
 @layout SimulationLayout
 @inject ISimulationApi SimulationApi
+@inject IChannel<SimulationModel> SimulationChanel
+
+@implements IDisposable
 
 <div id="bop-v2">
         <div class="left">
@@ -77,6 +81,7 @@
                                class="bopbutton 
 @GetBtnClass((int)Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.AirMasterValve)"
                                @onclick="ToggleAirMasterValve"
+                               @ontouchend="ToggleAirMasterValve"
                                data-name="Layer 1">
                                 <g id="ba5330c0-b329-4102-ac01-72f9ed43af39" data-name="blindramsopen">
                                     <circle cx="255.96" cy="256.18" r="14.17"
@@ -218,6 +223,7 @@
                             <g id="f34f756e-d9bd-410c-bb63-ef321aaa3a0a"
                                class="bopbutton @GetBtnClass((int)Simulation.SimulationFeilds.OutputVals.Equipments.BopControl.ByePassValve)"
                                @onclick="ToggleBypassValve"
+                               @ontouchend="ToggleBypassValve"
                                data-name="Layer 1">
                                 <g id="ba5330c0-b329-4102-ac01-72f9ed43af39" data-name="blindramsopen">
                                     <circle cx="255.96" cy="256.18" r="14.17"
@@ -1230,12 +1236,11 @@
 
 
 
-@code {
+@code {    
     protected SimulationModel Simulation { set; get; } = new();
     protected string SimulationId { set; get; }
 
-    private EditContext EditContext;
-    private HubConnection? hubConnection;
+    private EditContext? EditContext;
 
     protected string HandleRight { get; set; } = "matrix(0.33844669,0.15373516,-0.15373516,0.33844669,177.88626,273.80619)";
     protected string HandleLeft { get; set; } = "matrix(0.33844669,-0.15373516,0.15373516,0.33844669,99.040446,338.80516)";
@@ -1254,58 +1259,54 @@
     //-------------
     protected async override void OnInitialized()
     {
-        EditContext = new EditContext(Simulation);
+        Console.WriteLine("BOP INITIALIZED");
 
-        SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
-        Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        // SimulationId = UriExtenssions.GetQueryStringValue(NavigationManager.Uri, "simulationId");
+        // Simulation = await SimulationApi.GetFromRedis(new Guid(SimulationId));
+        
+        // update simulation here
+        SimulationChanel.OnNewMessage += (channel, simulation) =>
+        {
+            if (channel == ChannelNames.UPDATE_INPUTS)
+                UpdateInputs(simulation);
+
+            if (channel == ChannelNames.UPDATE_OUTPUTS)
+                UpdateOutputs(simulation);
+
+    // EditContext ??= new EditContext(Simulation);
+        };
+
+        // Simulation = GetSimulation();
+        
+        Console.WriteLine( "Boppanel Simulatnio OnInitialized as JSON : {0}" , System.Text.Json.JsonSerializer.Serialize(Simulation));
+        
+        EditContext = new EditContext(Simulation);
+        
         StateHasChanged();
         EditContext.OnFieldChanged += OnFieldChanged;
-
-        #region hub comment
-        hubConnection = (new HubConnectionBuilder().WithAutomaticReconnect().WithUrl($"{Statics.BaseAddress}SimulationHub")).Build();
-
-        hubConnection.On<SimulationModel>("update-model", async (newModel) =>
-        {
-
-            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
-                return;
-            Lastupdate = DateTime.Now;
-            Simulation.SimulationFeilds.InputValues = newModel.SimulationFeilds.InputValues;
-            Simulation.SimulationFeilds.TempValues = newModel.SimulationFeilds.TempValues;
-            Console.WriteLine("update-model");
-            StateHasChanged();
-
-        });
-        hubConnection.On<SimulationModel>("Update-Outputs", async (newModel) =>
-        {           
-            
-            Console.WriteLine("Update-Outputs");
-            if ((newModel as SimulationModel)?.Id != Guid.Parse(SimulationId))
-                return;
-            Simulation.SimulationFeilds.OutputVals = newModel.SimulationFeilds.OutputVals;
-            StateHasChanged();
-        });
-
-
-        await hubConnection.StartAsync();
-        #endregion
-
-
-
-
+        
         base.OnInitialized();
     }
+
+    private async Task UpdateOutputs(SimulationModel simulation)
+    {
+        Simulation.SimulationFeilds.OutputVals = simulation.SimulationFeilds.OutputVals;
+        StateHasChanged();
+    }
+
+    private async Task UpdateInputs(SimulationModel simulation)
+    {
+        Lastupdate = DateTime.Now;
+        Simulation.SimulationFeilds.InputValues = simulation.SimulationFeilds.InputValues;
+        Simulation.SimulationFeilds.TempValues = simulation.SimulationFeilds.TempValues;
+        Console.WriteLine("update-model");
+        StateHasChanged();
+    }
+
     private DateTime Lastupdate { set; get; } = DateTime.Now;
     private async void OnFieldChanged(object sender, FieldChangedEventArgs e)
     {
-        if (DateTime.Now.Subtract(Lastupdate).TotalMilliseconds < 100)
-            return;
-        Console.WriteLine("OnFieldChanged");
-        if (hubConnection is not null && hubConnection.State == HubConnectionState.Connected)
-        {
-            await hubConnection.SendAsync("UpdateModel", Simulation);
-        }
-
+        SimulationChanel.SendMessage(ChannelNames.BROADCAST_UPDATE_INPUTS , Simulation);
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
@@ -1404,4 +1405,12 @@
     }
 
 
+    // Implement IDisposable interface
+    public void Dispose()
+    {
+    // Perform cleanup actions here
+    // This method will be called when the component is disposed
+    // or removed from the UI
+    }
+    
 }

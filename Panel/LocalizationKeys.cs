@@ -1,6 +1,7 @@
 ﻿
 namespace Panel16 {
     public static class LocalizationKeys {                
+        public const string Cancel ="Cancel";        
         public const string AddAssetsPage="AddAssetsPage";        
         public const string AddNew="AddNew";        
         public const string Admins="Admins";        

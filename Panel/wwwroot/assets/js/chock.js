@@ -16,60 +16,48 @@ function updateChartVisibility() {
         chart.update();
     }
 }
-
 function initialize_chockjs() {
 
-
-    // const pump = document.querySelector('.chart-item.item-1');
-    // const csco = document.querySelector('.chart-item.item-2');
-    // const press = document.querySelector('.chart-item.item-3');
-    // const gain = document.querySelector('.chart-item.item-4');
-    // pump.addEventListener('click', () => {
-    //     console.log('hello')
-    //     pump.classList.toggle('show')
-    // })
-    // csco.addEventListener('click', () => {
-    //     console.log('hello')
-    //     csco.classList.toggle('show')
-    // })
-    // press.addEventListener('click', () => {
-    //     console.log('hello')
-    //     press.classList.toggle('show')
-    // })
-    // gain.addEventListener('click', () => {
-    //     console.log('hello')
-    //     gain.classList.toggle('show')
-    // })
-
     let isDragging = false;
-    let initialMouseX;
+    let initialX;
     let initialRotation = 0;
-    let nearestRotation
+    let nearestRotation;
     const chokeHandle = document.getElementById('chokeHandle');
 
-    chokeHandle.addEventListener('mousedown', (e) => {
+    // Mouse events
+    chokeHandle.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDrag);
+
+    // Touch events
+    chokeHandle.addEventListener('touchstart', startDrag);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', endDrag);
+
+    function startDrag(e) {
         isDragging = true;
-        initialMouseX = e.clientX;
+        initialX = e.clientX || e.touches[0].clientX;
         initialRotation = getRotation();
         chokeHandle.style.transition = 'transform 0.2s'; // Disable transition during dragging
-    });
+    }
 
-    document.addEventListener('mousemove', (e) => {
+    function drag(e) {
         if (!isDragging) return;
 
-        const deltaX = e.clientX - initialMouseX;
+        const currentX = e.clientX || e.touches[0].clientX;
+        const deltaX = currentX - initialX;
         const newRotation = initialRotation + deltaX;
 
-        // Ensure the rotation is set to -45deg, 0, or 45deg
         nearestRotation = Math.round(newRotation / 45) * 45;
         if (newRotation <= 45 && newRotation >= -45)
             chokeHandle.style.transform = `translate(-50%,-50%) rotate(${newRotation}deg)`;
-    });
 
-    document.addEventListener('mouseup', () => {
-        console.log('mouse up')
+        e.preventDefault(); // Prevent scrolling while dragging on touch devices
+    }
+
+    function endDrag() {
         if (!isDragging) return;
-        console.log('not grabbing')
+
         isDragging = false;
         if (nearestRotation == 90)
             nearestRotation = 45;
@@ -77,22 +65,26 @@ function initialize_chockjs() {
             nearestRotation = -45;
         chokeHandle.style.transform = `translate(-50%,-50%) rotate(${nearestRotation}deg)`;
 
-
-        // todo for morteza
         let num = nearestRotation < 0 ? -1 : (nearestRotation == 0 ? 0 : 1);
         DotNet.invokeMethodAsync('Panel16', 'SetChockHandlerStatus', num);
 
         chokeHandle.style.transition = 'transform 0.3s ease-in-out';
-    });
+
+        // Reset to initial rotation after 1 second
+        setTimeout(() => {
+            chokeHandle.style.transition = 'transform 1s ease-in-out';
+            chokeHandle.style.transform = `translate(-50%,-50%) rotate(0deg)`; // Initial rotation
+        }, 1000); // 1000 milliseconds (1 second)
+    }
 
     function getRotation() {
         const transformValue = window.getComputedStyle(chokeHandle).getPropertyValue('transform');
         const matrix = new DOMMatrix(transformValue);
         return Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI));
     }
-
-
 }
+
+
 
 // let chartDict = {}
 // let chartCanvasDict = {}
@@ -102,11 +94,10 @@ function initChart(identity, type) {
 }
 
 
-
 // arr = [0,1,2,3] of [] , labels = []
 const updateChokeChart = (identity, arr, labels, contextType = '2d') => {
 
-    // console.log("updateChokeChart called from dotnet ");
+    console.log("updateChokeChart called from dotnet ");
 
     let ch = chartDict[identity];
 

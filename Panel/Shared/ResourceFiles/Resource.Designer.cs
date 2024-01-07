@@ -168,6 +168,15 @@ namespace Panel16.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can not Invite this User.
         /// </summary>
         public static string CanNotInviteUser {
