@@ -1,4 +1,4 @@
-﻿@page "/Pipes"
+﻿@* @page "/Pipes" *@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using Models.Config;
 @using Panel16.Shared.Main
@@ -6,11 +6,11 @@
 @using System.Linq.Expressions
 @using Infrastructure;
 @using Panel16.Util
-@layout SimulationLayout
+@* @layout SimulationLayout *@
 @inject ISimulationApi SimulationApi
 @inject IThreeJsClient ThreeJs
 
-<div id="pipelines-v2">
+<div id="pipelines-v2" style="display: @IsVisible.GetDisplay()">
 
 
 
@@ -97,7 +97,7 @@ MODAL --------------------
         </button>
         
         <button @onclick="LineUpSetClicked" class="btn  btn-danger w-50">
-            <i class="fa fa-cross"></i>
+            <i class="fa fa-times"></i>
             @localizer[LocalizationKeys.Cancel]
         </button>
         
@@ -134,7 +134,7 @@ MODAL --------------------
         </button>
         
         <button @onclick="ChockSetClicked" class="btn  btn-danger w-50">
-            <i class="fa fa-cross"></i>
+            <i class="fa fa-times"></i>
             @localizer[LocalizationKeys.Cancel]
         </button>
         
@@ -189,8 +189,7 @@ MODAL --------------------
         
         ShowChockModal = ChockClicked;
         ShowStandpipeModal = StandPipeClicked;
-
-        Simulation = GetSimulation();
+        
         EditContext = new EditContext(Simulation);
         
         await base.OnInitializedAsync();
@@ -215,4 +214,7 @@ MODAL --------------------
     {
         chockModalIsVisible = false;
     }
+    
+    [Parameter]
+    public bool IsVisible { get; set; } 
 }

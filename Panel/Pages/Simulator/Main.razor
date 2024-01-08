@@ -1,4 +1,4 @@
-﻿@page "/main"
+﻿@* @page "/main" *@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using Models.Config;
 @using Panel16.Shared.Main
@@ -7,98 +7,15 @@
 @using global::AbrTools
 @using Infrastructure;
 @using Panel16.Util
-@layout SimulationLayout
+@* @layout SimulationLayout *@
 @inject ISimulationApi SimulationApi
 @inject IThreeJsClient ThreeJs
 @inject IChannel<SimulationModel> SimulationChanel
 
 @implements IDisposable
 
-<div id="new-desgin">
-                   <div class="top">
-                       <div class="controls">
-                           @if (Simulation.SimulationFeilds.InputValues.status == 1)
-                           {
-                               <div class="stop" @onclick="()=>PauseSim(Simulation)">
-                                   <i class="bi bi-pause"></i>
-                               </div>
-                           }
-                           else
-                           {
-                               <div class="end" @onclick="()=>Stop(Simulation)">
-                                   <i class="bi bi-stop-fill"></i>
-                               </div>
-                           }
-           
-                           <div class="end">
-                               <i class="bi bi-stop-fill"></i>
-                           </div>
-                       </div>
-           
-                       <SpeedSelection @bind-Value="@Simulation.SimulationFeilds.InputValues.speed"/>
-           
-                       <div class="timer" >
-                           <div class="start"><span>R:</span> <span style="font-size: 0.8rem">@($"{Simulation?.CreateDate:HH:mm}")</span></div>
-                           @* ..:.. *@
-                           <div class="end"><span>S:</span> <span style="font-size: 0.8rem">@($"{Simulation?.ModifyDate:HH:mm}")</span></div>
-                       </div>
-                       <div class="warning click-scale-down" style="cursor: pointer">
-                           <i class="bi bi-exclamation-triangle"></i>
-                       </div>
-                       <div class="volume control click-scale-down" style="cursor: pointer;" @onclick="ToggleMute">
-                           @if (IsMute)
-                           {
-                               <i class="bi bi-volume-mute"></i>
-                           }
-                           else
-                           {
-                               <i class="bi bi-volume-up"></i>
-                           }
-                       </div>
-           
-                       <div class="mic control click-scale-down" @onclick="() => OnMicDown()">
-                          @if (IsMicOn)
-                          {
-                              <i class="bi bi-mic"></i>
-                          }
-                          else
-                          {
-                              <i class="bi bi-mic-mute"></i>
-                          }
-                       </div>
-           
-           
-                       @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))
-                        {
-                            <div class="user">
-                                <a href="/SimulationUsers?simulationId=@(SimulationId)">
-                                    <i class="bi bi-person"></i>
-                                </a>
-                            </div>
-                        }
-           
-                       <div class="chat">
-                           <a href="">
-                            <i class="bi bi-chat-left"></i>
-                           </a>
-                       </div>
-           
-                       @* @if (hubConnection?.State == HubConnectionState.Connected) *@
-                       @if (HubConnectionState.Connected == HubConnectionState.Connected)
-                       {
-                           <div class="internet connect anim-blink pointer-event"> <!--change connect to disconnect to make it red-->
-                               <i class="bi bi-circle-fill"></i>
-                           </div>
-                       }
-                       else
-                       {
-                           <div class="internet disconnect">
-                              <i class="bi bi-circle-fill"></i>
-                           </div>
-                       }
-           
-                   </div>
-                   <div class="content">
+@* <div id="new-desgin"> *@
+<div class="content" style="display: @IsVisible.GetDisplay()">
                        <div class="top">
                            <div class="line-chart">
                                <canvas class="d-block" id="lineChartRop"></canvas>
@@ -430,7 +347,7 @@
                        </div>
            
                    </div>
-               </div>
+@* </div> *@
 <MudDialog @bind-IsVisible="@(GainLossModalVisibility)" Class="relative-dialog" >
     <TitleContent>
         <MudText Typo="Typo.h6">
@@ -1164,5 +1081,8 @@
         BrowserTools.KillChart("lineChartTor"  );
         BrowserTools.KillChart("lineChartWob"  );
     }
+    
+    [Parameter]
+    public bool IsVisible { get; set; } 
 
 }

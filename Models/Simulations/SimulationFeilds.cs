@@ -464,6 +464,7 @@ namespace SimulationInputValues
         public double MFFIAlarmLow { get; set; } = new();
     }
 
+    // out puts
     public class Drilling
     {
         public bool ParkingBrakeLed { get; set; } = new();
@@ -512,6 +513,11 @@ namespace SimulationInputValues
         public double MP2Throttle { set; get; } = 0;
         public double RTThrottle { set; get; } = 0;
         public double DWThrottle { set; get; } = 0;
+        
+        /// <summary>
+        /// tong operation status
+        /// </summary>
+        public double TongLever  { set; get; } = 0;
     }
 
     public class DrillingWatch
@@ -1039,6 +1045,7 @@ namespace SimulationOutPutValues
         public double DueValue { get; set; } = new();
     }
 
+    // inputs 
     public class Drilling
     {
         public double MP1Throttle { set; get; } = 0;
@@ -1082,7 +1089,11 @@ namespace SimulationOutPutValues
         public int MP2Switch { get; set; }
         public int DWSwitch { get; set; }
         public int RTSwitch { get; set; }
-
+        
+        /// <summary>
+        /// tong operation status
+        /// </summary>
+        public double TongLever  { set; get; } = 0;
     }
 
     public class DrillingWatch

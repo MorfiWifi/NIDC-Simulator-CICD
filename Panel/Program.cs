@@ -54,6 +54,7 @@ namespace Panel16
             builder.Services.AddScoped<IUnitApi, UnitApi>();
             builder.Services.AddScoped<ISimulationApi, SimulationApi>();
             builder.Services.AddSingleton<IChannel<SimulationModel>, SimulationChanel>();
+            builder.Services.AddSingleton(typeof(IChannel<>), typeof(Chanel<>));
             
 
             #endregion

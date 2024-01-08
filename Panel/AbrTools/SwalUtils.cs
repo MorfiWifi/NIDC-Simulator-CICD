@@ -52,5 +52,36 @@ namespace AbrBlazorTools
 
             return (int) input;
         }
+
+        public static string DurationToStr(this int duration, double scale = 1, string format = "HH:mm")
+            => DurationToStr((long) duration, scale, format);
+
+        public static string DurationToStr(this long duration, double scale = 1 , string format = "HH:mm")
+        {
+            const long HOUR_DUR = 3600;
+            const long MINUTE_DUR = 60;
+            const long SECOND_DUR = 1;
+            
+            var finalDuration = (long) (duration / scale);
+
+            var hours = finalDuration / HOUR_DUR;
+
+            finalDuration -= hours * HOUR_DUR;
+
+            var minutes = finalDuration / MINUTE_DUR;
+            
+            finalDuration -= hours * MINUTE_DUR;
+            
+            var seconds = finalDuration / SECOND_DUR;
+            
+            format = format.Replace("HH", $"{hours:00}");
+            format = format.Replace("mm", $"{minutes:00}");
+            format = format.Replace("ss", $"{seconds:00}");
+
+            return format;
+        }
+
+
+        public static string GetDisplay(this bool isVisible) => isVisible ? "block" : "none";
     }
 }

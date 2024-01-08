@@ -1,0 +1,82 @@
+﻿@page "/Main"
+@page "/BopPanel"
+@page "/Pipes"
+@page "/ChockPanel"
+@page "/SimulationUsers"
+
+@layout SimulationLayout
+@implements IDisposable
+
+@* @inject IChannel<int> *@
+
+<Main IsVisible="@(pageCode == 1)"></Main>
+
+<BopPanel IsVisible="@(pageCode == 2)"></BopPanel>
+
+<Pipes IsVisible="@(pageCode == 3)"></Pipes>
+
+<ChockPanel IsVisible="@(pageCode == 4)"></ChockPanel>
+
+<SimulationUsers IsVisible="@(pageCode == 5)"></SimulationUsers>
+
+@code {
+    private int pageCode = 0;
+
+    private int getPageCode()
+    {
+        var code = 0;
+
+        string currentUrl = NavigationManager.Uri;
+    // Parse the URL to get the path segments
+        var uri = new Uri(currentUrl);
+        string[] segments = uri.Segments;
+
+    // Assuming "Main" is the second segment in the URL
+        if (segments.Length >= 2)
+        {
+            string segmentName = segments[1].ToLower();
+            Console.WriteLine($"segment name is : {segmentName}");
+
+            if (segmentName == "main")
+                code = 1;
+
+            if (segmentName == "boppanel")
+                code = 2;
+
+            if (segmentName == "pipes")
+                code = 3;
+
+            if (segmentName == "chockpanel")
+                code = 4;
+
+            if (segmentName == "simulationusers")
+                code = 5;
+        }
+
+        return code;
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += LocationChanged;
+        
+        pageCode = getPageCode();
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+
+    public void LocationChanged(object sender, LocationChangedEventArgs args)
+    {
+        
+        pageCode = getPageCode();
+        StateHasChanged();
+    }
+
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= LocationChanged;
+    }
+
+}

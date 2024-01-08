@@ -1,5 +1,5 @@
-﻿@page "/ChockPanel"
-@layout SimulationLayout
+﻿@* @page "/ChockPanel" *@
+@* @layout SimulationLayout *@
 @using Panel16.Shared.Main
 @using Microsoft.AspNetCore.SignalR.Client;
 @using Models.Config;
@@ -10,93 +10,7 @@
 @inject IChannel<SimulationModel> SimulationChanel
 
 @implements IDisposable
-
-<div id="new-desgin">
-                   <div class="top">
-                       <div class="controls">
-                           @if (Simulation.SimulationFeilds.InputValues.status == 1)
-                           {
-                               <div class="stop" @onclick="()=>PauseSim(Simulation)">
-                                   <i class="bi bi-pause"></i>
-                               </div>
-                           }
-                           else
-                           {
-                               <div class="end" @onclick="()=>Stop(Simulation)">
-                                   <i class="bi bi-stop-fill"></i>
-                               </div>   
-                           }
-                           
-                           <div class="end">
-                               <i class="bi bi-stop-fill"></i>
-                           </div>   
-                       </div>
-                       
-                       <SpeedSelection @bind-Value="@Simulation.SimulationFeilds.InputValues.speed"/>
-
-                       <div class="timer" >
-                           <div class="start"><span>R:</span> <span style="font-size: 0.8rem">@($"{Simulation?.CreateDate:HH:mm}")</span></div>
-                           @* ..:.. *@
-                           <div class="end"><span>S:</span> <span style="font-size: 0.8rem">@($"{Simulation?.ModifyDate:HH:mm}")</span></div>
-                       </div>
-                       <div class="warning click-scale-down" style="cursor: pointer">
-                           <i class="bi bi-exclamation-triangle"></i>
-                       </div>
-                       <div class="volume control click-scale-down" style="cursor: pointer;" @onclick="ToggleMute">
-                           @if (IsMute)
-                           {
-                               <i class="bi bi-volume-mute"></i>
-                           }
-                           else
-                           {
-                               <i class="bi bi-volume-up"></i>
-                           }
-                       </div>
-                       
-                       <div class="mic control click-scale-down" @onclick="() => OnMicDown()">
-                          @if (IsMicOn)
-                          {
-                              <i class="bi bi-mic"></i>
-                          }
-                          else
-                          {
-                              <i class="bi bi-mic-mute"></i>
-                          }
-                       </div>
-                      
-                       
-                       @if (Statics.CurrentLoginInfo != null && (Statics.CurrentLoginInfo.IsAdmin || Statics.CurrentLoginInfo.IsDeveloper))
-                        {
-                            <div class="user">
-                                <a href="/SimulationUsers?simulationId=@(SimulationId)">
-                                    <i class="bi bi-person"></i>
-                                </a>
-                            </div>
-                        }
-                       
-                       <div class="chat">
-                           <a href="">
-                            <i class="bi bi-chat-left"></i>
-                           </a>
-                       </div>
-                       
-                       @* @if (hubConnection?.State == HubConnectionState.Connected) *@
-                       @if (HubConnectionState.Connected == HubConnectionState.Connected)
-                       {
-                           <div class="internet connect anim-blink pointer-event"> <!--change connect to disconnect to make it red-->
-                               <i class="bi bi-circle-fill"></i>
-                           </div>
-                       }
-                       else
-                       {
-                           <div class="internet disconnect">
-                              <i class="bi bi-circle-fill"></i>
-                           </div>
-                       }
-                       
-                   </div>
-
-           <div id="chock-v2">
+<div id="chock-v2" style="display: @IsVisible.GetDisplay()">
                <div id="chock">
                    <div class="charts">
                        <div class="charts-preview">
@@ -226,17 +140,6 @@
                </div>
 
            </div>
-           </div>
-@* // in html *@
-@* src=\"(.*)\.png\" *@
-@* *@
-@* src="assets/img/$1.png" *@
-@* *@
-@* *@
-@* // in csss *@
-@* url\(\"(.*)\.png\"\) *@
-@* url(/assets/img/$1.png) *@
-
 
 @code {
     private BrowserDimension BrowserDimension { get; set; } = new();
@@ -463,4 +366,7 @@
     {
         BrowserTools.KillChart("chokeChart"  );
     }
+    
+    [Parameter]
+    public bool IsVisible { get; set; } 
 }
