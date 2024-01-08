@@ -79,15 +79,6 @@ let shouldTongsClose = true
 let isDrilling = false
 
 
-const cubeMaterial = new THREE.MeshBasicMaterial({
-    envMap: new THREE.CubeTextureLoader().load([
-        '/assets/texture/enviromentMap/px.jpg', '/assets/texture/enviromentMap/nx.jpg',
-        '/assets/texture/enviromentMap/py.jpg', '/assets/texture/enviromentMap/ny.jpg',
-        '/assets/texture/enviromentMap/pz.jpg', '/assets/texture/enviromentMap/nz.jpg'
-    ]),
-    side: THREE.BackSide // Ensure that the texture is on the inside of the cube
-});
-
 
 const AccelerateUp = (distanceUp) => {
 
@@ -527,7 +518,7 @@ const loadModelFinished = () => {
 const clock = new THREE.Clock()
 let previousTime = 0
 const tick = () => {
-    camera.lookAt(0,50,0)
+    camera.lookAt(0, 50, 0)
     const elapsedTime = clock.getElapsedTime()
     deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
@@ -547,7 +538,18 @@ const tick = () => {
     renderer.render(scene, camera)
     window.requestAnimationFrame(tick)
 }
-
+function getUnlitEnvironmentMap() {
+    const loader = new THREE.CubeTextureLoader();
+    const texture = loader.load([
+        '/assets/hdri/desert/px.png',
+        '/assets/hdri/desert/nx.png',
+        '/assets/hdri/desert/py.png',
+        '/assets/hdri/desert/ny.png',
+        '/assets/hdri/desert/pz.png',
+        '/assets/hdri/desert/nz.png'
+    ]);
+    return texture;
+}
 function initRotary3D() {
     container = document.getElementById('threeContainer');
     scene = new THREE.Scene();
@@ -556,20 +558,13 @@ function initRotary3D() {
     camera.rotateY(Math.PI / 4)
     camera.enableRotate = true;
     camera.updateProjectionMatrix()
-    const environmentMap = cubeTextureLoader.load([
-        '/assets/hdri/desert/px.png',
-        '/assets/hdri/desert/nx.png',
-        '/assets/hdri/desert/py.png',
-        '/assets/hdri/desert/ny.png',
-        '/assets/hdri/desert/pz.png',
-        '/assets/hdri/desert/nz.png'
-    ])
+    scene.background = getUnlitEnvironmentMap();
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1).normalize();
+    scene.add(directionalLight);
 
-
-    scene.environment = environmentMap;
-
-    environmentMap.encoding = THREE.sRGBEncoding
-    scene.environment = environmentMap
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
     gltfLoader.load(
         '/assets/models/Base.glb',
         (gltf) => {
@@ -763,7 +758,7 @@ function initRotary3D() {
     renderer.toneMappingExposure = 1.75
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    renderer.setClearColor( 0x000000, 0 )
+    renderer.setClearColor(0x000000, 0)
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement);
@@ -774,16 +769,16 @@ function initRotary3D() {
     controls.maxDistance = 300;
     controls.target.set(0, 4, 0);
 
-// Listen for changes in controls
-controls.addEventListener('change', function () {
-    console.log('changing controls')
-    // Update the target based on the controls' target
-    // This assumes you want to update the target to the same position as the controls' target
-    controls.target.clone();
-    // You can use controls.target.x, controls.target.y, controls.target.z individually if needed
-    // Use the updated target position for other purposes if necessary
-    // For example, update some UI elements based on the new target position
-});
+    // Listen for changes in controls
+    controls.addEventListener('change', function () {
+        console.log('changing controls')
+        // Update the target based on the controls' target
+        // This assumes you want to update the target to the same position as the controls' target
+        controls.target.clone();
+        // You can use controls.target.x, controls.target.y, controls.target.z individually if needed
+        // Use the updated target position for other purposes if necessary
+        // For example, update some UI elements based on the new target position
+    });
     // controls.minZoom = 0.5; // Minimum zoom level
     // controls.maxZoom = 2.0;
     // controls.minPolarAngle = -(3 * Math.PI) / 4; // Minimum vertical angle (in radians)
