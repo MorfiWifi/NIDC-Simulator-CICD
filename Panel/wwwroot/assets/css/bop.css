@@ -70,12 +70,12 @@
 }
 #bop-v2 .left .item .gaging .ceret,
 #bop-v2 .right .item .gaging .ceret {
-  width: 65px;
+  width: 70px;
   position: absolute;
   z-index: 100;
-  top: 23%;
-  left: 22%;
-  transform: rotate(var(--rotation));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%) rotate(var(--rotation));
 }
 #bop-v2 .left .item .gaging .value,
 #bop-v2 .right .item .gaging .value {
